@@ -3,11 +3,13 @@ import PackageDescription
 
 let package = Package(
     name: "RunCatClone",
+    defaultLocalization: "en",
     platforms: [.macOS(.v14)],
     targets: [
         .executableTarget(
             name: "RunCatClone",
-            path: "Sources/RunCatClone"
+            path: "Sources/RunCatClone",
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "RunCatCloneTests",

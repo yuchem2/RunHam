@@ -20,6 +20,7 @@ final class AppSettings {
         static let showsNetwork = "SHOWS_NETWORK_METRICS"
         static let showsMetricsBar = "SHOWS_METRICS_BAR"
         static let metricsBar = "METRICS_BAR_CONFIGURATION"
+        static let language = "APP_LANGUAGE"
     }
 
     @ObservationIgnored private let defaults: UserDefaults
@@ -76,6 +77,14 @@ final class AppSettings {
         didSet { save((try? JSONEncoder().encode(metricsBar)) ?? Data(), Key.metricsBar) }
     }
 
+    /// 표시 언어. 바꾸면 재시작 없이 바로 적용된다.
+    var language: AppLanguage {
+        didSet {
+            Localization.shared.language = language
+            save(language.storageValue, Key.language)
+        }
+    }
+
     /// 설정 창 미리보기 속도. 저장하지 않는다(원본의 `previewSpeed` 와 같은 역할).
     var previewSpeed: Double = 1
     /// 미리보기가 현재 CPU 기준 속도(메뉴바와 같은 속도)를 따를지 여부. 저장하지 않는다.
@@ -106,8 +115,10 @@ final class AppSettings {
         showsBattery = defaults.bool(forKey: Key.showsBattery)
         showsNetwork = defaults.bool(forKey: Key.showsNetwork)
         showsMetricsBar = defaults.bool(forKey: Key.showsMetricsBar)
+        language = AppLanguage(storageValue: defaults.string(forKey: Key.language) ?? AppLanguage.system.storageValue)
         metricsBar = defaults.data(forKey: Key.metricsBar)
             .flatMap { try? JSONDecoder().decode(MetricsBarConfiguration.self, from: $0) } ?? .default
+        Localization.shared.language = language
     }
 
     private func save(_ value: Any, _ key: String) {

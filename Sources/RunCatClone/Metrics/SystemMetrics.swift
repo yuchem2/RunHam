@@ -109,9 +109,10 @@ final class MetricsMonitor {
     }
 
     private nonisolated static func interfaceName(for path: NWPath) -> String? {
-        if path.usesInterfaceType(.wifi) { return "Wi-Fi" }
-        if path.usesInterfaceType(.wiredEthernet) { return "Ethernet" }
-        if path.usesInterfaceType(.cellular) { return "Cellular" }
+        // 표시 이름은 언어에 따라 바뀌므로 식별자만 저장하고 Format.interfaceName 에서 바꾼다.
+        if path.usesInterfaceType(.wifi) { return "wifi" }
+        if path.usesInterfaceType(.wiredEthernet) { return "ethernet" }
+        if path.usesInterfaceType(.cellular) { return "cellular" }
         if path.status == .satisfied { return path.availableInterfaces.first?.name }
         return nil
     }

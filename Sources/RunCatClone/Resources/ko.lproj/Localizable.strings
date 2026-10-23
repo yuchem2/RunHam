@@ -1,0 +1,97 @@
+/* 공통 */
+"app.name" = "RunCat Clone";
+"language.system" = "시스템 설정";
+"common.remove" = "제거";
+"common.cancel" = "취소";
+
+/* 메트릭 이름 */
+"metric.cpu" = "CPU";
+"metric.memory" = "메모리";
+"metric.storage" = "저장 공간";
+"metric.battery" = "배터리";
+"metric.network" = "네트워크";
+
+/* 대시보드 */
+"dashboard.lastUpdated" = "마지막 업데이트: %@";
+"dashboard.cpu.detail" = "사용자 %1$@ · 시스템 %2$@ · 대기 %3$@";
+"dashboard.memory.used" = "%2$@ 중 %1$@ 사용";
+"dashboard.memory.app" = "앱 %@";
+"dashboard.memory.wired" = "와이어드 %@";
+"dashboard.memory.compressed" = "압축 %@";
+"dashboard.storage.available" = "%2$@ 중 %1$@ 사용 가능";
+"dashboard.network.connected" = "연결됨";
+"dashboard.network.offline" = "오프라인";
+"dashboard.copyAddress" = "%@ 복사";
+"network.wifi" = "Wi-Fi";
+"network.ethernet" = "이더넷";
+"network.cellular" = "셀룰러";
+"battery.charging" = "충전 중";
+"battery.pluggedIn" = "전원 연결됨";
+"battery.onBattery" = "배터리 사용 중";
+"battery.cycles" = "충전 횟수 %d회";
+"battery.health" = "성능 %d%%";
+
+/* 상태바 메뉴 */
+"menu.settings" = "설정…";
+"menu.activityMonitor" = "활성 상태 보기 열기";
+"menu.quit" = "RunCat Clone 종료";
+"metricsBar.title" = "메트릭스 바";
+"metricsBar.hide" = "메트릭스 바 숨기기";
+
+/* 설정 탭 */
+"settings.tab.general" = "일반";
+"settings.tab.runner" = "러너";
+"settings.tab.metrics" = "메트릭";
+
+/* 설정 - 일반 */
+"settings.launchAtLogin" = "로그인 시 실행";
+"settings.launchAtLogin.detail" = "로그인하면 메뉴바에서 바로 달리기 시작합니다.";
+"settings.language" = "언어";
+"settings.language.detail" = "앱 언어를 바로 바꿉니다.";
+"settings.updateInterval" = "업데이트 간격";
+"settings.updateInterval.detail" = "시스템 메트릭을 측정하는 주기입니다.";
+"settings.seconds" = "%d초";
+"about.version" = "버전 %@";
+"about.credit" = "Takuto Nakamura의 RunCat Neo(Apache License 2.0)에서 영감을 받았습니다.";
+
+/* 설정 - 러너 */
+"settings.preview" = "미리보기";
+"settings.preview.live" = "실시간 CPU";
+"settings.preview.manual" = "직접 조절";
+"settings.speed" = "속도";
+"settings.section.appearance" = "모양";
+"settings.runner" = "러너";
+"settings.flip" = "좌우 반전";
+"settings.section.behavior" = "동작";
+"settings.slowDown" = "부하가 높을 때 느리게 달리기";
+"settings.slowDown.detail" = "Mac이 바빠질수록 빨라지는 대신 느려집니다.";
+"settings.showCPU" = "메뉴바에 CPU 사용률 표시";
+"settings.showCPU.detail" = "러너 옆에 현재 CPU 사용률을 표시합니다.";
+"runner.cat" = "고양이";
+
+/* 설정 - 메트릭 */
+"settings.section.dashboardCards" = "대시보드 카드";
+"settings.card.cpu.detail" = "사용률 그래프와 사용자 / 시스템 / 대기 비율입니다. 항상 표시됩니다.";
+"settings.card.memory.detail" = "앱, 와이어드, 압축 메모리입니다.";
+"settings.card.storage.detail" = "시동 디스크의 사용 가능한 공간입니다.";
+"settings.card.battery.detail" = "잔량, 충전 횟수, 성능 상태입니다. 배터리가 없는 Mac에서는 숨겨집니다.";
+"settings.card.network.detail" = "연결 종류, IP 주소, 현재 업로드 / 다운로드 속도입니다.";
+"settings.showMetricsBar" = "메트릭스 바 표시";
+"settings.showMetricsBar.detail" = "선택한 값을 메뉴바에 계속 표시합니다.";
+"settings.metricsBar.customDetail" = "metricsBarValue 값을 표시합니다.";
+"settings.metricsBar.notch" = "노치가 있는 MacBook에서는 메트릭스 바가 길면 노치에 가려지거나 다른 메뉴바 항목을 밀어낼 수 있습니다.";
+
+/* 사용자 지정 메트릭 */
+"custom.title" = "사용자 지정 메트릭";
+"custom.add" = "사용자 지정 메트릭 추가…";
+"custom.schema" = "JSON 스키마 보기";
+"custom.footer" = "등록한 JSON 내용은 대시보드 카드로 표시되고, 파일이 바뀔 때마다 다시 읽습니다. 내용은 스크립트나 cron 작업 등으로 직접 갱신해야 합니다. RunCat Neo의 스키마와 호환됩니다.";
+"custom.choose" = "JSON 파일을 선택하십시오.";
+"custom.importFailed" = "사용자 지정 메트릭을 추가하지 못했습니다.";
+"custom.remove.title" = "사용자 지정 메트릭을 제거하겠습니까?";
+"custom.remove.message" = "대시보드에서 카드만 사라지며, 디스크의 JSON 파일은 삭제되지 않습니다.";
+"custom.errorDetected" = "오류 발생";
+"custom.updated" = "%@ 업데이트됨";
+"error.unreadable" = "파일을 읽을 수 없습니다.";
+"error.invalidFormat" = "파일이 사용자 지정 메트릭 스키마를 따르지 않습니다.";
+"error.alreadyAdded" = "이미 추가된 파일입니다.";

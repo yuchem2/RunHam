@@ -6,8 +6,11 @@ struct Runner: @unchecked Sendable {
     static let scale: CGFloat = 2
 
     let id: String
-    let name: String
+    /// 표시 이름의 현지화 키(runner.cat 등). 언어를 바꾸면 이름도 바뀐다.
+    let nameKey: String
     let frames: [CGImage]
+
+    var name: String { L(nameKey) }
 
     var pointSize: CGSize {
         guard let first = frames.first else { return .zero }

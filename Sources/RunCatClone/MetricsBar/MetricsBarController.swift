@@ -96,7 +96,7 @@ final class MetricsBarController: NSObject, NSMenuDelegate {
         let configuration = settings.metricsBar
         menu.removeAllItems()
 
-        let header = NSMenuItem(title: "Metrics Bar", action: nil, keyEquivalent: "")
+        let header = NSMenuItem(title: L("metricsBar.title"), action: nil, keyEquivalent: "")
         header.isEnabled = false
         menu.addItem(header)
         for kind in MetricsBarConfiguration.SystemMetric.allCases {
@@ -110,7 +110,7 @@ final class MetricsBarController: NSObject, NSMenuDelegate {
 
         if !customMetrics.sources.isEmpty {
             menu.addItem(.separator())
-            let customHeader = NSMenuItem(title: "Custom Metrics", action: nil, keyEquivalent: "")
+            let customHeader = NSMenuItem(title: L("custom.title"), action: nil, keyEquivalent: "")
             customHeader.isEnabled = false
             menu.addItem(customHeader)
             for source in customMetrics.sources {
@@ -125,10 +125,10 @@ final class MetricsBarController: NSObject, NSMenuDelegate {
         }
 
         menu.addItem(.separator())
-        let settingsItem = NSMenuItem(title: "Settings…", action: #selector(openSettings), keyEquivalent: "")
+        let settingsItem = NSMenuItem(title: L("menu.settings"), action: #selector(openSettings), keyEquivalent: "")
         settingsItem.target = self
         menu.addItem(settingsItem)
-        let hideItem = NSMenuItem(title: "Hide Metrics Bar", action: #selector(hide), keyEquivalent: "")
+        let hideItem = NSMenuItem(title: L("metricsBar.hide"), action: #selector(hide), keyEquivalent: "")
         hideItem.target = self
         menu.addItem(hideItem)
     }

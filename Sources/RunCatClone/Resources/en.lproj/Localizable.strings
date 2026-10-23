@@ -1,0 +1,97 @@
+/* 공통 */
+"app.name" = "RunCat Clone";
+"language.system" = "System";
+"common.remove" = "Remove";
+"common.cancel" = "Cancel";
+
+/* 메트릭 이름 */
+"metric.cpu" = "CPU";
+"metric.memory" = "Memory";
+"metric.storage" = "Storage";
+"metric.battery" = "Battery";
+"metric.network" = "Network";
+
+/* 대시보드 */
+"dashboard.lastUpdated" = "Last updated: %@";
+"dashboard.cpu.detail" = "User %1$@ · System %2$@ · Idle %3$@";
+"dashboard.memory.used" = "%1$@ used of %2$@";
+"dashboard.memory.app" = "App %@";
+"dashboard.memory.wired" = "Wired %@";
+"dashboard.memory.compressed" = "Compressed %@";
+"dashboard.storage.available" = "%1$@ available of %2$@";
+"dashboard.network.connected" = "Connected";
+"dashboard.network.offline" = "Offline";
+"dashboard.copyAddress" = "Copy %@";
+"network.wifi" = "Wi-Fi";
+"network.ethernet" = "Ethernet";
+"network.cellular" = "Cellular";
+"battery.charging" = "Charging";
+"battery.pluggedIn" = "Plugged in";
+"battery.onBattery" = "On battery";
+"battery.cycles" = "%d cycles";
+"battery.health" = "Health %d%%";
+
+/* 상태바 메뉴 */
+"menu.settings" = "Settings…";
+"menu.activityMonitor" = "Open Activity Monitor";
+"menu.quit" = "Quit RunCat Clone";
+"metricsBar.title" = "Metrics Bar";
+"metricsBar.hide" = "Hide Metrics Bar";
+
+/* 설정 탭 */
+"settings.tab.general" = "General";
+"settings.tab.runner" = "Runner";
+"settings.tab.metrics" = "Metrics";
+
+/* 설정 - 일반 */
+"settings.launchAtLogin" = "Launch at login";
+"settings.launchAtLogin.detail" = "Start running in the menu bar when you log in.";
+"settings.language" = "Language";
+"settings.language.detail" = "Changes the app's language right away.";
+"settings.updateInterval" = "Update interval";
+"settings.updateInterval.detail" = "How often system metrics are sampled.";
+"settings.seconds" = "%ds";
+"about.version" = "Version %@";
+"about.credit" = "Inspired by RunCat Neo by Takuto Nakamura (Apache License 2.0).";
+
+/* 설정 - 러너 */
+"settings.preview" = "Preview";
+"settings.preview.live" = "Live CPU";
+"settings.preview.manual" = "Manual";
+"settings.speed" = "Speed";
+"settings.section.appearance" = "Appearance";
+"settings.runner" = "Runner";
+"settings.flip" = "Flip horizontally";
+"settings.section.behavior" = "Behavior";
+"settings.slowDown" = "Slow down under load";
+"settings.slowDown.detail" = "Runs slower as your Mac gets busier, instead of faster.";
+"settings.showCPU" = "Show CPU usage in menu bar";
+"settings.showCPU.detail" = "Displays the current CPU percentage next to the runner.";
+"runner.cat" = "Cat";
+
+/* 설정 - 메트릭 */
+"settings.section.dashboardCards" = "Dashboard Cards";
+"settings.card.cpu.detail" = "Usage graph and user / system / idle split. Always shown.";
+"settings.card.memory.detail" = "App, wired and compressed memory.";
+"settings.card.storage.detail" = "Available space on the startup disk.";
+"settings.card.battery.detail" = "Charge, cycle count and health. Hidden on Macs without a battery.";
+"settings.card.network.detail" = "Connection type, IP address and current upload / download speed.";
+"settings.showMetricsBar" = "Show Metrics Bar";
+"settings.showMetricsBar.detail" = "Keeps selected values visible in the menu bar.";
+"settings.metricsBar.customDetail" = "Shows its metricsBarValue.";
+"settings.metricsBar.notch" = "On a MacBook with a notch, a long Metrics Bar may be hidden behind the notch or push other menu bar items out of view.";
+
+/* 사용자 지정 메트릭 */
+"custom.title" = "Custom Metrics";
+"custom.add" = "Add Custom Metrics Source…";
+"custom.schema" = "View JSON schema";
+"custom.footer" = "The registered JSON content is shown as cards on the dashboard and reloads whenever the file changes. Updating the content is up to you (for example, a script or cron job). Compatible with RunCat Neo's schema.";
+"custom.choose" = "Choose a JSON file.";
+"custom.importFailed" = "Failed importing custom metrics source.";
+"custom.remove.title" = "Remove Custom Metrics?";
+"custom.remove.message" = "Its card will disappear from the dashboard. The underlying JSON file on disk is not deleted.";
+"custom.errorDetected" = "Error Detected";
+"custom.updated" = "Updated %@";
+"error.unreadable" = "The specified file is unreadable.";
+"error.invalidFormat" = "The specified file does not follow the Custom Metrics schema.";
+"error.alreadyAdded" = "The specified file is already added.";

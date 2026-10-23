@@ -8,7 +8,7 @@ enum CatSprite {
     static let pixelScale = 2
 
     static func makeRunner() -> Runner {
-        Runner(id: "cat", name: "Cat", frames: frames.map { render($0).makeImage(scale: pixelScale) })
+        Runner(id: "cat", nameKey: "runner.cat", frames: frames.map { render($0).makeImage(scale: pixelScale) })
     }
 
     // MARK: - 부품

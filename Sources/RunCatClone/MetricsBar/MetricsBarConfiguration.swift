@@ -7,11 +7,11 @@ struct MetricsBarConfiguration: Codable, Equatable, Sendable {
 
         var title: String {
             switch self {
-            case .cpu: "CPU"
-            case .memory: "Memory"
-            case .storage: "Storage"
-            case .battery: "Battery"
-            case .network: "Network"
+            case .cpu: L("metric.cpu")
+            case .memory: L("metric.memory")
+            case .storage: L("metric.storage")
+            case .battery: L("metric.battery")
+            case .network: L("metric.network")
             }
         }
 

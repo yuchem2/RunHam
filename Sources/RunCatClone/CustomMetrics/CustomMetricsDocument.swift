@@ -63,9 +63,9 @@ enum CustomMetricsError: LocalizedError, Equatable {
     // 원본의 안내 문구를 따른다.
     var errorDescription: String? {
         switch self {
-        case .unreadable: "The specified file is unreadable."
-        case .invalidFormat: "The specified file does not follow the Custom Metrics schema."
-        case .alreadyAdded: "The specified file is already added."
+        case .unreadable: L("error.unreadable")
+        case .invalidFormat: L("error.invalidFormat")
+        case .alreadyAdded: L("error.alreadyAdded")
         }
     }
 }

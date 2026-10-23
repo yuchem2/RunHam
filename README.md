@@ -27,6 +27,7 @@ Xcode 가 설치돼 있지만 라이선스에 동의하지 않은 상태라면 C
 - Custom Metrics: RunCat Neo 와 같은 JSON 스키마의 파일을 등록하면 대시보드 카드로 표시, 파일이 바뀌면 바로 갱신
 - 메트릭스 바: CPU·메모리·저장공간·배터리·네트워크·Custom Metrics(metricsBarValue)를 메뉴바에 상시 표시. 아무것도 켜지 않으면 자는 고양이
 - 설정 창: General(로그인 시 실행, 업데이트 간격) / Runner(미리보기, 반전, 부하 시 감속, 메뉴바 CPU 표시) / Metrics(카드 표시)
+- 다국어: English / 한국어, 설정 > 일반 > 언어에서 재시작 없이 전환. 새 언어는 lproj 폴더만 추가([docs/localization.md](docs/localization.md))
 - 고양이 러너는 원본 에셋을 쓰지 않고 도트(ASCII 격자 → nearest-neighbor)로 직접 그린다
 - `RunCatClone --export-previews <dir>`: 러너 프레임·대시보드·설정 화면을 PNG 로 내보내는 개발용 플래그
 
@@ -49,4 +50,4 @@ RunCat Neo (Copyright 2026 Kyome22 / Takuto Nakamura, Apache License 2.0, https:
 
 ## 아직 없는 것
 
-다른 러너, 커스텀 러너(PNG 업로드) 에디터, 다국어
+다른 러너, 커스텀 러너(PNG 업로드) 에디터

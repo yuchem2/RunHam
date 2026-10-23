@@ -32,7 +32,7 @@ struct DashboardView: View {
                 )
             }
             if let updated = metrics.lastUpdated {
-                Text("Last updated: \(updated.formatted(Date.FormatStyle(date: .omitted, time: .standard).locale(Format.locale)))")
+                Text(L("dashboard.lastUpdated", updated.formatted(Date.FormatStyle(date: .omitted, time: .standard).locale(Format.locale))))
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -44,23 +44,23 @@ struct DashboardView: View {
     }
 
     private var cpuCard: some View {
-        MetricCard(symbol: "cpu", title: "CPU", value: Format.percent(metrics.cpu.percent)) {
+        MetricCard(symbol: "cpu", title: L("metric.cpu"), value: Format.percent(metrics.cpu.percent)) {
             LineGraph(values: metrics.cpuHistory, capacity: SystemMetrics.historyLength, maximum: 100)
                 .frame(height: 36)
-            Text("User \(Format.percent(metrics.cpu.user)) · System \(Format.percent(metrics.cpu.system)) · Idle \(Format.percent(metrics.cpu.idle))")
+            Text(L("dashboard.cpu.detail", Format.percent(metrics.cpu.user), Format.percent(metrics.cpu.system), Format.percent(metrics.cpu.idle)))
         }
     }
 
     private func memoryCard(_ memory: MemoryUsage) -> some View {
-        MetricCard(symbol: "memorychip", title: "Memory", value: Format.percent(memory.ratio * 100)) {
+        MetricCard(symbol: "memorychip", title: L("metric.memory"), value: Format.percent(memory.ratio * 100)) {
             UsageBar(ratio: memory.ratio)
-            Text("\(Format.memory(memory.used)) used of \(Format.memory(memory.total))")
+            Text(L("dashboard.memory.used", Format.memory(memory.used), Format.memory(memory.total)))
             HStack {
-                Text("App \(Format.memory(memory.app))")
+                Text(L("dashboard.memory.app", Format.memory(memory.app)))
                 Spacer()
-                Text("Wired \(Format.memory(memory.wired))")
+                Text(L("dashboard.memory.wired", Format.memory(memory.wired)))
                 Spacer()
-                Text("Compressed \(Format.memory(memory.compressed))")
+                Text(L("dashboard.memory.compressed", Format.memory(memory.compressed)))
             }
             .lineLimit(1)
             .minimumScaleFactor(0.8)
@@ -68,14 +68,14 @@ struct DashboardView: View {
     }
 
     private func storageCard(_ storage: StorageUsage) -> some View {
-        MetricCard(symbol: "internaldrive", title: "Storage", value: Format.percent(storage.ratio * 100)) {
+        MetricCard(symbol: "internaldrive", title: L("metric.storage"), value: Format.percent(storage.ratio * 100)) {
             UsageBar(ratio: storage.ratio)
-            Text("\(Format.file(storage.available)) available of \(Format.file(storage.total))")
+            Text(L("dashboard.storage.available", Format.file(storage.available), Format.file(storage.total)))
         }
     }
 
     private func batteryCard(_ battery: BatteryStatus) -> some View {
-        MetricCard(symbol: Format.batterySymbol(battery), title: "Battery", value: "\(battery.level)%") {
+        MetricCard(symbol: Format.batterySymbol(battery), title: L("metric.battery"), value: "\(battery.level)%") {
             UsageBar(ratio: Double(battery.level) / 100, inverted: true)
             Text(Format.batteryDetail(battery))
         }
@@ -84,8 +84,8 @@ struct DashboardView: View {
     private var networkCard: some View {
         MetricCard(
             symbol: metrics.isNetworkConnected ? "network" : "network.slash",
-            title: "Network",
-            value: metrics.isNetworkConnected ? (metrics.networkInterface ?? "Connected") : "Offline"
+            title: L("metric.network"),
+            value: metrics.isNetworkConnected ? Format.interfaceName(metrics.networkInterface) : L("dashboard.network.offline")
         ) {
             HStack {
                 Label(Format.rate(metrics.throughput.received), systemImage: "arrow.down")
@@ -148,10 +148,10 @@ private struct CustomMetricsCard: View {
                 }
             }
             if failed || document == nil {
-                Label("Error Detected", systemImage: "exclamationmark.triangle.fill")
+                Label(L("custom.errorDetected"), systemImage: "exclamationmark.triangle.fill")
                     .foregroundStyle(.red)
             } else if let updated = document?.lastUpdatedDate {
-                Text("Updated \(updated.formatted(.relative(presentation: .named).locale(Format.locale)))")
+                Text(L("custom.updated", updated.formatted(.relative(presentation: .named).locale(Format.locale))))
                     .foregroundStyle(.tertiary)
             }
         }
@@ -187,7 +187,7 @@ private struct AddressRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .help("Copy \(address)")
+        .help(L("dashboard.copyAddress", address))
     }
 }
 
@@ -262,8 +262,8 @@ private struct LineGraph: View {
 }
 
 enum Format {
-    /// UI 문자열이 영어뿐이라 날짜도 앱 현지화(영어)에 맞춰 섞이지 않게 한다.
-    static let locale = Locale(identifier: Bundle.main.preferredLocalizations.first ?? "en")
+    /// 날짜·상대 시간은 앱에서 고른 언어를 따른다(시스템 언어와 섞이지 않게).
+    static var locale: Locale { Localization.shared.locale }
 
     static func percent(_ value: Double) -> String {
         String(format: "%.1f%%", value)
@@ -295,6 +295,17 @@ enum Format {
         return index == 0 ? String(format: "%.0f%@/s", value, units[index]) : String(format: "%.1f%@/s", value, units[index])
     }
 
+    /// 연결 종류 식별자(wifi 등)를 표시 이름으로. 알 수 없는 종류는 BSD 이름(en5 등)을 그대로 보여 준다.
+    static func interfaceName(_ identifier: String?) -> String {
+        switch identifier {
+        case "wifi": L("network.wifi")
+        case "ethernet": L("network.ethernet")
+        case "cellular": L("network.cellular")
+        case let name?: name
+        case nil: L("dashboard.network.connected")
+        }
+    }
+
     static func batterySymbol(_ battery: BatteryStatus) -> String {
         if battery.isCharging { return "battery.100percent.bolt" }
         switch battery.level {
@@ -307,9 +318,9 @@ enum Format {
     }
 
     static func batteryDetail(_ battery: BatteryStatus) -> String {
-        var parts = [battery.isCharging ? "Charging" : (battery.isPluggedIn ? "Plugged in" : "On battery")]
-        if let cycles = battery.cycleCount { parts.append("\(cycles) cycles") }
-        if let health = battery.health { parts.append("Health \(Int((health * 100).rounded()))%") }
+        var parts = [L(battery.isCharging ? "battery.charging" : (battery.isPluggedIn ? "battery.pluggedIn" : "battery.onBattery"))]
+        if let cycles = battery.cycleCount { parts.append(L("battery.cycles", cycles)) }
+        if let health = battery.health { parts.append(L("battery.health", Int((health * 100).rounded()))) }
         return parts.joined(separator: " · ")
     }
 }

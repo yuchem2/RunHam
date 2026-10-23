@@ -49,6 +49,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem?.length = runnerView.preferredWidth
         cpuDidUpdate(monitor.metrics.cpu.percent)
         metricsBar.update()
+        settingsWindow.refreshTitles()
     }
 
     private func cpuDidUpdate(_ percent: Double) {

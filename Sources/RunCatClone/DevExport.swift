@@ -41,22 +41,27 @@ enum DevExport {
             RunLoop.main.run(until: Date().addingTimeInterval(1))
             monitor.sample()
         }
-        let views: [(String, AnyView)] = [
-            ("dashboard", AnyView(DashboardView(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics))),
-            ("settings-general", AnyView(GeneralSettingsView(settings: settings, launchAtLogin: LaunchAtLogin()))),
-            ("settings-runner", AnyView(RunnerSettingsView(settings: settings, metrics: monitor.metrics))),
-            ("settings-metrics", AnyView(MetricsSettingsView(settings: settings, customMetrics: customMetrics))),
+        let views: [(String, () -> AnyView)] = [
+            ("dashboard", { AnyView(DashboardView(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics)) }),
+            ("settings-general", { AnyView(GeneralSettingsView(settings: settings, launchAtLogin: LaunchAtLogin())) }),
+            ("settings-runner", { AnyView(RunnerSettingsView(settings: settings, metrics: monitor.metrics)) }),
+            ("settings-metrics", { AnyView(MetricsSettingsView(settings: settings, customMetrics: customMetrics)) }),
         ]
         defer { customMetrics.sources.forEach { customMetrics.remove($0.id) } }
         try exportMetricsBars(metrics: monitor.metrics, customMetrics: customMetrics, to: directory)
-        for (name, view) in views {
-            // 대시보드는 투명 배경이라 다크 캡처에선 글자가 보이지 않아 라이트만 내보낸다.
-            let appearances: [NSAppearance.Name] = name == "dashboard" ? [.aqua] : [.aqua, .darkAqua]
-            for appearance in appearances {
-                let suffix = appearance == .aqua ? "light" : "dark"
-                let framed = view
-                let rep = snapshot(framed, appearance: NSAppearance(named: appearance)!)
-                try png(rep).write(to: directory.appendingPathComponent("\(name)-\(suffix).png"))
+        // 언어마다 화면을 새로 만들어 그린다(문자열은 body 에서 읽으므로 언어를 바꾼 뒤 만들어야 한다).
+        let original = Localization.shared.language
+        defer { Localization.shared.language = original }
+        for code in Localization.availableCodes.sorted() {
+            Localization.shared.language = AppLanguage(code: code)
+            for (name, makeView) in views {
+                // 대시보드는 투명 배경이라 다크 캡처에선 글자가 보이지 않아 라이트만 내보낸다.
+                let appearances: [NSAppearance.Name] = name == "dashboard" ? [.aqua] : [.aqua, .darkAqua]
+                for appearance in appearances {
+                    let suffix = appearance == .aqua ? "light" : "dark"
+                    let rep = snapshot(makeView(), appearance: NSAppearance(named: appearance)!)
+                    try png(rep).write(to: directory.appendingPathComponent("\(name)-\(code)-\(suffix).png"))
+                }
             }
         }
     }

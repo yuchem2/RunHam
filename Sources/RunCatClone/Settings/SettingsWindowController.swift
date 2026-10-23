@@ -9,6 +9,7 @@ final class SettingsWindowController {
     private let customMetrics: CustomMetricsStore
     private let launchAtLogin = LaunchAtLogin()
     private var window: NSWindow?
+    private var tabItems: [NSTabViewItem] = []
 
     init(settings: AppSettings, metrics: SystemMetrics, customMetrics: CustomMetricsStore) {
         self.settings = settings
@@ -29,11 +30,11 @@ final class SettingsWindowController {
         tabs.tabStyle = .toolbar
         // 탭 이름이 창 제목이 된다.
         tabs.canPropagateSelectedChildViewControllerTitle = true
-        addTab(to: tabs, title: "General", symbol: "gearshape",
+        addTab(to: tabs, key: "settings.tab.general", symbol: "gearshape",
                view: GeneralSettingsView(settings: settings, launchAtLogin: launchAtLogin))
-        addTab(to: tabs, title: "Runner", symbol: "cat",
+        addTab(to: tabs, key: "settings.tab.runner", symbol: "cat",
                view: RunnerSettingsView(settings: settings, metrics: metrics))
-        addTab(to: tabs, title: "Metrics", symbol: "gauge.with.dots.needle.33percent",
+        addTab(to: tabs, key: "settings.tab.metrics", symbol: "gauge.with.dots.needle.33percent",
                view: MetricsSettingsView(settings: settings, customMetrics: customMetrics))
 
         let window = NSWindow(contentViewController: tabs)
@@ -44,13 +45,26 @@ final class SettingsWindowController {
         return window
     }
 
-    private func addTab(to tabs: NSTabViewController, title: String, symbol: String, view: some View) {
-        let controller = NSHostingController(rootView: view)
+    private func addTab(to tabs: NSTabViewController, key: String, symbol: String, view: some View) {
+        let controller = NSHostingController(rootView: LocalizedRoot { view })
         controller.sizingOptions = [.preferredContentSize]
-        controller.title = title
         let item = NSTabViewItem(viewController: controller)
-        item.label = title
-        item.image = NSImage(systemSymbolName: symbol, accessibilityDescription: title)
+        item.identifier = key
+        item.image = NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
         tabs.addTabViewItem(item)
+        tabItems.append(item)
+        refreshTitles()
+    }
+
+    /// 탭 이름과 창 제목을 현재 언어로 맞춘다. SwiftUI 내용은 LocalizedRoot 가 알아서 다시 그린다.
+    func refreshTitles() {
+        for item in tabItems {
+            guard let key = item.identifier as? String else { continue }
+            item.label = L(key)
+            item.viewController?.title = L(key)
+        }
+        if let tabs = window?.contentViewController as? NSTabViewController {
+            window?.title = tabs.tabViewItems[tabs.selectedTabViewItemIndex].label
+        }
     }
 }
