@@ -1,6 +1,6 @@
 import AppKit
 
-/// 메트릭스 바를 켤 때 노치 주의사항을 보여 준다(원본의 "Notes on using Metrics Bar" 와 같은 흐름).
+/// 메트릭스 바를 켤 때 노치 주의사항을 한 번 보여 준다.
 /// 노치가 있는 화면이 연결돼 있을 때만, 그리고 "다시 표시하지 않음" 을 고르지 않았을 때만 묻는다.
 @MainActor
 enum MetricsBarNotice {

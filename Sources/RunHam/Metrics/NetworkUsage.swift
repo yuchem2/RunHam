@@ -6,8 +6,8 @@ struct NetworkCounters: Equatable, Sendable {
     var received: UInt64
     var sent: UInt64
 
-    /// 원본은 `getifaddrs` 를 쓰지만 그 `if_data` 카운터는 32비트라 4GB 마다 되감긴다.
-    /// 여기선 `NET_RT_IFLIST2` 의 64비트 카운터(`if_data64`)를 읽는다.
+    /// `getifaddrs` 의 `if_data` 카운터는 32비트라 4GB 마다 되감기므로
+    /// `NET_RT_IFLIST2` 의 64비트 카운터(`if_data64`)를 읽는다.
     static func current() -> NetworkCounters? {
         var mib: [Int32] = [CTL_NET, PF_ROUTE, 0, 0, NET_RT_IFLIST2, 0]
         var length = 0

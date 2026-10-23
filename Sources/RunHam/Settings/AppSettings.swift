@@ -1,7 +1,7 @@
 import Foundation
 import Observation
 
-/// UserDefaults 기반 설정. 키 이름은 원본 앱에서 관찰한 것(`SPEED_DECREASES_UNDER_LOAD` 등)을 따른다.
+/// UserDefaults 기반 설정. 바뀌면 바로 저장하고 onChange 로 알린다.
 /// 설정 창(SwiftUI)이 직접 바인딩하고, 값이 바뀌면 `onChange` 로 앱에 알린다.
 @MainActor
 @Observable
@@ -91,7 +91,7 @@ final class AppSettings {
         }
     }
 
-    /// 설정 창 미리보기 속도. 저장하지 않는다(원본의 `previewSpeed` 와 같은 역할).
+    /// 설정 창 미리보기의 직접 조절 속도. 저장하지 않는다.
     var previewSpeed: Double = 1
     /// 미리보기가 현재 CPU 기준 속도(메뉴바와 같은 속도)를 따를지 여부. 저장하지 않는다.
     var previewFollowsCPU = true

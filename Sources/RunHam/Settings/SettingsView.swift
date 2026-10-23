@@ -171,7 +171,7 @@ private struct RunnerStage: View {
 
 /// PNG 프레임으로 만드는 커스텀 러너 목록. 추가·편집은 시트에서 이름·색상·프레임 순서를 정한다.
 private struct CustomRunnersSection: View {
-    static let galleryURL = URL(string: "https://runcat-dev.github.io/RunnerGallery/")!
+    static let examplesURL = URL(string: "https://github.com/yuchem2/RunHam/tree/main/Runners")!
 
     var store: CustomRunnerStore
     var settings: AppSettings
@@ -210,7 +210,7 @@ private struct CustomRunnersSection: View {
             HStack {
                 Button(L("customRunner.add")) { draft = CustomRunnerDraft() }
                 Spacer()
-                Link(L("customRunner.gallery"), destination: Self.galleryURL)
+                Link(L("customRunner.examples"), destination: Self.examplesURL)
                     .font(.caption)
             }
         } header: {
@@ -348,7 +348,7 @@ private struct MetricsBarSection: View {
 
 /// 등록한 JSON 파일 목록. 추가할 때 스키마를 검사하고, 지울 때는 카드만 지운다고 확인받는다.
 private struct CustomMetricsSection: View {
-    static let schemaURL = URL(string: "https://github.com/runcat-dev/RunCatNeo/blob/main/docs/CustomMetricsSchema.md")!
+    static let schemaURL = URL(string: "https://github.com/yuchem2/RunHam/blob/main/Formats/custom-metrics.md")!
 
     var store: CustomMetricsStore
 

@@ -90,6 +90,8 @@ enum Showcase {
             try previewGIF(Runner.builtIns[0], dark: dark, scale: 8).write(to: directory.appendingPathComponent(dark ? "hero-dark.gif" : "hero-light.gif"))
         }
 
+        try write(runnerGuide(), to: directory.appendingPathComponent("runner-guide.png"))
+
         let suite = "RunHam.Showcase"
         UserDefaults().removePersistentDomain(forName: suite)
         let defaults = UserDefaults(suiteName: suite)!
@@ -121,6 +123,60 @@ enum Showcase {
                 try write(snapshot(editor, appearance: appearance), to: directory.appendingPathComponent("custom-runner-\(suffix).png"))
             }
         }
+    }
+
+    /// 커스텀 러너 규격 안내 그림: 투명 바탕(체크무늬) 위 36px 높이 프레임들과 높이·바닥선 표시
+    private static func runnerGuide() -> NSBitmapImageRep {
+        let runner = Runner.builtIns[0]
+        let zoom: CGFloat = 4
+        let frameSize = CGSize(width: CGFloat(runner.frames[0].width) * zoom, height: 36 * zoom)
+        let gap: CGFloat = 18, left: CGFloat = 70, top: CGFloat = 40, bottom: CGFloat = 46
+        let count = runner.frames.count
+        let size = CGSize(width: left + (frameSize.width + gap) * CGFloat(count) + 10, height: top + frameSize.height + bottom)
+        let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size.width), pixelsHigh: Int(size.height), bitsPerSample: 8,
+                                   samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
+        defer { NSGraphicsContext.restoreGraphicsState() }
+        let context = NSGraphicsContext.current!.cgContext
+        NSColor.white.setFill()
+        CGRect(origin: .zero, size: size).fill()
+        let label: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: 13, weight: .medium), .foregroundColor: NSColor.darkGray]
+        let accent = NSColor.systemOrange
+
+        for index in 0..<count {
+            let origin = CGPoint(x: left + CGFloat(index) * (frameSize.width + gap), y: bottom)
+            // 투명 바탕을 나타내는 체크무늬
+            let cell: CGFloat = 8
+            for row in 0..<Int(frameSize.height / cell) {
+                for column in 0..<Int(ceil(frameSize.width / cell)) where (row + column) % 2 == 0 {
+                    NSColor(white: 0.9, alpha: 1).setFill()
+                    CGRect(x: origin.x + CGFloat(column) * cell, y: origin.y + CGFloat(row) * cell,
+                           width: min(cell, frameSize.width - CGFloat(column) * cell), height: cell).fill()
+                }
+            }
+            context.interpolationQuality = .none
+            context.draw(runner.frames[index], in: CGRect(origin: origin, size: frameSize))
+            NSColor(white: 0.75, alpha: 1).setStroke()
+            NSBezierPath(rect: CGRect(origin: origin, size: frameSize).insetBy(dx: 0.5, dy: 0.5)).stroke()
+            ("frame-\(index).png" as NSString).draw(at: CGPoint(x: origin.x, y: origin.y - 22), withAttributes: label)
+        }
+        // 높이 36px 눈금
+        accent.setStroke()
+        let ruler = NSBezierPath()
+        ruler.move(to: CGPoint(x: left - 22, y: bottom))
+        ruler.line(to: CGPoint(x: left - 22, y: bottom + frameSize.height))
+        for y in [bottom, bottom + frameSize.height] {
+            ruler.move(to: CGPoint(x: left - 30, y: y))
+            ruler.line(to: CGPoint(x: left - 14, y: y))
+        }
+        ruler.lineWidth = 2
+        ruler.stroke()
+        ("36px" as NSString).draw(at: CGPoint(x: 8, y: bottom + frameSize.height / 2 - 8),
+                                  withAttributes: [.font: NSFont.systemFont(ofSize: 14, weight: .semibold), .foregroundColor: accent])
+        ("PNG · 36px tall · 10–100px wide · up to 30 frames · played in order" as NSString)
+            .draw(at: CGPoint(x: left, y: size.height - 28), withAttributes: label)
+        return rep
     }
 
     /// 화면에 찍힐 고정 샘플 수치(실제 Mac 의 값과 IP 주소를 쓰지 않는다)

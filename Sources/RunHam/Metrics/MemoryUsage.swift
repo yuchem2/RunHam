@@ -10,7 +10,7 @@ struct MemoryUsage: Equatable, Sendable {
 
     var used: UInt64 { app + wired + compressed }
 
-    /// RunCat Neo 와 같이 0.999 에서 자른 사용 비율.
+    /// 사용 비율. 꽉 찼을 때 100% 로 보이지 않도록 0.999 에서 자른다.
     var ratio: Double {
         guard total > 0 else { return 0 }
         return min(Double(used) / Double(total), CPUUsage.maxRatio)

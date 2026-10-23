@@ -7,7 +7,7 @@ struct CPUTicks: Equatable, Sendable {
     var idle: UInt32
     var nice: UInt32
 
-    /// 시스템 전체 CPU 누적 tick 을 읽는다 (RunCat Neo 와 같은 HOST_CPU_LOAD_INFO 경로).
+    /// 시스템 전체 CPU 누적 tick 을 읽는다(HOST_CPU_LOAD_INFO).
     static func current() -> CPUTicks? {
         var info = host_cpu_load_info_data_t()
         var count = mach_msg_type_number_t(MemoryLayout<host_cpu_load_info_data_t>.stride / MemoryLayout<integer_t>.stride)
@@ -27,7 +27,7 @@ struct CPUTicks: Equatable, Sendable {
 }
 
 enum CPUUsage {
-    /// 원본과 동일한 상한값. 100% 로 표시되지 않도록 0.999 에서 자른다.
+    /// 상한값. 100% 로 표시되지 않도록 0.999 에서 자른다.
     static let maxRatio = 0.999
 
     /// 두 스냅샷 사이의 사용률(0...0.999). nice 는 분모에만 포함된다.

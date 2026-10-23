@@ -12,24 +12,30 @@ struct RunnerTests {
         #expect(RunnerSpeed.speed(cpuPercent: 100, decreasesUnderLoad: true) == 0.5)
     }
 
-    @Test func catSpriteMatchesOriginalFrameMetrics() {
+    @Test func catSpriteMetrics() {
         let cat = Runner.builtIn(id: "cat")
-        // 7프레임 갤럽이지만 한 보폭(속도 1)은 원본 5프레임 ÷ 초당 2프레임 = 2.5초와 같다.
-        #expect(cat.frames.count == 7)
+        // 8프레임 한 보폭이 속도 1 에서 2.5초
+        #expect(cat.frames.count == 8)
         #expect(cat.frames.allSatisfy { $0.width == 56 && $0.height == 36 })
         #expect(cat.pointSize == .init(width: 28, height: 18))
         #expect(abs(cat.cycleDuration - 2.5) < 0.0001)
     }
 
-    @Test func vectorCatIsSmoothAndHasHighResolutionPreview() {
-        let cat = Runner.builtIn(id: "cat")
-        #expect(!cat.isPixelArt)
-        #expect(cat.previewFrames.count == cat.frames.count)
-        #expect(cat.previewFrames.allSatisfy { $0.width == 168 && $0.height == 108 })
+    @Test func vectorRunnersHaveHighResolutionPreview() {
+        for runner in Runner.builtIns {
+            #expect(!runner.isPixelArt)
+            #expect(runner.previewFrames.count == runner.frames.count)
+            #expect(runner.previewFrames.allSatisfy { $0.height == 108 && $0.width == $0.height * runner.frames[0].width / 36 })
+        }
     }
 
-    @Test func builtInRunnersAreHamstersAndCat() {
-        #expect(Runner.builtIns.map(\.id) == ["hamster", "hamster-ball", "hamster-snack", "cat"])
+    @Test func builtInRunners() {
+        #expect(Runner.builtIns.map(\.id) == [
+            "hamster", "hamster-ball", "hamster-snack", "hamster-roll", "hamster-cheeks",
+            "cat", "chick", "penguin", "whale", "shark",
+        ])
+        // 모든 기본 러너는 메뉴바 높이(18pt)를 쓰고 이름이 번역돼 있다
+        #expect(Runner.builtIns.allSatisfy { $0.pointSize.height == 18 && $0.name != $0.nameKey })
         let hamster = Runner.builtIn(id: "hamster")
         #expect(hamster.frames.count == 8)
         #expect(hamster.pointSize == .init(width: 22, height: 18))

@@ -69,6 +69,12 @@
 "runner.hamsterBall" = "Hamster Ball";
 "runner.hamsterSnack" = "Snacking Hamster";
 "runner.cat" = "Cat";
+"runner.hamsterRoll" = "Rolling Hamster";
+"runner.hamsterCheeks" = "Cheeky Hamster";
+"runner.chick" = "Chick";
+"runner.penguin" = "Penguin";
+"runner.whale" = "Whale";
+"runner.shark" = "Shark";
 
 /* 설정 - 메트릭 */
 "settings.section.dashboardCards" = "Dashboard Cards";
@@ -89,7 +95,7 @@
 "custom.title" = "Custom Metrics";
 "custom.add" = "Add Custom Metrics Source…";
 "custom.schema" = "View JSON schema";
-"custom.footer" = "The registered JSON content is shown as cards on the dashboard and reloads whenever the file changes. Updating the content is up to you (for example, a script or cron job). Compatible with RunCat Neo's schema.";
+"custom.footer" = "The registered JSON is shown as a dashboard card and reloads whenever the file changes. Keep the file up to date with a script or a scheduled job.";
 "custom.choose" = "Choose a JSON file.";
 "custom.importFailed" = "Failed importing custom metrics source.";
 "custom.remove.title" = "Remove Custom Metrics?";
@@ -104,7 +110,7 @@
 "common.add" = "Add";
 "settings.section.customRunners" = "Custom Runners";
 "customRunner.add" = "Add Custom Runner…";
-"customRunner.gallery" = "Runner Gallery";
+"customRunner.examples" = "Runner Examples";
 "customRunner.frames" = "%1$d frames · %2$d×%3$d px";
 "customRunner.requirements" = "PNG · 36px tall · 10–100px wide · up to 30 frames. Drag frames to reorder them.";
 "customRunner.choose" = "Choose PNG frame files or a folder of frames.";

@@ -1,13 +1,12 @@
 import Foundation
 
-/// RunCat Neo 의 Custom Metrics JSON 스키마(docs/CustomMetricsSchema.md)와 호환되는 문서.
-/// 같은 JSON 파일을 RunCat Neo 와 이 앱에서 함께 쓸 수 있다.
+/// 커스텀 메트릭 JSON 문서. 형식은 `Formats/custom-metrics.md` 와 `Formats/custom-metrics.schema.json` 에 정리돼 있다.
 struct CustomMetricsDocument: Decodable, Equatable, Sendable {
     static let defaultSymbol = "chart.bar.horizontal.page.fill"
 
     var title: String
     var symbol: String?
-    /// 원본의 메트릭스 바(메뉴바 상시 표시)용 값. 이 앱은 아직 메트릭스 바가 없어 읽기만 한다.
+    /// 메트릭스 바(메뉴바 상시 표시)에 보일 짧은 값
     var metricsBarValue: String?
     var metrics: [Metric]
     var lastUpdatedDate: Date
@@ -60,7 +59,6 @@ enum CustomMetricsError: LocalizedError, Equatable {
     case invalidFormat
     case alreadyAdded
 
-    // 원본의 안내 문구를 따른다.
     var errorDescription: String? {
         switch self {
         case .unreadable: L("error.unreadable")

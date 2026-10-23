@@ -69,6 +69,12 @@
 "runner.hamsterBall" = "仓鼠滚球";
 "runner.hamsterSnack" = "吃瓜子的仓鼠";
 "runner.cat" = "猫";
+"runner.hamsterRoll" = "滚滚仓鼠";
+"runner.hamsterCheeks" = "鼓腮仓鼠";
+"runner.chick" = "小鸡";
+"runner.penguin" = "企鹅";
+"runner.whale" = "鲸鱼";
+"runner.shark" = "鲨鱼";
 
 /* 设置 - 指标 */
 "settings.section.dashboardCards" = "仪表盘卡片";
@@ -89,7 +95,7 @@
 "custom.title" = "自定义指标";
 "custom.add" = "添加自定义指标…";
 "custom.schema" = "查看 JSON 结构";
-"custom.footer" = "已登记的 JSON 内容会以卡片形式显示在仪表盘上，文件变化时会重新读取。内容需要自行更新（例如用脚本或 cron 任务）。与 RunCat Neo 的结构兼容。";
+"custom.footer" = "已登记的 JSON 内容会以卡片形式显示在仪表盘上，文件变化时会重新读取。请用脚本或定时任务更新内容。";
 "custom.choose" = "请选择 JSON 文件。";
 "custom.importFailed" = "无法添加自定义指标。";
 "custom.remove.title" = "要移除自定义指标吗？";
@@ -104,7 +110,7 @@
 "common.add" = "添加";
 "settings.section.customRunners" = "自定义跑者";
 "customRunner.add" = "添加自定义跑者…";
-"customRunner.gallery" = "跑者图库";
+"customRunner.examples" = "跑者示例";
 "customRunner.frames" = "%1$d 帧 · %2$d×%3$d px";
 "customRunner.requirements" = "PNG · 高 36px · 宽 10–100px · 最多 30 张。拖动帧即可调整顺序。";
 "customRunner.choose" = "请选择 PNG 帧文件或包含帧的文件夹。";

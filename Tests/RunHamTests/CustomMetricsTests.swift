@@ -3,7 +3,7 @@ import Testing
 @testable import RunHam
 
 struct CustomMetricsDocumentTests {
-    @Test func decodesNeoSchemaAndClampsNormalizedValue() throws {
+    @Test func decodesDocumentAndClampsNormalizedValue() throws {
         let json = """
         {
           "title": "Example",

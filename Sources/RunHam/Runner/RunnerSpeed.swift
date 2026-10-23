@@ -1,4 +1,4 @@
-/// CPU 사용률 → 애니메이션 속도 배율 (RunCat Neo `0x1001a4650` 부근과 동일한 공식).
+/// CPU 사용률 → 애니메이션 속도 배율. CPU 5% 마다 1배씩, 1~20배.
 enum RunnerSpeed {
     static let minimum: Float = 1
     static let maximum: Float = 20

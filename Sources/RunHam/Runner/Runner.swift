@@ -19,8 +19,8 @@ struct Runner: @unchecked Sendable {
     /// 설정 창 미리보기처럼 크게 보여 줄 때 쓰는 프레임. 벡터 러너는 고해상도로 따로 그린다.
     let previewFrames: [CGImage]
 
-    /// 속도 1 에서 초당 프레임 수. 원본 규칙은 2 이고, 프레임이 많은 러너는 한 주기(보폭) 시간이
-    /// 원본과 같아지도록 올린다(예: 7프레임 → 2.8).
+    /// 속도 1 에서 초당 프레임 수. 기본은 2 이고, 러너마다 한 주기(한 번 뛰기·헤엄치기)가
+    /// 자연스러운 길이가 되도록 정한다.
     let baseFrameRate: Double
 
     init(
@@ -53,13 +53,16 @@ struct Runner: @unchecked Sendable {
         return CGSize(width: CGFloat(width) / Self.scale, height: CGFloat(height) / Self.scale)
     }
 
-    /// 속도 1 에서 한 주기 시간. 원본(초당 2프레임)은 `frameCount / 2`.
+    /// 속도 1 에서 한 주기 시간
     var cycleDuration: Double { Double(frames.count) / baseFrameRate }
 }
 
 extension Runner {
     static let builtIns: [Runner] = [
-        HamsterHopSprite.makeRunner(), HamsterBallSprite.makeRunner(), HamsterSnackSprite.makeRunner(), SleekCatSprite.makeRunner(),
+        HamsterHopSprite.makeRunner(), HamsterBallSprite.makeRunner(), HamsterSnackSprite.makeRunner(),
+        RollingHamsterSprite.makeRunner(), CheekyHamsterSprite.makeRunner(),
+        CatSprite.makeRunner(), ChickSprite.makeRunner(), PenguinSprite.makeRunner(),
+        WhaleSprite.makeRunner(), SharkSprite.makeRunner(),
     ]
 
     static func builtIn(id: String) -> Runner {

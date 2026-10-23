@@ -4,13 +4,19 @@
 
 RunHam 기본 러너의 PNG 프레임입니다. 그림 코드로 만들어 내는 파일이라 직접 고치지 마세요.
 
-| 폴더 | 러너 | 프레임 | 크기(pt) |
-|---|---|---:|---|
-| [`hamster/`](hamster/) | 햄스터 (기본) | 8 | 22 × 18 |
-| [`hamster-ball/`](hamster-ball/) | 햄스터 공 | 8 | 24 × 18 |
-| [`hamster-snack/`](hamster-snack/) | 해바라기씨 먹는 햄스터 | 6 | 22 × 18 |
-| [`cat/`](cat/) | 고양이 | 7 | 28 × 18 |
-| [`sleeping-hamster.png`](sleeping-hamster.png) | 빈 메트릭스 바에 보이는 자는 햄스터 | 1 | 28 × 18 |
+| 미리보기 | 폴더 | 러너 | 프레임 | 크기(pt) |
+|:---:|---|---|---:|---|
+| <img src="hamster/preview-light.gif" height="40" alt="햄스터 (기본)"> | [`hamster/`](hamster/) | 햄스터 (기본) | 8 | 22 × 18 |
+| <img src="hamster-ball/preview-light.gif" height="40" alt="햄스터 공"> | [`hamster-ball/`](hamster-ball/) | 햄스터 공 | 8 | 24 × 18 |
+| <img src="hamster-snack/preview-light.gif" height="40" alt="해바라기씨 먹는 햄스터"> | [`hamster-snack/`](hamster-snack/) | 해바라기씨 먹는 햄스터 | 6 | 22 × 18 |
+| <img src="hamster-roll/preview-light.gif" height="40" alt="데굴데굴 햄스터"> | [`hamster-roll/`](hamster-roll/) | 데굴데굴 햄스터 | 8 | 24 × 18 |
+| <img src="hamster-cheeks/preview-light.gif" height="40" alt="볼 빵빵 햄스터"> | [`hamster-cheeks/`](hamster-cheeks/) | 볼 빵빵 햄스터 | 8 | 22 × 18 |
+| <img src="cat/preview-light.gif" height="40" alt="고양이"> | [`cat/`](cat/) | 고양이 | 8 | 28 × 18 |
+| <img src="chick/preview-light.gif" height="40" alt="병아리"> | [`chick/`](chick/) | 병아리 | 6 | 20 × 18 |
+| <img src="penguin/preview-light.gif" height="40" alt="펭귄"> | [`penguin/`](penguin/) | 펭귄 | 8 | 18 × 18 |
+| <img src="whale/preview-light.gif" height="40" alt="고래"> | [`whale/`](whale/) | 고래 | 8 | 30 × 18 |
+| <img src="shark/preview-light.gif" height="40" alt="상어"> | [`shark/`](shark/) | 상어 | 8 | 34 × 18 |
+| | [`sleeping-hamster.png`](sleeping-hamster.png) | 빈 메트릭스 바에 보이는 자는 햄스터 | 1 | 28 × 18 |
 
 폴더마다 들어 있는 파일:
 
@@ -19,9 +25,8 @@ RunHam 기본 러너의 PNG 프레임입니다. 그림 코드로 만들어 내�
 
 ## 다른 곳에서 쓰기
 
-프레임은 흔히 쓰는 커스텀 러너 규칙(PNG, 높이 36px, 너비 10~100px, 최대 30장)을 따릅니다.
+프레임은 [커스텀 러너 형식](../Formats/custom-runner.ko.md)(PNG, 높이 36px, 너비 10~100px, 최대 30장)을 따릅니다.
 RunHam에서는 **설정 › 러너 › 커스텀 러너 추가…**에서 폴더를 끌어 놓으면 됩니다.
-RunCat Neo처럼 같은 규칙을 쓰는 다른 앱에서도 그대로 쓸 수 있습니다.
 
 ## 기본 러너 추가하기
 
@@ -29,7 +34,7 @@ RunCat Neo처럼 같은 규칙을 쓰는 다른 앱에서도 그대로 쓸 수 �
 
 1. `Sources/RunHam/Runner/<Name>Sprite.swift`를 만들고 `Runner`를 돌려주는 `makeRunner()`를 둡니다
    (`id`, `nameKey`, 2배 크기 `frames`, 6배 크기 `previewFrames`, `baseFrameRate`).
-   햄스터 러너는 `HamsterSilhouette`를 쓰면 같은 모양을 유지할 수 있습니다.
+   캔버스와 배율은 `DrawnRunner.make`가 맡고, 햄스터는 `HamsterSilhouette`, 헤엄치는 동물은 `SwimmerBody`를 쓰면 됩니다.
 2. `Sources/RunHam/Runner/Runner.swift`의 `Runner.builtIns`에 넣습니다.
 3. 모든 `Localizable.strings`(en, ko, ja, zh-Hans)에 `"runner.<key>"`를 추가합니다.
 4. `./scripts/test.sh`를 실행합니다.

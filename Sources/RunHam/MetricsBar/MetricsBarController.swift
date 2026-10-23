@@ -80,7 +80,7 @@ final class MetricsBarController: NSObject, NSMenuDelegate {
         for source in customMetrics.sources where configuration.visibleCustomMetricsSourceIDs.contains(source.id) {
             let document = customMetrics.snapshots[source.id]
             let failed = customMetrics.failedIDs.contains(source.id)
-            // 값이 없거나 읽기에 실패하면 원본처럼 `---` 를 보여 준다.
+            // 값이 없거나 읽기에 실패하면 `---` 를 보여 준다.
             let value = failed ? nil : document?.metricsBarValue
             items.append(.init(
                 symbol: document?.resolvedSymbol ?? CustomMetricsDocument.defaultSymbol,

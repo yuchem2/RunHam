@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yuchem2/RunHam/blob/main/Formats/custom-metrics.schema.json",
+  "title": "RunHam Custom Metrics",
+  "description": "A JSON file that RunHam shows as a dashboard card and, optionally, in the Metrics Bar.",
+  "type": "object",
+  "required": ["title", "metrics", "lastUpdatedDate"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Card title."
+    },
+    "symbol": {
+      "type": "string",
+      "description": "SF Symbols name shown next to the title. Defaults to chart.bar.horizontal.page.fill."
+    },
+    "metricsBarValue": {
+      "type": "string",
+      "description": "Short text shown in the Metrics Bar when this source is turned on there."
+    },
+    "metrics": {
+      "type": "array",
+      "description": "Rows of the card, from top to bottom.",
+      "items": {
+        "type": "object",
+        "required": ["title", "formattedValue"],
+        "properties": {
+          "title": { "type": "string", "description": "Row label." },
+          "formattedValue": { "type": "string", "description": "Value text exactly as it should appear." },
+          "normalizedValue": {
+            "type": "number",
+            "description": "Optional 0–1 value. When present, a progress bar is drawn under the row. Values outside 0–1 are clamped."
+          }
+        }
+      }
+    },
+    "lastUpdatedDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 date and time with a time zone, with or without fractional seconds."
+    }
+  }
+}

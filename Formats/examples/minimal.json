@@ -1,0 +1,7 @@
+{
+  "title": "Coffee",
+  "metrics": [
+    { "title": "Cups today", "formattedValue": "3" }
+  ],
+  "lastUpdatedDate": "2026-10-23T09:00:00+09:00"
+}

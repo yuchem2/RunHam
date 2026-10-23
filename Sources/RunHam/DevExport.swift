@@ -52,14 +52,14 @@ enum DevExport {
         let settings = AppSettings(defaults: UserDefaults(suiteName: "RunHam.DevExport")!)
         let customMetrics = CustomMetricsStore(defaults: UserDefaults(suiteName: "RunHam.DevExport")!)
         let sample = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .appendingPathComponent("../../docs/custom-metrics-sample.json").standardizedFileURL
+            .appendingPathComponent("../../Formats/examples/build-server.json").standardizedFileURL
         if FileManager.default.fileExists(atPath: sample.path) {
             try? customMetrics.add(sample)
         }
         // 미리보기에선 사용자 데이터를 건드리지 않도록 임시 폴더의 러너 목록을 쓴다
         let customRunners = CustomRunnerStore(directory: FileManager.default.temporaryDirectory.appendingPathComponent("RunHam-DevExport-\(UUID().uuidString)"))
         if let folder = ProcessInfo.processInfo.environment["EXPORT_CUSTOM_RUNNER"] {
-            try? customRunners.add(folder: URL(fileURLWithPath: folder))
+            _ = try? customRunners.add(folder: URL(fileURLWithPath: folder))
         }
         let monitor = MetricsMonitor()
         monitor.sample()

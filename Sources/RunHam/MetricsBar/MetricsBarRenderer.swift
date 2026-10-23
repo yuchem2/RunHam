@@ -19,8 +19,7 @@ struct MetricsBarItem: Equatable, Sendable {
 /// 메트릭스 바 전체를 한 장의 템플릿 이미지로 그린다.
 ///
 /// 상태바에 뷰를 올리지 않고 이미지 한 장만 넘기므로 메뉴바 색 대응과 다른 화면용 복제본(replicant)을
-/// 시스템이 알아서 처리한다. 항목 크기(아이콘 22pt, 간격 4pt, 값 폭, 사용자 값 최대 80pt)는
-/// RunCat Neo 의 MetricsBarView / IndicatorKind (Copyright 2026 Kyome22, Apache License 2.0) 를 참고했다.
+/// 시스템이 알아서 처리한다. 항목은 아이콘 22pt, 간격 4pt, 값 폭(사용자 값은 최대 80pt)으로 배치한다.
 enum MetricsBarRenderer {
     static let height: CGFloat = 18
     static let iconSize = CGSize(width: 22, height: 16)
@@ -56,7 +55,7 @@ enum MetricsBarRenderer {
         return ceil(widths.reduce(0, +) + spacing * CGFloat(widths.count - 1))
     }
 
-    /// 비어 있으면 자는 고양이를 그린다(원본과 같은 빈 상태).
+    /// 비어 있으면 자는 햄스터를 그린다.
     static func image(for items: [MetricsBarItem]) -> NSImage {
         guard !items.isEmpty else {
             let image = NSImage(cgImage: SleepingHamsterSprite.image, size: SleepingHamsterSprite.pointSize)

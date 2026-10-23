@@ -1,7 +1,6 @@
 import CoreGraphics
 
 /// 앱 아이콘: 해바라기씨 색 그라데이션 위로 하얀 깡총 햄스터가 왼쪽 밖에서 뛰어든다.
-/// RunCat Neo 아이콘과 같은 구도(큰 동물이 가장자리에서 잘린 채 뛰어오름)를 햄스터 색으로 다시 그렸다.
 /// `scripts/make-icon.sh` 가 이 그림으로 .icns 를 만든다.
 enum AppIconRenderer {
     /// 정점에서 몸을 살짝 든 자세

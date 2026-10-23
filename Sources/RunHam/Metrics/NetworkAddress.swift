@@ -34,6 +34,7 @@ struct NetworkAddresses: Equatable, Sendable {
         let status = getnameinfo(address, socklen_t(address.pointee.sa_len), &buffer, socklen_t(buffer.count), nil, 0, NI_NUMERICHOST)
         guard status == 0 else { return nil }
         // IPv6 스코프 표기(%en0)는 떼어 낸다.
-        return String(cString: buffer).split(separator: "%").first.map(String.init)
+        let host = String(decoding: buffer.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }, as: UTF8.self)
+        return host.split(separator: "%").first.map(String.init)
     }
 }

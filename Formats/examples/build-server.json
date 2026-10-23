@@ -1,0 +1,11 @@
+{
+  "title": "Build Server",
+  "symbol": "hammer.fill",
+  "metricsBarValue": "3/4",
+  "metrics": [
+    { "title": "Status", "formattedValue": "Healthy" },
+    { "title": "Queue", "formattedValue": "3 of 4 jobs", "normalizedValue": 0.75 },
+    { "title": "Disk", "formattedValue": "42%", "normalizedValue": 0.42 }
+  ],
+  "lastUpdatedDate": "2026-10-23T00:00:00Z"
+}

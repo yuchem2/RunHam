@@ -1,6 +1,6 @@
 import Foundation
 
-/// 메트릭스 바에 표시할 항목. 기본값은 원본처럼 CPU 만 켠다.
+/// 메트릭스 바에 표시할 항목. 기본값은 CPU 만 켠다.
 struct MetricsBarConfiguration: Codable, Equatable, Sendable {
     enum SystemMetric: String, CaseIterable, Sendable {
         case cpu, memory, storage, battery, network

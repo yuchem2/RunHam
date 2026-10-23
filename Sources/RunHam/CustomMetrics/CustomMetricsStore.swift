@@ -2,7 +2,7 @@ import Foundation
 import Observation
 
 /// 등록한 Custom Metrics JSON 파일 목록과 각 파일의 마지막 정상 스냅샷.
-/// 읽기에 실패하면 이전 스냅샷을 그대로 두고 실패 표시만 한다(원본과 같은 동작).
+/// 읽기에 실패하면 이전 스냅샷을 그대로 두고 실패 표시만 한다.
 @MainActor
 @Observable
 final class CustomMetricsStore {

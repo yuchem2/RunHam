@@ -2,7 +2,7 @@ import QuartzCore
 
 /// 배경색을 프레임 실루엣으로 마스킹해 메뉴바 글자색으로 러너를 그린다.
 /// 색상 러너(isTemplate == false)는 마스크 없이 프레임 이미지를 그대로 보여 준다.
-/// 원본 `RunnerLayer` 처럼 프레임은 `CAKeyframeAnimation(contents)` 로 돌리고,
+/// 프레임은 `CAKeyframeAnimation(contents)` 로 돌리고,
 /// 속도는 애니메이션을 다시 만들지 않고 레이어 시간계(speed/timeOffset/beginTime)만 바꾼다.
 final class RunnerLayer: CALayer {
     private static let animationKey = "runner.frames"
@@ -84,7 +84,7 @@ final class RunnerLayer: CALayer {
 }
 
 extension CALayer {
-    /// 걸려 있는 애니메이션을 다시 만들지 않고 위상을 유지한 채 속도만 바꾼다(원본 RunnerLayer 와 같은 방식).
+    /// 걸려 있는 애니메이션을 다시 만들지 않고 위상을 유지한 채 속도만 바꾼다.
     func setAnimationSpeed(_ speed: Float) {
         guard self.speed != speed else { return }
         CATransaction.begin()

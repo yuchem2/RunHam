@@ -69,6 +69,12 @@
 "runner.hamsterBall" = "ハムスターボール";
 "runner.hamsterSnack" = "ひまわりの種を食べるハムスター";
 "runner.cat" = "ネコ";
+"runner.hamsterRoll" = "コロコロハムスター";
+"runner.hamsterCheeks" = "ほっぺパンパンハムスター";
+"runner.chick" = "ひよこ";
+"runner.penguin" = "ペンギン";
+"runner.whale" = "クジラ";
+"runner.shark" = "サメ";
 
 /* 設定 - メトリクス */
 "settings.section.dashboardCards" = "ダッシュボードカード";
@@ -89,7 +95,7 @@
 "custom.title" = "カスタムメトリクス";
 "custom.add" = "カスタムメトリクスを追加…";
 "custom.schema" = "JSONスキーマを見る";
-"custom.footer" = "登録したJSONの内容はダッシュボードのカードとして表示され、ファイルが変わるたびに読み直します。内容はスクリプトやcronなどで自分で更新してください。RunCat Neoのスキーマと互換性があります。";
+"custom.footer" = "登録したJSONの内容はダッシュボードのカードとして表示され、ファイルが変わるたびに読み直します。内容はスクリプトや定期実行で更新してください。";
 "custom.choose" = "JSONファイルを選択してください。";
 "custom.importFailed" = "カスタムメトリクスを追加できませんでした。";
 "custom.remove.title" = "カスタムメトリクスを削除しますか？";
@@ -104,7 +110,7 @@
 "common.add" = "追加";
 "settings.section.customRunners" = "カスタムランナー";
 "customRunner.add" = "カスタムランナーを追加…";
-"customRunner.gallery" = "ランナーギャラリー";
+"customRunner.examples" = "ランナーの例";
 "customRunner.frames" = "%1$dフレーム · %2$d×%3$d px";
 "customRunner.requirements" = "PNG · 高さ36px · 幅10〜100px · 最大30枚。フレームをドラッグして順番を変えられます。";
 "customRunner.choose" = "PNGフレームファイル、またはフレームの入ったフォルダを選択してください。";
