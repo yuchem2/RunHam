@@ -28,15 +28,26 @@ enum DevExport {
 
     private static func exportViews(to directory: URL) throws {
         let settings = AppSettings(defaults: UserDefaults(suiteName: "RunCatClone.DevExport")!)
+        let monitor = MetricsMonitor()
+        monitor.sample()
+        // 네트워크 연결 상태(NWPathMonitor)는 메인 큐 콜백으로 오므로 런루프를 돌리며 기다린다.
+        for _ in 0..<3 {
+            RunLoop.main.run(until: Date().addingTimeInterval(1))
+            monitor.sample()
+        }
         let views: [(String, AnyView)] = [
+            ("dashboard", AnyView(DashboardView(metrics: monitor.metrics, settings: settings))),
             ("settings-general", AnyView(GeneralSettingsView(settings: settings, launchAtLogin: LaunchAtLogin()))),
             ("settings-runner", AnyView(RunnerSettingsView(settings: settings))),
             ("settings-metrics", AnyView(MetricsSettingsView(settings: settings))),
         ]
         for (name, view) in views {
-            for appearance in [NSAppearance.Name.aqua, .darkAqua] {
+            // 대시보드는 투명 배경이라 다크 캡처에선 글자가 보이지 않아 라이트만 내보낸다.
+            let appearances: [NSAppearance.Name] = name == "dashboard" ? [.aqua] : [.aqua, .darkAqua]
+            for appearance in appearances {
                 let suffix = appearance == .aqua ? "light" : "dark"
-                let rep = snapshot(view.frame(width: 440), appearance: NSAppearance(named: appearance)!)
+                let framed = name == "dashboard" ? view : AnyView(view.frame(width: 440))
+                let rep = snapshot(framed, appearance: NSAppearance(named: appearance)!)
                 try png(rep).write(to: directory.appendingPathComponent("\(name)-\(suffix).png"))
             }
         }

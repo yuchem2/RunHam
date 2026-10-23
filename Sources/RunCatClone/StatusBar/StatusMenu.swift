@@ -1,19 +1,21 @@
 import AppKit
+import SwiftUI
 
-/// 상태바 메뉴. 설정 항목은 설정 창으로 옮기고, 여기에는 현재 상태와 바로가기만 둔다.
+/// 상태바 메뉴. 맨 위에 메트릭 대시보드를 두고, 아래에는 설정·바로가기만 둔다.
 @MainActor
 final class StatusMenu: NSObject, NSMenuDelegate {
     let menu = NSMenu()
-    private let metrics: SystemMetrics
-    private let cpuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+    private let dashboardItem = NSMenuItem()
+    private let dashboardView: NSHostingView<DashboardView>
 
     var onOpenSettings: (() -> Void)?
 
-    init(metrics: SystemMetrics) {
-        self.metrics = metrics
+    init(metrics: SystemMetrics, settings: AppSettings) {
+        dashboardView = NSHostingView(rootView: DashboardView(metrics: metrics, settings: settings))
         super.init()
         menu.delegate = self
-        cpuItem.isEnabled = false
+        dashboardItem.view = dashboardView
+        resizeDashboard()
 
         let settingsItem = NSMenuItem(title: "Settings…", action: #selector(openSettings), keyEquivalent: ",")
         settingsItem.target = self
@@ -21,7 +23,7 @@ final class StatusMenu: NSObject, NSMenuDelegate {
         activityItem.target = self
 
         menu.items = [
-            cpuItem,
+            dashboardItem,
             .separator(),
             settingsItem,
             activityItem,
@@ -30,8 +32,15 @@ final class StatusMenu: NSObject, NSMenuDelegate {
         ]
     }
 
-    func menuNeedsUpdate(_ menu: NSMenu) {
-        cpuItem.title = String(format: "CPU: %.1f%%", metrics.cpu.percent)
+    // 카드 표시 설정이나 배터리 유무에 따라 높이가 달라지므로 열 때마다 맞춘다.
+    func menuWillOpen(_ menu: NSMenu) {
+        resizeDashboard()
+    }
+
+    private func resizeDashboard() {
+        dashboardView.layoutSubtreeIfNeeded()
+        let size = dashboardView.fittingSize
+        dashboardView.frame = CGRect(origin: .zero, size: CGSize(width: DashboardView.width, height: size.height))
     }
 
     @objc private func openSettings() {

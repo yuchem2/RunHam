@@ -5,7 +5,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
     private let settings = AppSettings()
     private let monitor = MetricsMonitor()
-    private lazy var statusMenu = StatusMenu(metrics: monitor.metrics)
+    private lazy var statusMenu = StatusMenu(metrics: monitor.metrics, settings: settings)
     private lazy var settingsWindow = SettingsWindowController(settings: settings)
     private let runnerView = RunnerStatusView()
     private var appliedRunner: (id: String, flipped: Bool)?
