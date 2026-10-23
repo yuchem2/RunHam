@@ -9,5 +9,10 @@ let package = Package(
             name: "RunCatClone",
             path: "Sources/RunCatClone"
         ),
+        .testTarget(
+            name: "RunCatCloneTests",
+            dependencies: ["RunCatClone"],
+            path: "Tests/RunCatCloneTests"
+        ),
     ]
 )
