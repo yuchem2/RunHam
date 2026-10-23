@@ -179,50 +179,16 @@ struct RunnerSettingsView: View {
     }
 }
 
-/// 미리보기 무대. 메뉴바와 같은 규칙(러너의 기본 프레임 수 × 속도)으로 프레임을 넘기고, 바닥 도트를 속도에 맞춰 흘려 보낸다.
+/// 미리보기 무대: 둥근 배경 위에 Core Animation 으로 도는 러너(RunnerStageView)
 private struct RunnerStage: View {
-    static let zoom: CGFloat = 3
-    static let groundSpacing: CGFloat = 12
-
     var runner: Runner
     var speed: Double
     var flipped: Bool
 
     var body: some View {
-        TimelineView(.animation(minimumInterval: 1 / 30)) { context in
-            let time = context.date.timeIntervalSinceReferenceDate
-            let index = Int(time * runner.baseFrameRate * speed) % max(runner.frames.count, 1)
-            let size = runner.pointSize
-            ZStack(alignment: .bottom) {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(.quaternary.opacity(0.5))
-                ground(offset: CGFloat((time * speed * 18).truncatingRemainder(dividingBy: Double(Self.groundSpacing))))
-                Image(decorative: runner.previewFrames[index], scale: 1)
-                    .resizable()
-                    .interpolation(runner.isPixelArt ? .none : .high)
-                    .renderingMode(.template)
-                    .foregroundStyle(.primary)
-                    .frame(width: size.width * Self.zoom, height: size.height * Self.zoom)
-                    .scaleEffect(x: flipped ? -1 : 1)
-                    .padding(.bottom, 14)
-            }
-        }
-    }
-
-    /// 픽셀 느낌의 점선 바닥. 러너 방향의 반대로 흐른다.
-    private func ground(offset: CGFloat) -> some View {
-        GeometryReader { proxy in
-            let count = Int(proxy.size.width / Self.groundSpacing) + 2
-            let direction: CGFloat = flipped ? 1 : -1
-            HStack(spacing: Self.groundSpacing - 3) {
-                ForEach(0..<count, id: \.self) { _ in
-                    Rectangle().frame(width: 3, height: 3)
-                }
-            }
-            .foregroundStyle(.tertiary)
-            .offset(x: direction * offset - Self.groundSpacing, y: proxy.size.height - 14)
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        RunnerStageView(runner: runner, speed: speed, flipped: flipped)
+            .background(.quaternary.opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 

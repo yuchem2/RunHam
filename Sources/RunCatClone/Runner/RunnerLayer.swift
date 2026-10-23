@@ -31,26 +31,28 @@ final class RunnerLayer: CALayer {
         }
     }
 
-    func setRunner(_ runner: Runner, flipped: Bool) {
+    /// zoom 이 1보다 크면(설정 창 미리보기) 고해상도 미리보기 프레임을 그 배율로 보여 준다.
+    func setRunner(_ runner: Runner, flipped: Bool, zoom: CGFloat = 1) {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         defer { CATransaction.commit() }
 
-        let size = runner.pointSize
+        let frames = zoom > 1 ? runner.previewFrames : runner.frames
+        let size = CGSize(width: runner.pointSize.width * zoom, height: runner.pointSize.height * zoom)
         bounds = CGRect(origin: .zero, size: size)
         spriteLayer.removeAllAnimations()
         spriteLayer.frame = bounds
-        spriteLayer.contentsScale = Runner.scale
-        spriteLayer.contents = runner.frames.first
+        spriteLayer.contentsScale = CGFloat(frames.first?.width ?? 1) / max(size.width, 1)
+        spriteLayer.contents = frames.first
         // 1x 외장 모니터 등에서 축소될 때: 도트는 픽셀을 지키고, 벡터는 부드럽게 줄인다.
         let filter: CALayerContentsFilter = runner.isPixelArt ? .nearest : .trilinear
         spriteLayer.magnificationFilter = filter
         spriteLayer.minificationFilter = filter
         spriteLayer.setAffineTransform(flipped ? CGAffineTransform(scaleX: -1, y: 1) : .identity)
 
-        guard runner.frames.count > 1 else { return }
+        guard frames.count > 1 else { return }
         let animation = CAKeyframeAnimation(keyPath: "contents")
-        animation.values = runner.frames
+        animation.values = frames
         animation.calculationMode = .discrete
         animation.duration = runner.cycleDuration
         animation.repeatCount = .infinity
@@ -61,13 +63,21 @@ final class RunnerLayer: CALayer {
     var runnerSpeed: Float { spriteLayer.speed }
 
     func setRunnerSpeed(_ speed: Float) {
+        spriteLayer.setAnimationSpeed(speed)
+    }
+}
+
+extension CALayer {
+    /// 걸려 있는 애니메이션을 다시 만들지 않고 위상을 유지한 채 속도만 바꾼다(원본 RunnerLayer 와 같은 방식).
+    func setAnimationSpeed(_ speed: Float) {
+        guard self.speed != speed else { return }
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         defer { CATransaction.commit() }
 
         let now = CACurrentMediaTime()
-        spriteLayer.timeOffset = spriteLayer.convertTime(now, from: nil)
-        spriteLayer.beginTime = now
-        spriteLayer.speed = speed
+        timeOffset = convertTime(now, from: nil)
+        beginTime = now
+        self.speed = speed
     }
 }

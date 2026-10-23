@@ -10,6 +10,7 @@ final class SettingsWindowController {
     private let launchAtLogin = LaunchAtLogin()
     private var window: NSWindow?
     private var tabItems: [NSTabViewItem] = []
+    private var closeObserver: NSObjectProtocol?
 
     init(settings: AppSettings, metrics: SystemMetrics, customMetrics: CustomMetricsStore) {
         self.settings = settings
@@ -18,11 +19,32 @@ final class SettingsWindowController {
     }
 
     func show() {
-        let window = window ?? makeWindow()
-        self.window = window
+        let window: NSWindow
+        if let existing = self.window {
+            window = existing
+        } else {
+            window = makeWindow()
+            self.window = window
+            // 닫으면 창과 SwiftUI 화면을 통째로 버려, 보이지 않는 동안 아무 일도 하지 않게 한다.
+            closeObserver = NotificationCenter.default.addObserver(
+                forName: NSWindow.willCloseNotification, object: window, queue: .main
+            ) { [weak self] _ in
+                MainActor.assumeIsolated { self?.releaseWindow() }
+            }
+        }
         // 메뉴바 전용(accessory) 앱이라 창을 앞으로 가져오려면 앱을 활성화해야 한다.
         NSApp.activate()
         window.makeKeyAndOrderFront(nil)
+    }
+
+    private func releaseWindow() {
+        if let closeObserver {
+            NotificationCenter.default.removeObserver(closeObserver)
+        }
+        closeObserver = nil
+        window?.contentViewController = nil
+        window = nil
+        tabItems = []
     }
 
     private func makeWindow() -> NSWindow {

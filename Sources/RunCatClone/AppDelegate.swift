@@ -29,6 +29,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         settings.onChange = { [weak self] in self?.applySettings() }
         monitor.onCPUUpdate = { [weak self] percent in self?.cpuDidUpdate(percent) }
         applySettings()
+        // 개발용: 실행하자마자 설정 창을 연다(설정 창이 열린 상태의 CPU 측정 등)
+        if CommandLine.arguments.contains("--open-settings") {
+            settingsWindow.show()
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
