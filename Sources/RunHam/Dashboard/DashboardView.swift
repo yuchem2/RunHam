@@ -143,7 +143,12 @@ private struct MetricCard<Content: View>: View {
             .foregroundStyle(.secondary)
         }
         .padding(10)
-        .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 10))
+        // 메뉴 바탕보다 조금 밝은 카드에 옅은 그림자를 깔아 살짝 떠 보이게 한다(글자에는 그림자를 넣지 않는다)
+        .background {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color(nsColor: .controlBackgroundColor).opacity(0.75))
+                .shadow(color: .black.opacity(0.14), radius: 2.5, y: 1.5)
+        }
     }
 }
 

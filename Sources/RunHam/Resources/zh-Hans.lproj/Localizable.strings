@@ -1,0 +1,139 @@
+/* 通用 */
+"app.name" = "RunHam";
+"language.system" = "跟随系统";
+"common.remove" = "移除";
+"common.cancel" = "取消";
+
+/* 指标名称 */
+"metric.cpu" = "CPU";
+"metric.memory" = "内存";
+"metric.storage" = "存储空间";
+"metric.battery" = "电池";
+"metric.network" = "网络";
+
+/* 仪表盘 */
+"dashboard.lastUpdated" = "上次更新：%@";
+"dashboard.cpu.detail" = "用户 %1$@ · 系统 %2$@ · 空闲 %3$@";
+"dashboard.memory.used" = "已用 %1$@，共 %2$@";
+"dashboard.memory.app" = "App %@";
+"dashboard.memory.wired" = "联动 %@";
+"dashboard.memory.compressed" = "已压缩 %@";
+"dashboard.storage.available" = "可用 %1$@，共 %2$@";
+"dashboard.network.connected" = "已连接";
+"dashboard.network.offline" = "离线";
+"dashboard.copyAddress" = "复制 %@";
+"network.wifi" = "Wi-Fi";
+"network.ethernet" = "以太网";
+"network.cellular" = "蜂窝网络";
+"battery.charging" = "正在充电";
+"battery.pluggedIn" = "已接通电源";
+"battery.onBattery" = "使用电池";
+"battery.cycles" = "循环 %d 次";
+"battery.health" = "健康度 %d%%";
+
+/* 状态栏菜单 */
+"menu.settings" = "设置…";
+"menu.activityMonitor" = "打开活动监视器";
+"menu.quit" = "退出 RunHam";
+"menu.more" = "更多";
+"menu.about" = "关于 RunHam";
+"metricsBar.title" = "指标栏";
+"metricsBar.hide" = "隐藏指标栏";
+
+/* 设置标签 */
+"settings.tab.general" = "通用";
+"settings.tab.runner" = "跑者";
+"settings.tab.metrics" = "指标";
+
+/* 设置 - 通用 */
+"settings.launchAtLogin" = "登录时启动";
+"settings.launchAtLogin.detail" = "登录后立即在菜单栏中运行。";
+"settings.language" = "语言";
+"settings.language.detail" = "更改语言";
+"settings.updateInterval" = "更新间隔";
+"settings.updateInterval.detail" = "系统指标的采样间隔";
+"settings.seconds" = "%d秒";
+"about.credit" = "依据 Apache License 2.0 授权。";
+
+/* 设置 - 跑者 */
+"settings.preview" = "预览";
+"settings.preview.live" = "实时 CPU";
+"settings.preview.manual" = "手动";
+"settings.speed" = "速度";
+"settings.section.appearance" = "外观";
+"settings.runner" = "跑者";
+"settings.flip" = "水平翻转";
+"settings.slowDown" = "高负载时减速";
+"settings.showCPU" = "显示 CPU 使用率";
+"runner.hamster" = "仓鼠";
+"runner.hamsterBall" = "仓鼠滚球";
+"runner.hamsterSnack" = "吃瓜子的仓鼠";
+"runner.cat" = "猫";
+
+/* 设置 - 指标 */
+"settings.section.dashboardCards" = "仪表盘卡片";
+"settings.card.cpu.detail" = "使用率图表，用户 / 系统 / 空闲占比（始终显示）";
+"settings.card.memory.detail" = "App、联动和已压缩内存";
+"settings.card.storage.detail" = "启动磁盘的可用空间";
+"settings.card.battery.detail" = "电量、循环次数和健康度（没有电池的 Mac 上隐藏）";
+"settings.card.network.detail" = "连接类型、IP 地址、当前上传 / 下载速度";
+"settings.showMetricsBar" = "显示指标栏";
+"settings.showMetricsBar.detail" = "在菜单栏中持续显示所选数值。";
+"settings.metricsBar.customDetail" = "显示其 metricsBarValue 的值。";
+"settings.metricsBar.notch" = "在带刘海的 MacBook 上，指标栏过长时可能会被刘海遮挡，或把其他菜单栏项目挤出屏幕。";
+"metricsBar.notice.title" = "使用指标栏的注意事项";
+"common.show" = "显示";
+"common.dontShowAgain" = "不再显示";
+
+/* 自定义指标 */
+"custom.title" = "自定义指标";
+"custom.add" = "添加自定义指标…";
+"custom.schema" = "查看 JSON 结构";
+"custom.footer" = "已登记的 JSON 内容会以卡片形式显示在仪表盘上，文件变化时会重新读取。内容需要自行更新（例如用脚本或 cron 任务）。与 RunCat Neo 的结构兼容。";
+"custom.choose" = "请选择 JSON 文件。";
+"custom.importFailed" = "无法添加自定义指标。";
+"custom.remove.title" = "要移除自定义指标吗？";
+"custom.remove.message" = "只会从仪表盘移除卡片，磁盘上的 JSON 文件不会被删除。";
+"custom.errorDetected" = "发生错误";
+"custom.updated" = "%@更新";
+"error.unreadable" = "无法读取指定的文件。";
+"error.invalidFormat" = "指定的文件不符合自定义指标的结构。";
+"error.alreadyAdded" = "指定的文件已经添加过了。";
+
+/* 自定义跑者 */
+"common.add" = "添加";
+"settings.section.customRunners" = "自定义跑者";
+"customRunner.add" = "添加自定义跑者…";
+"customRunner.gallery" = "跑者图库";
+"customRunner.frames" = "%1$d 帧 · %2$d×%3$d px";
+"customRunner.requirements" = "PNG · 高 36px · 宽 10–100px · 最多 30 张。拖动帧即可调整顺序。";
+"customRunner.choose" = "请选择 PNG 帧文件或包含帧的文件夹。";
+"customRunner.remove.title" = "要删除自定义跑者吗？";
+"customRunner.remove.message" = "只会删除复制到 App 中的帧，原文件夹保持不变。";
+"error.customRunner.noFrames" = "文件夹中没有 PNG 帧。";
+"error.customRunner.invalidFrame" = "%@ 不符合要求（PNG、高 36px、宽 10–100px）。";
+"error.customRunner.tooManyFrames" = "最多只能有 %d 帧。";
+"error.customRunner.savingFailed" = "无法保存自定义跑者。";
+"customRunner.defaultName" = "我的跑者";
+"customRunner.editor.addTitle" = "添加自定义跑者";
+"customRunner.editor.editTitle" = "编辑自定义跑者";
+"customRunner.editor.name" = "名称";
+"customRunner.editor.color" = "颜色";
+"customRunner.editor.color.template" = "黑白";
+"customRunner.editor.color.original" = "彩色";
+"customRunner.editor.frames" = "帧";
+"customRunner.editor.empty" = "点按 + 或将 PNG 文件、文件夹拖到这里。";
+"customRunner.editor.preview" = "预览";
+"customRunner.editor.addFrames" = "添加帧";
+"customRunner.editor.removeFrame" = "删除所选帧";
+"customRunner.editor.moveEarlier" = "前移";
+"customRunner.editor.moveLater" = "后移";
+"customRunner.editor.reverse" = "反转顺序";
+"customRunner.editor.count" = "%1$d / %2$d 张";
+"common.save" = "保存";
+"common.edit" = "编辑";
+"menu.licenses" = "开源许可";
+"licenses.empty" = "RunHam 目前没有使用任何第三方开源库。";
+"licenses.source" = "代码仓库";
+"menu.reportProblem" = "报告问题";
+"issue.body" = "## 发生了什么？\n\n\n## 复现步骤\n\n1. \n\n## 环境\n\n```\n%@\n```\n";

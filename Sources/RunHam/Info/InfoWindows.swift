@@ -45,7 +45,8 @@ final class InfoWindowController {
 
 // MARK: - 오픈소스 라이선스
 
-/// 참고한 오픈소스와 그 라이선스 전문
+/// 앱에 포함한 외부 오픈소스와 그 라이선스 전문. 지금은 외부 라이브러리를 쓰지 않아 빈 목록이다.
+/// 패키지를 추가하면 `entries` 에 한 칸씩 더한다(라이선스 전문은 Resources/Licenses 에 두고 이름으로 읽는다).
 struct LicensesView: View {
     struct Entry: Identifiable {
         var id: String { name }
@@ -53,59 +54,49 @@ struct LicensesView: View {
         var copyright: String
         var license: String
         var url: URL
-        var key: String
+        /// Resources/Licenses/<licenseFile>.txt
+        var licenseFile: String
+
+        var licenseText: String {
+            Localization.resources.url(forResource: licenseFile, withExtension: "txt")
+                .flatMap { try? String(contentsOf: $0, encoding: .utf8) } ?? ""
+        }
     }
 
-    static let entries: [Entry] = [
-        Entry(
-            name: "RunCat Neo",
-            copyright: "Copyright 2026 Kyome22 (Takuto Nakamura)",
-            license: "Apache License 2.0",
-            url: URL(string: "https://github.com/runcat-dev/RunCatNeo")!,
-            key: "licenses.runCatNeo.usage"
-        ),
-    ]
-
-    static var apacheLicenseText: String {
-        Localization.resources.url(forResource: "Apache-2.0", withExtension: "txt")
-            .flatMap { try? String(contentsOf: $0, encoding: .utf8) } ?? ""
-    }
+    static let entries: [Entry] = []
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text(L("licenses.intro"))
-                .font(.callout)
-                .foregroundStyle(.secondary)
+            if Self.entries.isEmpty {
+                Label(L("licenses.empty"), systemImage: "checkmark.seal")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             ForEach(Self.entries) { entry in
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 6) {
                     HStack {
                         Text(entry.name).font(.headline)
                         Spacer()
                         Link(L("licenses.source"), destination: entry.url).font(.caption)
                     }
-                    Text(entry.copyright).font(.caption)
-                    Text(entry.license).font(.caption).foregroundStyle(.secondary)
-                    Text(L(entry.key)).font(.caption).foregroundStyle(.secondary)
+                    Text("\(entry.copyright) · \(entry.license)").font(.caption).foregroundStyle(.secondary)
+                    ScrollView {
+                        Text(entry.licenseText)
+                            .font(.system(size: 10, design: .monospaced))
+                            .textSelection(.enabled)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(8)
+                    }
+                    .frame(height: 160)
+                    .background(Color(nsColor: .textBackgroundColor), in: RoundedRectangle(cornerRadius: 6))
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color(nsColor: .separatorColor)))
                 }
-                .padding(10)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 8))
             }
-            Text(L("licenses.fullText")).font(.subheadline.weight(.medium))
-            ScrollView {
-                Text(Self.apacheLicenseText)
-                    .font(.system(size: 10, design: .monospaced))
-                    .textSelection(.enabled)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(8)
-            }
-            .frame(height: 220)
-            .background(Color(nsColor: .textBackgroundColor), in: RoundedRectangle(cornerRadius: 6))
-            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color(nsColor: .separatorColor)))
         }
         .padding(20)
-        // 라이선스 전문(한 줄 76자)이 줄바꿈 없이 들어가는 폭
-        .frame(width: 560)
+        // 라이선스 전문(한 줄 76자)이 줄바꿈 없이 들어가는 폭. 목록이 비면 안내 한 줄만 보이니 좁게.
+        .frame(width: Self.entries.isEmpty ? 420 : 560)
     }
 }
 

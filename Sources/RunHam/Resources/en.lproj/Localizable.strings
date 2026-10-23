@@ -133,9 +133,7 @@
 "common.save" = "Save";
 "common.edit" = "Edit";
 "menu.licenses" = "Open Source Licenses";
-"licenses.intro" = "RunHam was built from scratch with reference to the behavior and data formats of the open source project below. It does not include the original code or images.";
+"licenses.empty" = "RunHam does not currently include any third-party open source libraries.";
 "licenses.source" = "Repository";
-"licenses.runCatNeo.usage" = "Referenced: menu bar runner behavior, Metrics Bar layout, Custom Metrics JSON format, custom runner frame rules";
-"licenses.fullText" = "Apache License 2.0 (full text)";
 "menu.reportProblem" = "Report a Problem";
 "issue.body" = "## What happened?\n\n\n## Steps to reproduce\n\n1. \n\n## Environment\n\n```\n%@\n```\n";
