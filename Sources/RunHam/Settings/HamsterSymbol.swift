@@ -1,4 +1,4 @@
-import CoreGraphics
+import AppKit
 
 /// 설정 화면 행 아이콘용 햄스터: SF Symbols 의 외곽선 아이콘처럼 속은 비우고 바깥 테두리만 남긴다.
 /// 실루엣과 반대로 눈은 채운 점이다. 템플릿 이미지라 다른 아이콘처럼 강조색으로 칠해진다.
@@ -10,6 +10,15 @@ enum HamsterSymbol {
     static let pixelsPerUnit: CGFloat = 8
 
     static let image: CGImage = trimmed(render())
+
+    /// 설정 창 툴바 탭 아이콘. 옆의 SF Symbol(톱니바퀴·계기판)과 높이를 맞춘 템플릿 이미지.
+    @MainActor static let toolbarImage: NSImage = {
+        let height: CGFloat = 17
+        let size = NSSize(width: height * CGFloat(image.width) / CGFloat(image.height), height: height)
+        let icon = NSImage(cgImage: image, size: size)
+        icon.isTemplate = true
+        return icon
+    }()
 
     private static func render() -> CGImage {
         let units = CGSize(width: 28, height: 24)

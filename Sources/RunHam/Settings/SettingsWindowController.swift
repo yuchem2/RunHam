@@ -54,11 +54,11 @@ final class SettingsWindowController {
         tabs.tabStyle = .toolbar
         // 탭 이름이 창 제목이 된다.
         tabs.canPropagateSelectedChildViewControllerTitle = true
-        addTab(to: tabs, key: "settings.tab.general", symbol: "gearshape",
+        addTab(to: tabs, key: "settings.tab.general", image: symbol("gearshape"),
                view: GeneralSettingsView(settings: settings, launchAtLogin: launchAtLogin))
-        addTab(to: tabs, key: "settings.tab.runner", symbol: "cat",
+        addTab(to: tabs, key: "settings.tab.runner", image: HamsterSymbol.toolbarImage,
                view: RunnerSettingsView(settings: settings, metrics: metrics, customRunners: customRunners))
-        addTab(to: tabs, key: "settings.tab.metrics", symbol: "gauge.with.dots.needle.33percent",
+        addTab(to: tabs, key: "settings.tab.metrics", image: symbol("gauge.with.dots.needle.33percent"),
                view: MetricsSettingsView(settings: settings, customMetrics: customMetrics))
 
         let window = NSWindow(contentViewController: tabs)
@@ -71,12 +71,16 @@ final class SettingsWindowController {
         return window
     }
 
-    private func addTab(to tabs: NSTabViewController, key: String, symbol: String, view: some View) {
+    private func symbol(_ name: String) -> NSImage? {
+        NSImage(systemSymbolName: name, accessibilityDescription: nil)
+    }
+
+    private func addTab(to tabs: NSTabViewController, key: String, image: NSImage?, view: some View) {
         let controller = NSHostingController(rootView: LocalizedRoot { view })
         controller.sizingOptions = [.preferredContentSize]
         let item = NSTabViewItem(viewController: controller)
         item.identifier = key
-        item.image = NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
+        item.image = image
         tabs.addTabViewItem(item)
         tabItems.append(item)
         refreshTitles()
