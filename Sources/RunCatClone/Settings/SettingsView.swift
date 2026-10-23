@@ -179,7 +179,7 @@ struct RunnerSettingsView: View {
     }
 }
 
-/// 미리보기 무대. 메뉴바와 같은 규칙(속도 1 = 초당 2프레임)으로 프레임을 넘기고, 바닥 도트를 속도에 맞춰 흘려 보낸다.
+/// 미리보기 무대. 메뉴바와 같은 규칙(러너의 기본 프레임 수 × 속도)으로 프레임을 넘기고, 바닥 도트를 속도에 맞춰 흘려 보낸다.
 private struct RunnerStage: View {
     static let zoom: CGFloat = 3
     static let groundSpacing: CGFloat = 12
@@ -191,7 +191,7 @@ private struct RunnerStage: View {
     var body: some View {
         TimelineView(.animation(minimumInterval: 1 / 30)) { context in
             let time = context.date.timeIntervalSinceReferenceDate
-            let index = Int(time * 2 * speed) % max(runner.frames.count, 1)
+            let index = Int(time * runner.baseFrameRate * speed) % max(runner.frames.count, 1)
             let size = runner.pointSize
             ZStack(alignment: .bottom) {
                 RoundedRectangle(cornerRadius: 10)

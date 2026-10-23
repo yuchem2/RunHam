@@ -14,10 +14,12 @@ struct RunnerTests {
 
     @Test func catSpriteMatchesOriginalFrameMetrics() {
         let cat = Runner.builtIn(id: "cat")
-        #expect(cat.frames.count == 5)
+        // 7프레임 갤럽이지만 한 보폭(속도 1)은 원본 5프레임 ÷ 초당 2프레임 = 2.5초와 같다.
+        #expect(cat.frames.count == 7)
         #expect(cat.frames.allSatisfy { $0.width == 56 && $0.height == 36 })
         #expect(cat.pointSize == .init(width: 28, height: 18))
-        #expect(cat.cycleDuration == 2.5)
+        #expect(abs(cat.cycleDuration - 2.5) < 0.0001)
+        #expect(Runner.builtIn(id: "pixel-cat").cycleDuration == 2.5)
     }
 
     @Test func vectorCatIsSmoothAndHasHighResolutionPreview() {

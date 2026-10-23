@@ -23,6 +23,9 @@ enum DevExport {
             for (index, frame) in runner.frames.enumerated() {
                 try png(NSBitmapImageRep(cgImage: frame)).write(to: directory.appendingPathComponent("\(runner.id)-frame-\(index).png"))
             }
+            for (index, frame) in runner.previewFrames.enumerated() where !runner.isPixelArt {
+                try png(NSBitmapImageRep(cgImage: frame)).write(to: directory.appendingPathComponent("\(runner.id)-preview-frame-\(index).png"))
+            }
         }
     }
 

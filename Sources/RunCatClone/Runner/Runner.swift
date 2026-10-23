@@ -14,8 +14,20 @@ struct Runner: @unchecked Sendable {
     /// 설정 창 미리보기처럼 크게 보여 줄 때 쓰는 프레임. 벡터 러너는 고해상도로 따로 그린다.
     let previewFrames: [CGImage]
 
-    init(id: String, nameKey: String, frames: [CGImage], isPixelArt: Bool, previewFrames: [CGImage]? = nil) {
+    /// 속도 1 에서 초당 프레임 수. 원본 규칙은 2 이고, 프레임이 많은 러너는 한 주기(보폭) 시간이
+    /// 원본과 같아지도록 올린다(예: 7프레임 → 2.8).
+    let baseFrameRate: Double
+
+    init(
+        id: String,
+        nameKey: String,
+        frames: [CGImage],
+        isPixelArt: Bool,
+        previewFrames: [CGImage]? = nil,
+        baseFrameRate: Double = 2
+    ) {
         self.id = id
+        self.baseFrameRate = baseFrameRate
         self.nameKey = nameKey
         self.frames = frames
         self.isPixelArt = isPixelArt
@@ -29,8 +41,8 @@ struct Runner: @unchecked Sendable {
         return CGSize(width: CGFloat(first.width) / Self.scale, height: CGFloat(first.height) / Self.scale)
     }
 
-    /// 속도 1 에서 초당 2프레임 (`duration = frameCount / 2`).
-    var cycleDuration: Double { Double(frames.count) / 2 }
+    /// 속도 1 에서 한 주기 시간. 원본(초당 2프레임)은 `frameCount / 2`.
+    var cycleDuration: Double { Double(frames.count) / baseFrameRate }
 }
 
 extension Runner {

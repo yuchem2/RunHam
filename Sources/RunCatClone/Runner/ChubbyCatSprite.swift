@@ -110,9 +110,13 @@ enum ChubbyCatSprite {
         let place = lift.concatenating(tilt)
 
         // 먼 쪽 다리 → 꼬리 → 몸통 → 가까운 쪽 다리 → 머리 → 구멍(눈·코)
+        // 먼 쪽 다리는 겹친 곳이 진해지지 않도록 불투명하게 그린 뒤 한꺼번에 흐리게 한다.
         context.setAlpha(farLegAlpha)
+        context.beginTransparencyLayer(auxiliaryInfo: nil)
+        context.setAlpha(1)
         drawLeg(from: frontShoulder.far.applying(place), pose.frontFar, in: context)
         drawLeg(from: hindHip.far.applying(place), pose.hindFar, in: context)
+        context.endTransparencyLayer()
         context.setAlpha(1)
 
         drawTail(pose.tail, transform: place, in: context)
