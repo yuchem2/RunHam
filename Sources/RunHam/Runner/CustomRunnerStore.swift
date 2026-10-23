@@ -185,7 +185,7 @@ final class CustomRunnerStore {
         onChange?()
     }
 
-    /// 메뉴바 글자색으로 칠할지(템플릿) 원래 색을 유지할지
+    /// 흑백(메뉴바 글자색으로 칠하는 템플릿)인지 컬러(이미지 색 그대로)인지
     func setTemplate(_ isTemplate: Bool, id: String) {
         guard let index = records.firstIndex(where: { $0.id == id }) else { return }
         records[index].isTemplate = isTemplate

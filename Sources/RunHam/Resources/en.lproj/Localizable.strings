@@ -120,9 +120,9 @@
 "customRunner.editor.addTitle" = "Add Custom Runner";
 "customRunner.editor.editTitle" = "Edit Custom Runner";
 "customRunner.editor.name" = "Name";
-"customRunner.editor.color" = "Color";
-"customRunner.editor.color.template" = "Menu Bar Text Color";
-"customRunner.editor.color.original" = "Original Colors";
+"customRunner.editor.color" = "Style";
+"customRunner.editor.color.template" = "Monochrome";
+"customRunner.editor.color.original" = "Color";
 "customRunner.editor.frames" = "Frames";
 "customRunner.editor.empty" = "Click + or drop PNG files or a folder here.";
 "customRunner.editor.preview" = "Preview";

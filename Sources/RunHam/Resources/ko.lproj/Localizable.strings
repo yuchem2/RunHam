@@ -121,8 +121,8 @@
 "customRunner.editor.editTitle" = "커스텀 러너 편집";
 "customRunner.editor.name" = "이름";
 "customRunner.editor.color" = "색상";
-"customRunner.editor.color.template" = "메뉴바 글자색";
-"customRunner.editor.color.original" = "원래 색상";
+"customRunner.editor.color.template" = "흑백";
+"customRunner.editor.color.original" = "컬러";
 "customRunner.editor.frames" = "프레임";
 "customRunner.editor.empty" = "+ 버튼을 누르거나 PNG 파일·폴더를 여기로 끌어 놓으십시오.";
 "customRunner.editor.preview" = "미리보기";

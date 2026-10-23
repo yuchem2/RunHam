@@ -11,7 +11,7 @@ struct Runner: @unchecked Sendable {
     let nameKey: String
     /// 커스텀 러너는 사용자가 정한 이름을 그대로 쓴다.
     let customName: String?
-    /// false 면 메뉴바 글자색으로 칠하지 않고 이미지 색을 그대로 보여 준다(커스텀 러너의 "원래 색상 유지").
+    /// false 면 메뉴바 글자색으로 칠하지 않고 이미지 색을 그대로 보여 준다(커스텀 러너의 "컬러").
     let isTemplate: Bool
     let frames: [CGImage]
     /// 도트 러너는 확대·축소할 때 nearest 로, 벡터 러너는 부드럽게 보간한다.
