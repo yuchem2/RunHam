@@ -109,57 +109,19 @@ struct LicensesView: View {
     }
 }
 
-// MARK: - 버그 리포트
+// MARK: - 문제 보고
 
-/// 문제를 알릴 때 붙일 환경 정보를 만들어 복사하게 한다.
-struct BugReportView: View {
-    /// 이슈를 받을 곳(GitHub 저장소의 새 이슈 화면). nil 이면 복사만 한다.
-    static let issuesURL: URL? = URL(string: "https://github.com/yuchem2/RunHam/issues/new")
-
-    var settings: AppSettings
-    var customRunners: CustomRunnerStore
-    @State private var copied = false
-
-    var body: some View {
-        let report = BugReport.text(settings: settings, customRunners: customRunners)
-        VStack(alignment: .leading, spacing: 12) {
-            Text(L("bugReport.intro"))
-                .font(.callout)
-                .fixedSize(horizontal: false, vertical: true)
-            ScrollView {
-                Text(report)
-                    .font(.system(size: 11, design: .monospaced))
-                    .textSelection(.enabled)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(8)
-            }
-            .frame(height: 150)
-            .background(Color(nsColor: .textBackgroundColor), in: RoundedRectangle(cornerRadius: 6))
-            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color(nsColor: .separatorColor)))
-            HStack {
-                if copied {
-                    Label(L("bugReport.copied"), systemImage: "checkmark.circle.fill")
-                        .font(.caption)
-                        .foregroundStyle(.green)
-                }
-                Spacer()
-                if let url = Self.issuesURL {
-                    Link(L("bugReport.openIssues"), destination: url)
-                }
-                Button(L("bugReport.copy")) {
-                    NSPasteboard.general.clearContents()
-                    NSPasteboard.general.setString(report, forType: .string)
-                    copied = true
-                }
-                .keyboardShortcut(.defaultAction)
-            }
-        }
-        .padding(20)
-        .frame(width: 440)
-    }
-}
-
+/// 문제 보고: GitHub 새 이슈 화면을 열고, 본문에 환경 정보를 미리 채워 둔다.
 enum BugReport {
+    static let newIssueURL = URL(string: "https://github.com/yuchem2/RunHam/issues/new")!
+
+    @MainActor
+    static func open(settings: AppSettings, customRunners: CustomRunnerStore) {
+        var components = URLComponents(url: newIssueURL, resolvingAgainstBaseURL: false)!
+        components.queryItems = [URLQueryItem(name: "body", value: L("issue.body", text(settings: settings, customRunners: customRunners)))]
+        NSWorkspace.shared.open(components.url ?? newIssueURL)
+    }
+
     @MainActor
     static func text(settings: AppSettings, customRunners: CustomRunnerStore) -> String {
         let info = Bundle.main.infoDictionary

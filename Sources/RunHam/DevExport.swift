@@ -77,7 +77,7 @@ enum DevExport {
                     .init(symbol: "waveform.path.ecg.rectangle", key: "menu.activityMonitor") {},
                     .init(symbol: "info.circle", key: "menu.about", startsGroup: true) {},
                     .init(symbol: "doc.text", key: "menu.licenses") {},
-                    .init(symbol: "ladybug", key: "menu.bugReport") {},
+                    .init(symbol: "exclamationmark.bubble", key: "menu.reportProblem") {},
                     .init(symbol: "power", key: "menu.quit", shortcut: "⌘Q", startsGroup: true) {},
                 ]
                 return AnyView(DashboardView(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics, header: header))
@@ -86,7 +86,6 @@ enum DevExport {
             ("settings-runner", { AnyView(RunnerSettingsView(settings: settings, metrics: monitor.metrics, customRunners: customRunners)) }),
             ("settings-metrics", { AnyView(MetricsSettingsView(settings: settings, customMetrics: customMetrics)) }),
             ("licenses", { AnyView(LicensesView()) }),
-            ("bug-report", { AnyView(BugReportView(settings: settings, customRunners: customRunners)) }),
             ("custom-runner-editor", {
                 let draft = CustomRunnerDraft(name: "Hamster", images: Runner.builtIns[0].frames)
                 draft.selection = draft.frames[2].id

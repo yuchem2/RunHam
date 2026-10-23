@@ -61,7 +61,12 @@ struct DashboardOptionsPanel: View {
         VStack(alignment: .leading, spacing: 0) {
             ForEach(model.items) { item in
                 if item.startsGroup {
-                    Divider().padding(.vertical, 4).padding(.horizontal, 6)
+                    // 반투명 바탕에선 기본 Divider 가 거의 안 보여 직접 그린다
+                    Rectangle()
+                        .fill(Color.primary.opacity(0.2))
+                        .frame(height: 1)
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 8)
                 }
                 OptionRow(item: item)
             }

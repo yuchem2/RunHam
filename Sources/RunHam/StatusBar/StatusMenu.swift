@@ -17,7 +17,8 @@ final class StatusMenu: NSObject, NSMenuDelegate {
 
     var onOpenSettings: (() -> Void)?
     var onOpenLicenses: (() -> Void)?
-    var onOpenBugReport: (() -> Void)?
+    /// GitHub 이슈 작성 화면을 연다
+    var onReportProblem: (() -> Void)?
     var onWillOpen: (() -> Void)?
 
     init(metrics: SystemMetrics, settings: AppSettings, customMetrics: CustomMetricsStore) {
@@ -37,8 +38,8 @@ final class StatusMenu: NSObject, NSMenuDelegate {
             .init(symbol: "doc.text", key: "menu.licenses") { [weak self] in
                 self?.closeMenu { self?.onOpenLicenses?() }
             },
-            .init(symbol: "ladybug", key: "menu.bugReport") { [weak self] in
-                self?.closeMenu { self?.onOpenBugReport?() }
+            .init(symbol: "exclamationmark.bubble", key: "menu.reportProblem") { [weak self] in
+                self?.closeMenu { self?.onReportProblem?() }
             },
             .init(symbol: "power", key: "menu.quit", shortcut: "⌘Q", startsGroup: true) { [weak self] in
                 self?.closeMenu { NSApp.terminate(nil) }

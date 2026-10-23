@@ -53,4 +53,4 @@ RunCat Neo (Copyright 2026 Kyome22 / Takuto Nakamura, Apache License 2.0, https:
 
 ## 라이선스
 
-Apache License 2.0 (`LICENSE`). 버그 리포트는 https://github.com/yuchem2/RunHam/issues 로 받는다(앱 메뉴 → 버그 리포트).
+Apache License 2.0 (`LICENSE`). 버그 리포트는 https://github.com/yuchem2/RunHam/issues 로 받는다(앱 메뉴 → 문제 보고를 누르면 환경 정보가 채워진 새 이슈 화면이 열린다).

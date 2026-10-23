@@ -133,12 +133,9 @@
 "common.save" = "Save";
 "common.edit" = "Edit";
 "menu.licenses" = "Open Source Licenses";
-"menu.bugReport" = "Report a Bug";
 "licenses.intro" = "RunHam was built from scratch with reference to the behavior and data formats of the open source project below. It does not include the original code or images.";
 "licenses.source" = "Repository";
 "licenses.runCatNeo.usage" = "Referenced: menu bar runner behavior, Metrics Bar layout, Custom Metrics JSON format, custom runner frame rules";
 "licenses.fullText" = "Apache License 2.0 (full text)";
-"bugReport.intro" = "When reporting a problem, describe what you were doing and what happened, and include the environment details below.";
-"bugReport.copy" = "Copy Environment Info";
-"bugReport.copied" = "Copied";
-"bugReport.openIssues" = "Open Issue Page";
+"menu.reportProblem" = "Report a Problem";
+"issue.body" = "## What happened?\n\n\n## Steps to reproduce\n\n1. \n\n## Environment\n\n```\n%@\n```\n";
