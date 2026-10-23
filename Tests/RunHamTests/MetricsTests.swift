@@ -1,5 +1,5 @@
 import Testing
-@testable import RunCatClone
+@testable import RunHam
 
 struct MetricsTests {
     @Test func cpuSamplerNeedsBaselineThenAverages() {

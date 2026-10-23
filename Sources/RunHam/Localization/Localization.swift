@@ -55,7 +55,7 @@ final class Localization: @unchecked Sendable {
 
     /// SwiftPM 이 만드는 리소스 번들. .app 안(Contents/Resources)에 있으면 그것을, 개발 실행·테스트에선 Bundle.module 을 쓴다.
     static let resources: Bundle = {
-        if let url = Bundle.main.url(forResource: "RunCatClone_RunCatClone", withExtension: "bundle"),
+        if let url = Bundle.main.url(forResource: "RunHam_RunHam", withExtension: "bundle"),
            let bundle = Bundle(url: url) {
             return bundle
         }

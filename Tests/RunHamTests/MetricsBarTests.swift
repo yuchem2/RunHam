@@ -1,11 +1,11 @@
 import Foundation
 import Testing
-@testable import RunCatClone
+@testable import RunHam
 
 @MainActor
 struct MetricsBarTests {
     private func makeStore() -> CustomMetricsStore {
-        CustomMetricsStore(defaults: UserDefaults(suiteName: "RunCatCloneTests.\(UUID().uuidString)")!)
+        CustomMetricsStore(defaults: UserDefaults(suiteName: "RunHamTests.\(UUID().uuidString)")!)
     }
 
     private func makeMetrics() -> SystemMetrics {
@@ -39,7 +39,7 @@ struct MetricsBarTests {
     }
 
     @Test func customMetricsShowBarValueOrPlaceholder() throws {
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("RunCatCloneTests-\(UUID().uuidString)")
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("RunHamTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let withValue = directory.appendingPathComponent("a.json")
         let withoutValue = directory.appendingPathComponent("b.json")
@@ -60,7 +60,7 @@ struct MetricsBarTests {
     }
 
     @Test func configurationRoundTripsThroughSettings() {
-        let defaults = UserDefaults(suiteName: "RunCatCloneTests.\(UUID().uuidString)")!
+        let defaults = UserDefaults(suiteName: "RunHamTests.\(UUID().uuidString)")!
         let settings = AppSettings(defaults: defaults)
         #expect(settings.metricsBar == .default)
         #expect(settings.showsMetricsBar == false)

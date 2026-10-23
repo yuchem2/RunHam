@@ -1,11 +1,11 @@
 import Foundation
 import Testing
-@testable import RunCatClone
+@testable import RunHam
 
 @MainActor
 struct AppSettingsTests {
     private func makeDefaults() -> UserDefaults {
-        let suite = "RunCatCloneTests.\(UUID().uuidString)"
+        let suite = "RunHamTests.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suite)!
         defaults.removePersistentDomain(forName: suite)
         return defaults

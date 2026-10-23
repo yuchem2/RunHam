@@ -1,5 +1,5 @@
 /* 공통 */
-"app.name" = "RunCat Clone";
+"app.name" = "RunHam";
 "language.system" = "System";
 "common.remove" = "Remove";
 "common.cancel" = "Cancel";
@@ -34,7 +34,7 @@
 /* 상태바 메뉴 */
 "menu.settings" = "Settings…";
 "menu.activityMonitor" = "Open Activity Monitor";
-"menu.quit" = "Quit RunCat Clone";
+"menu.quit" = "Quit RunHam";
 "metricsBar.title" = "Metrics Bar";
 "metricsBar.hide" = "Hide Metrics Bar";
 

@@ -2,7 +2,7 @@ import AppKit
 import SwiftUI
 
 /// 개발용: 화면 녹화 권한 없이도 결과물을 확인할 수 있도록 러너 프레임과 화면을 PNG 로 내보낸다.
-/// `RunCatClone --export-previews <dir>`
+/// `RunHam --export-previews <dir>`
 @MainActor
 enum DevExport {
     static func run(arguments: [String]) -> Bool {
@@ -30,15 +30,15 @@ enum DevExport {
     }
 
     private static func exportViews(to directory: URL) throws {
-        let settings = AppSettings(defaults: UserDefaults(suiteName: "RunCatClone.DevExport")!)
-        let customMetrics = CustomMetricsStore(defaults: UserDefaults(suiteName: "RunCatClone.DevExport")!)
+        let settings = AppSettings(defaults: UserDefaults(suiteName: "RunHam.DevExport")!)
+        let customMetrics = CustomMetricsStore(defaults: UserDefaults(suiteName: "RunHam.DevExport")!)
         let sample = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
             .appendingPathComponent("../../docs/custom-metrics-sample.json").standardizedFileURL
         if FileManager.default.fileExists(atPath: sample.path) {
             try? customMetrics.add(sample)
         }
         // 미리보기에선 사용자 데이터를 건드리지 않도록 임시 폴더의 러너 목록을 쓴다
-        let customRunners = CustomRunnerStore(directory: FileManager.default.temporaryDirectory.appendingPathComponent("RunCatClone-DevExport-\(UUID().uuidString)"))
+        let customRunners = CustomRunnerStore(directory: FileManager.default.temporaryDirectory.appendingPathComponent("RunHam-DevExport-\(UUID().uuidString)"))
         if let folder = ProcessInfo.processInfo.environment["EXPORT_CUSTOM_RUNNER"] {
             try? customRunners.add(folder: URL(fileURLWithPath: folder))
         }

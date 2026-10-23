@@ -61,7 +61,7 @@ enum CustomRunnerImporter {
 
 /// 사용자가 추가한 커스텀 러너 목록. 프레임은 앱 데이터 폴더에 복사해 두므로 원본 폴더를 옮겨도 된다.
 ///
-/// `<Application Support>/RunCatClone/Runners/<id>/frame-<n>.png` 와 같은 폴더의 `runners.json` 에 저장한다.
+/// `<Application Support>/RunHam/Runners/<id>/frame-<n>.png` 와 같은 폴더의 `runners.json` 에 저장한다.
 @MainActor
 @Observable
 final class CustomRunnerStore {
@@ -85,9 +85,9 @@ final class CustomRunnerStore {
         load()
     }
 
-    static var defaultDirectory: URL {
+    nonisolated static var defaultDirectory: URL {
         FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("RunCatClone/Runners", isDirectory: true)
+            .appendingPathComponent("RunHam/Runners", isDirectory: true)
     }
 
     func runner(id: String) -> Runner? {

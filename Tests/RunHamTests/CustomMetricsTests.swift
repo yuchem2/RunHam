@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import RunCatClone
+@testable import RunHam
 
 struct CustomMetricsDocumentTests {
     @Test func decodesNeoSchemaAndClampsNormalizedValue() throws {
@@ -43,13 +43,13 @@ struct CustomMetricsDocumentTests {
 @MainActor
 struct CustomMetricsStoreTests {
     private func makeDirectory() throws -> URL {
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("RunCatCloneTests-\(UUID().uuidString)")
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("RunHamTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         return url
     }
 
     private func makeStore() -> CustomMetricsStore {
-        let suite = "RunCatCloneTests.\(UUID().uuidString)"
+        let suite = "RunHamTests.\(UUID().uuidString)"
         return CustomMetricsStore(defaults: UserDefaults(suiteName: suite)!)
     }
 

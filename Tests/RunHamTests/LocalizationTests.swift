@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import RunCatClone
+@testable import RunHam
 
 /// 새 언어를 추가해도 깨지지 않도록 모든 문자열 테이블을 개발 언어(영어) 기준으로 검사한다.
 struct LocalizationTests {
@@ -57,7 +57,7 @@ struct LocalizationTests {
         let prefixes = Set(english.keys.compactMap { $0.split(separator: ".").first.map(String.init) })
         let sources = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
-            .appendingPathComponent("../../Sources/RunCatClone")
+            .appendingPathComponent("../../Sources/RunHam")
             .standardizedFileURL
         let files = try #require(FileManager.default.enumerator(at: sources, includingPropertiesForKeys: nil))
             .compactMap { $0 as? URL }

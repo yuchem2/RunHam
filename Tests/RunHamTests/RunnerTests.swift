@@ -1,5 +1,5 @@
 import Testing
-@testable import RunCatClone
+@testable import RunHam
 
 struct RunnerTests {
     @Test(arguments: [(0.0, 1.0), (4.9, 1.0), (50.0, 10.0), (99.9, 19.98), (150.0, 20.0)])

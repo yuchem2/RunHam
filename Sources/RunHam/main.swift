@@ -4,6 +4,8 @@ if DevExport.run(arguments: CommandLine.arguments) {
     exit(0)
 }
 
+LegacyMigration.run()
+
 let app = NSApplication.shared
 let delegate = AppDelegate()
 app.delegate = delegate

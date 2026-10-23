@@ -2,19 +2,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "RunCatClone",
+    name: "RunHam",
     defaultLocalization: "en",
     platforms: [.macOS(.v14)],
     targets: [
         .executableTarget(
-            name: "RunCatClone",
-            path: "Sources/RunCatClone",
+            name: "RunHam",
+            path: "Sources/RunHam",
             resources: [.process("Resources")]
         ),
         .testTarget(
-            name: "RunCatCloneTests",
-            dependencies: ["RunCatClone"],
-            path: "Tests/RunCatCloneTests"
+            name: "RunHamTests",
+            dependencies: ["RunHam"],
+            path: "Tests/RunHamTests"
         ),
     ]
 )

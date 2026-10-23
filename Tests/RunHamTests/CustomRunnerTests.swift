@@ -1,12 +1,12 @@
 import AppKit
 import Foundation
 import Testing
-@testable import RunCatClone
+@testable import RunHam
 
 @MainActor
 struct CustomRunnerTests {
     private func makeDirectory() throws -> URL {
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("RunCatCloneTests-\(UUID().uuidString)")
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("RunHamTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         return url
     }

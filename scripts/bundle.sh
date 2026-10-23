@@ -4,15 +4,15 @@ set -euo pipefail
 
 ROOT=${0:A:h:h}
 CONFIG=${1:-release}
-APP="$ROOT/build/RunCatClone.app"
+APP="$ROOT/build/RunHam.app"
 
 swift build --package-path "$ROOT" -c "$CONFIG"
 BIN_DIR=$(swift build --package-path "$ROOT" -c "$CONFIG" --show-bin-path)
-RESOURCES="$BIN_DIR/RunCatClone_RunCatClone.bundle"
+RESOURCES="$BIN_DIR/RunHam_RunHam.bundle"
 
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-cp "$BIN_DIR/RunCatClone" "$APP/Contents/MacOS/RunCatClone"
+cp "$BIN_DIR/RunHam" "$APP/Contents/MacOS/RunHam"
 # 문자열 테이블 등 SwiftPM 리소스 번들. 앱은 Contents/Resources 에서 먼저 찾는다(Localization.resources).
 cp -R "$RESOURCES" "$APP/Contents/Resources/"
 
@@ -27,10 +27,10 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleExecutable</key><string>RunCatClone</string>
-    <key>CFBundleIdentifier</key><string>dev.personal.RunCatClone</string>
-    <key>CFBundleName</key><string>RunCatClone</string>
-    <key>CFBundleDisplayName</key><string>RunCat Clone</string>
+    <key>CFBundleExecutable</key><string>RunHam</string>
+    <key>CFBundleIdentifier</key><string>dev.personal.RunHam</string>
+    <key>CFBundleName</key><string>RunHam</string>
+    <key>CFBundleDisplayName</key><string>RunHam</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleDevelopmentRegion</key><string>en</string>
     <key>CFBundleLocalizations</key>
