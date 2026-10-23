@@ -46,6 +46,20 @@ struct DashboardView: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
         .frame(width: Self.width)
+        .overlay(alignment: .topTrailing) {
+            if let header, header.isExpanded {
+                ZStack(alignment: .topTrailing) {
+                    // 목록 밖을 누르면 닫는다
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .onTapGesture { withAnimation(.snappy(duration: 0.15)) { header.isExpanded = false } }
+                    DashboardOptionsPanel(model: header)
+                        .padding(.top, 36)
+                        .padding(.trailing, 10)
+                        .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .topTrailing)))
+                }
+            }
+        }
     }
 
     private var cpuCard: some View {

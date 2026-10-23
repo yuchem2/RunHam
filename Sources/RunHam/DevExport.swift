@@ -72,6 +72,11 @@ enum DevExport {
             ("dashboard", {
                 let header = DashboardHeaderModel()
                 header.isExpanded = true
+                header.items = [
+                    .init(symbol: "gearshape", titleKey: "menu.settings", shortcut: "⌘,") {},
+                    .init(symbol: "waveform.path.ecg.rectangle", titleKey: "menu.activityMonitor") {},
+                    .init(symbol: "power", titleKey: "menu.quit", shortcut: "⌘Q", startsGroup: true) {},
+                ]
                 return AnyView(DashboardView(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics, header: header))
             }),
             ("settings-general", { AnyView(GeneralSettingsView(settings: settings, launchAtLogin: LaunchAtLogin())) }),
