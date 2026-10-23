@@ -10,9 +10,6 @@ final class RunnerLayer: CALayer {
     override init() {
         super.init()
         spriteLayer.contentsGravity = .resizeAspect
-        // 도트 러너가 확대·축소될 때 번지지 않게 한다.
-        spriteLayer.magnificationFilter = .nearest
-        spriteLayer.minificationFilter = .nearest
         mask = spriteLayer
     }
 
@@ -45,6 +42,10 @@ final class RunnerLayer: CALayer {
         spriteLayer.frame = bounds
         spriteLayer.contentsScale = Runner.scale
         spriteLayer.contents = runner.frames.first
+        // 1x 외장 모니터 등에서 축소될 때: 도트는 픽셀을 지키고, 벡터는 부드럽게 줄인다.
+        let filter: CALayerContentsFilter = runner.isPixelArt ? .nearest : .trilinear
+        spriteLayer.magnificationFilter = filter
+        spriteLayer.minificationFilter = filter
         spriteLayer.setAffineTransform(flipped ? CGAffineTransform(scaleX: -1, y: 1) : .identity)
 
         guard runner.frames.count > 1 else { return }

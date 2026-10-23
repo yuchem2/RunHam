@@ -74,9 +74,10 @@ struct GeneralSettingsView: View {
 private struct AboutRow: View {
     var body: some View {
         HStack(spacing: 12) {
-            Image(decorative: Runner.builtIn(id: "cat").frames[0], scale: 1)
+            let cat = Runner.builtIn(id: "cat")
+            Image(decorative: cat.previewFrames[0], scale: 1)
                 .resizable()
-                .interpolation(.none)
+                .interpolation(cat.isPixelArt ? .none : .high)
                 .renderingMode(.template)
                 .foregroundStyle(.primary)
                 .frame(width: 56, height: 36)
@@ -196,9 +197,9 @@ private struct RunnerStage: View {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.quaternary.opacity(0.5))
                 ground(offset: CGFloat((time * speed * 18).truncatingRemainder(dividingBy: Double(Self.groundSpacing))))
-                Image(decorative: runner.frames[index], scale: 1)
+                Image(decorative: runner.previewFrames[index], scale: 1)
                     .resizable()
-                    .interpolation(.none)
+                    .interpolation(runner.isPixelArt ? .none : .high)
                     .renderingMode(.template)
                     .foregroundStyle(.primary)
                     .frame(width: size.width * Self.zoom, height: size.height * Self.zoom)

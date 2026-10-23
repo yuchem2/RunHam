@@ -9,6 +9,18 @@ struct Runner: @unchecked Sendable {
     /// 표시 이름의 현지화 키(runner.cat 등). 언어를 바꾸면 이름도 바뀐다.
     let nameKey: String
     let frames: [CGImage]
+    /// 도트 러너는 확대·축소할 때 nearest 로, 벡터 러너는 부드럽게 보간한다.
+    let isPixelArt: Bool
+    /// 설정 창 미리보기처럼 크게 보여 줄 때 쓰는 프레임. 벡터 러너는 고해상도로 따로 그린다.
+    let previewFrames: [CGImage]
+
+    init(id: String, nameKey: String, frames: [CGImage], isPixelArt: Bool, previewFrames: [CGImage]? = nil) {
+        self.id = id
+        self.nameKey = nameKey
+        self.frames = frames
+        self.isPixelArt = isPixelArt
+        self.previewFrames = previewFrames ?? frames
+    }
 
     var name: String { L(nameKey) }
 
@@ -22,7 +34,7 @@ struct Runner: @unchecked Sendable {
 }
 
 extension Runner {
-    static let builtIns: [Runner] = [CatSprite.makeRunner()]
+    static let builtIns: [Runner] = [VectorCatSprite.makeRunner(), PixelCatSprite.makeRunner()]
 
     static func builtIn(id: String) -> Runner {
         builtIns.first { $0.id == id } ?? builtIns[0]

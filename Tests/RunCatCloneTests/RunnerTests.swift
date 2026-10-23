@@ -19,6 +19,23 @@ struct RunnerTests {
         #expect(cat.pointSize == .init(width: 28, height: 18))
         #expect(cat.cycleDuration == 2.5)
     }
+
+    @Test func vectorCatIsSmoothAndHasHighResolutionPreview() {
+        let cat = Runner.builtIn(id: "cat")
+        #expect(!cat.isPixelArt)
+        #expect(cat.previewFrames.count == cat.frames.count)
+        #expect(cat.previewFrames.allSatisfy { $0.width == 168 && $0.height == 108 })
+    }
+
+    @Test func pixelCatStaysAvailable() {
+        let pixel = Runner.builtIn(id: "pixel-cat")
+        #expect(pixel.id == "pixel-cat")
+        #expect(pixel.isPixelArt)
+        #expect(pixel.frames.count == 5)
+        #expect(pixel.pointSize == .init(width: 28, height: 18))
+        // 없는 id 는 기본 러너(벡터 고양이)로
+        #expect(Runner.builtIn(id: "unknown").id == "cat")
+    }
 }
 
 struct PixelArtTests {

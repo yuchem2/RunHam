@@ -2,13 +2,13 @@ import CoreGraphics
 
 /// 도트로 그린 고양이 러너 (28×18pt 캔버스, @2x 56×36px, 5프레임 갤럽).
 /// 원본 에셋을 쓰지 않고 머리·몸통·꼬리·다리 부품을 프레임마다 다시 배치해 만든다.
-enum CatSprite {
+enum PixelCatSprite {
     static let canvasWidth = 28
     static let canvasHeight = 18
     static let pixelScale = 2
 
     static func makeRunner() -> Runner {
-        Runner(id: "cat", nameKey: "runner.cat", frames: frames.map { render($0).makeImage(scale: pixelScale) })
+        Runner(id: "pixel-cat", nameKey: "runner.pixelCat", frames: frames.map { render($0).makeImage(scale: pixelScale) }, isPixelArt: true)
     }
 
     // MARK: - 부품
