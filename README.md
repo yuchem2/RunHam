@@ -29,6 +29,8 @@ Xcode 가 설치돼 있지만 라이선스에 동의하지 않은 상태라면 C
 - 설정 창: General(로그인 시 실행, 업데이트 간격) / Runner(미리보기, 반전, 부하 시 감속, 메뉴바 CPU 표시) / Metrics(카드 표시)
 - 다국어: English / 한국어, 설정 > 일반 > 언어에서 재시작 없이 전환. 새 언어는 lproj 폴더만 추가([docs/localization.md](docs/localization.md))
 - 러너: 옆모습 날렵한 고양이(기본), 통통 고양이, 도트 고양이. 곡선 러너는 뼈대 자세 값으로 프레임을 만든다. 원본 에셋은 쓰지 않는다
+- 커스텀 러너: RunCat Neo 와 같은 형식(PNG, 높이 36px, 너비 10~100px, 최대 30장)의 프레임 폴더를 설정 > 러너에서 추가.
+  프레임은 `~/Library/Application Support/RunCatClone/Runners/` 에 복사해 둔다. [러너 갤러리](https://runcat-dev.github.io/RunnerGallery/)(Apache 2.0)의 러너도 zip 을 풀어 추가할 수 있다
 - `RunCatClone --export-previews <dir>`: 러너 프레임·대시보드·설정 화면을 PNG 로 내보내는 개발용 플래그
 
 ## Custom Metrics

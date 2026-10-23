@@ -100,6 +100,7 @@ private struct AboutRow: View {
 struct RunnerSettingsView: View {
     @Bindable var settings: AppSettings
     var metrics: SystemMetrics
+    var customRunners: CustomRunnerStore
 
     private var liveSpeed: Double {
         Double(RunnerSpeed.speed(cpuPercent: metrics.cpu.percent, decreasesUnderLoad: settings.speedDecreasesUnderLoad))
@@ -113,7 +114,7 @@ struct RunnerSettingsView: View {
         Form {
             Section {
                 RunnerStage(
-                    runner: Runner.builtIn(id: settings.runnerID),
+                    runner: Runner.resolve(id: settings.runnerID, custom: customRunners),
                     speed: stageSpeed,
                     flipped: settings.isFlippedHorizontally
                 )
@@ -152,6 +153,12 @@ struct RunnerSettingsView: View {
                     ForEach(Runner.builtIns, id: \.id) { runner in
                         Text(runner.name).tag(runner.id)
                     }
+                    if !customRunners.runners.isEmpty {
+                        Divider()
+                        ForEach(customRunners.runners, id: \.id) { runner in
+                            Text(runner.name).tag(runner.id)
+                        }
+                    }
                 } label: {
                     SettingLabel(L("settings.runner"), symbol: "cat")
                 }
@@ -161,6 +168,8 @@ struct RunnerSettingsView: View {
             } header: {
                 Text(L("settings.section.appearance"))
             }
+
+            CustomRunnersSection(store: customRunners, settings: settings)
 
             Section {
                 Toggle(isOn: $settings.speedDecreasesUnderLoad) {
@@ -189,6 +198,117 @@ private struct RunnerStage: View {
         RunnerStageView(runner: runner, speed: speed, flipped: flipped)
             .background(.quaternary.opacity(0.5))
             .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+/// RunCat Neo 처럼 PNG 프레임 폴더로 추가하는 커스텀 러너 목록
+private struct CustomRunnersSection: View {
+    static let galleryURL = URL(string: "https://runcat-dev.github.io/RunnerGallery/")!
+
+    var store: CustomRunnerStore
+    var settings: AppSettings
+
+    var body: some View {
+        Section {
+            ForEach(store.runners, id: \.id) { runner in
+                HStack(spacing: 10) {
+                    RunnerThumbnail(runner: runner)
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(runner.name)
+                        Text(L("customRunner.frames", runner.frames.count, runner.frames[0].width, runner.frames[0].height))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Toggle(L("customRunner.keepColors"), isOn: Binding(
+                        get: { !runner.isTemplate },
+                        set: { store.setTemplate(!$0, id: runner.id) }
+                    ))
+                    .toggleStyle(.checkbox)
+                    .font(.caption)
+                    Button {
+                        confirmRemoval(of: runner)
+                    } label: {
+                        Image(systemName: "minus.circle.fill")
+                            .foregroundStyle(.secondary)
+                    }
+                    .buttonStyle(.plain)
+                    .help(L("common.remove"))
+                }
+            }
+            HStack {
+                Button(L("customRunner.add"), action: addRunner)
+                Spacer()
+                Link(L("customRunner.gallery"), destination: Self.galleryURL)
+                    .font(.caption)
+            }
+        } header: {
+            Text(L("settings.section.customRunners"))
+        } footer: {
+            Text(L("customRunner.requirements"))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private func addRunner() {
+        let panel = NSOpenPanel()
+        panel.message = L("customRunner.choose")
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        guard panel.runModal() == .OK, let folder = panel.url else { return }
+
+        // 이름과 색상 처리 방식을 한 번에 묻는다
+        let alert = NSAlert()
+        alert.messageText = L("customRunner.import.title")
+        alert.informativeText = L("customRunner.import.message")
+        let nameField = NSTextField(string: CustomRunnerImporter.suggestedName(for: folder))
+        nameField.frame = NSRect(x: 0, y: 24, width: 240, height: 24)
+        let keepColors = NSButton(checkboxWithTitle: L("customRunner.keepColors"), target: nil, action: nil)
+        keepColors.frame = NSRect(x: 0, y: 0, width: 240, height: 18)
+        let accessory = NSView(frame: NSRect(x: 0, y: 0, width: 240, height: 48))
+        accessory.addSubview(nameField)
+        accessory.addSubview(keepColors)
+        alert.accessoryView = accessory
+        alert.addButton(withTitle: L("common.add"))
+        alert.addButton(withTitle: L("common.cancel"))
+        alert.window.initialFirstResponder = nameField
+        guard alert.runModal() == .alertFirstButtonReturn else { return }
+
+        do {
+            let runner = try store.add(folder: folder, name: nameField.stringValue, isTemplate: keepColors.state != .on)
+            settings.runnerID = runner.id
+        } catch {
+            let failure = NSAlert()
+            failure.alertStyle = .warning
+            failure.messageText = L("customRunner.importFailed")
+            failure.informativeText = error.localizedDescription
+            failure.runModal()
+        }
+    }
+
+    private func confirmRemoval(of runner: Runner) {
+        let alert = NSAlert()
+        alert.messageText = L("customRunner.remove.title")
+        alert.informativeText = L("customRunner.remove.message")
+        alert.addButton(withTitle: L("common.remove"))
+        alert.addButton(withTitle: L("common.cancel"))
+        if alert.runModal() == .alertFirstButtonReturn {
+            store.remove(id: runner.id)
+        }
+    }
+}
+
+/// 목록에 보여 줄 첫 프레임. 템플릿 러너는 글자색으로 칠한다.
+private struct RunnerThumbnail: View {
+    var runner: Runner
+
+    var body: some View {
+        Image(decorative: runner.frames[0], scale: Runner.scale)
+            .renderingMode(runner.isTemplate ? .template : .original)
+            .foregroundStyle(.primary)
+            .frame(width: 50, height: 18)
     }
 }
 

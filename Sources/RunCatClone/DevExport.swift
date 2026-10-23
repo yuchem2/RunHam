@@ -37,6 +37,11 @@ enum DevExport {
         if FileManager.default.fileExists(atPath: sample.path) {
             try? customMetrics.add(sample)
         }
+        // 미리보기에선 사용자 데이터를 건드리지 않도록 임시 폴더의 러너 목록을 쓴다
+        let customRunners = CustomRunnerStore(directory: FileManager.default.temporaryDirectory.appendingPathComponent("RunCatClone-DevExport-\(UUID().uuidString)"))
+        if let folder = ProcessInfo.processInfo.environment["EXPORT_CUSTOM_RUNNER"] {
+            try? customRunners.add(folder: URL(fileURLWithPath: folder))
+        }
         let monitor = MetricsMonitor()
         monitor.sample()
         // 네트워크 연결 상태(NWPathMonitor)는 메인 큐 콜백으로 오므로 런루프를 돌리며 기다린다.
@@ -47,7 +52,7 @@ enum DevExport {
         let views: [(String, () -> AnyView)] = [
             ("dashboard", { AnyView(DashboardView(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics)) }),
             ("settings-general", { AnyView(GeneralSettingsView(settings: settings, launchAtLogin: LaunchAtLogin())) }),
-            ("settings-runner", { AnyView(RunnerSettingsView(settings: settings, metrics: monitor.metrics)) }),
+            ("settings-runner", { AnyView(RunnerSettingsView(settings: settings, metrics: monitor.metrics, customRunners: customRunners)) }),
             ("settings-metrics", { AnyView(MetricsSettingsView(settings: settings, customMetrics: customMetrics)) }),
         ]
         defer { customMetrics.sources.forEach { customMetrics.remove($0.id) } }

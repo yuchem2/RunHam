@@ -100,3 +100,22 @@
 "error.unreadable" = "파일을 읽을 수 없습니다.";
 "error.invalidFormat" = "파일이 사용자 지정 메트릭 스키마를 따르지 않습니다.";
 "error.alreadyAdded" = "이미 추가된 파일입니다.";
+
+/* 커스텀 러너 */
+"common.add" = "추가";
+"settings.section.customRunners" = "커스텀 러너";
+"customRunner.add" = "PNG 폴더에서 추가…";
+"customRunner.gallery" = "러너 갤러리";
+"customRunner.frames" = "%1$d프레임 · %2$d×%3$dpx";
+"customRunner.keepColors" = "원래 색상 유지";
+"customRunner.requirements" = "PNG · 높이 36px · 너비 10~100px · 최대 30장. 파일 이름 순서대로 재생합니다. RunCat Neo 커스텀 러너와 같은 형식입니다.";
+"customRunner.choose" = "PNG 프레임이 들어 있는 폴더를 선택하십시오.";
+"customRunner.import.title" = "커스텀 러너 추가";
+"customRunner.import.message" = "러너 이름을 정하십시오. 원래 색상을 유지하지 않으면 기본 러너처럼 메뉴바 글자색으로 그립니다.";
+"customRunner.importFailed" = "커스텀 러너를 추가하지 못했습니다.";
+"customRunner.remove.title" = "커스텀 러너를 삭제하겠습니까?";
+"customRunner.remove.message" = "앱에 복사해 둔 프레임만 삭제되며, 원본 폴더는 그대로 남습니다.";
+"error.customRunner.noFrames" = "폴더에 PNG 프레임이 없습니다.";
+"error.customRunner.invalidFrame" = "%@ 파일이 조건(PNG, 높이 36px, 너비 10~100px)에 맞지 않습니다.";
+"error.customRunner.tooManyFrames" = "프레임은 최대 %d장까지 넣을 수 있습니다.";
+"error.customRunner.savingFailed" = "커스텀 러너를 저장하지 못했습니다.";

@@ -1,6 +1,7 @@
 import QuartzCore
 
 /// 배경색을 프레임 실루엣으로 마스킹해 메뉴바 글자색으로 러너를 그린다.
+/// 색상 러너(isTemplate == false)는 마스크 없이 프레임 이미지를 그대로 보여 준다.
 /// 원본 `RunnerLayer` 처럼 프레임은 `CAKeyframeAnimation(contents)` 로 돌리고,
 /// 속도는 애니메이션을 다시 만들지 않고 레이어 시간계(speed/timeOffset/beginTime)만 바꾼다.
 final class RunnerLayer: CALayer {
@@ -21,12 +22,16 @@ final class RunnerLayer: CALayer {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private var isTemplate = true
+    private var storedTint: CGColor?
+
     var tintColor: CGColor? {
-        get { backgroundColor }
+        get { storedTint }
         set {
+            storedTint = newValue
             CATransaction.begin()
             CATransaction.setDisableActions(true)
-            backgroundColor = newValue
+            backgroundColor = isTemplate ? newValue : nil
             CATransaction.commit()
         }
     }
@@ -36,6 +41,17 @@ final class RunnerLayer: CALayer {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         defer { CATransaction.commit() }
+
+        isTemplate = runner.isTemplate
+        if runner.isTemplate {
+            spriteLayer.removeFromSuperlayer()
+            mask = spriteLayer
+            backgroundColor = storedTint
+        } else {
+            mask = nil
+            if spriteLayer.superlayer !== self { addSublayer(spriteLayer) }
+            backgroundColor = nil
+        }
 
         let frames = zoom > 1 ? runner.previewFrames : runner.frames
         let size = CGSize(width: runner.pointSize.width * zoom, height: runner.pointSize.height * zoom)

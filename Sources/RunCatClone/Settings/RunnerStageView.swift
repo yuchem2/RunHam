@@ -30,7 +30,7 @@ final class RunnerStageNSView: NSView {
     private let groundTrack = CALayer()
     private let dots = CAReplicatorLayer()
     private let dot = CALayer()
-    private var configured: (id: String, flipped: Bool)?
+    private var configured: (id: String, flipped: Bool, isTemplate: Bool)?
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -50,8 +50,8 @@ final class RunnerStageNSView: NSView {
     }
 
     func configure(runner: Runner, flipped: Bool) {
-        guard configured?.id != runner.id || configured?.flipped != flipped else { return }
-        configured = (runner.id, flipped)
+        guard configured?.id != runner.id || configured?.flipped != flipped || configured?.isTemplate != runner.isTemplate else { return }
+        configured = (runner.id, flipped, runner.isTemplate)
         runnerLayer.setRunner(runner, flipped: flipped, zoom: Self.zoom)
         restartGround(flipped: flipped)
         needsLayout = true

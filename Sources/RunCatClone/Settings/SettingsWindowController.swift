@@ -7,15 +7,17 @@ final class SettingsWindowController {
     private let settings: AppSettings
     private let metrics: SystemMetrics
     private let customMetrics: CustomMetricsStore
+    private let customRunners: CustomRunnerStore
     private let launchAtLogin = LaunchAtLogin()
     private var window: NSWindow?
     private var tabItems: [NSTabViewItem] = []
     private var closeObserver: NSObjectProtocol?
 
-    init(settings: AppSettings, metrics: SystemMetrics, customMetrics: CustomMetricsStore) {
+    init(settings: AppSettings, metrics: SystemMetrics, customMetrics: CustomMetricsStore, customRunners: CustomRunnerStore) {
         self.settings = settings
         self.metrics = metrics
         self.customMetrics = customMetrics
+        self.customRunners = customRunners
     }
 
     func show() {
@@ -55,7 +57,7 @@ final class SettingsWindowController {
         addTab(to: tabs, key: "settings.tab.general", symbol: "gearshape",
                view: GeneralSettingsView(settings: settings, launchAtLogin: launchAtLogin))
         addTab(to: tabs, key: "settings.tab.runner", symbol: "cat",
-               view: RunnerSettingsView(settings: settings, metrics: metrics))
+               view: RunnerSettingsView(settings: settings, metrics: metrics, customRunners: customRunners))
         addTab(to: tabs, key: "settings.tab.metrics", symbol: "gauge.with.dots.needle.33percent",
                view: MetricsSettingsView(settings: settings, customMetrics: customMetrics))
 

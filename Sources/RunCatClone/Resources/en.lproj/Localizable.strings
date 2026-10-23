@@ -100,3 +100,22 @@
 "error.unreadable" = "The specified file is unreadable.";
 "error.invalidFormat" = "The specified file does not follow the Custom Metrics schema.";
 "error.alreadyAdded" = "The specified file is already added.";
+
+/* 커스텀 러너 */
+"common.add" = "Add";
+"settings.section.customRunners" = "Custom Runners";
+"customRunner.add" = "Add from PNG Folder…";
+"customRunner.gallery" = "Runner Gallery";
+"customRunner.frames" = "%1$d frames · %2$d×%3$d px";
+"customRunner.keepColors" = "Keep original colors";
+"customRunner.requirements" = "PNG · 36 px tall · 10–100 px wide · up to 30 frames. Frames play in file-name order. Same format as RunCat Neo custom runners.";
+"customRunner.choose" = "Choose a folder of PNG frames.";
+"customRunner.import.title" = "Add Custom Runner";
+"customRunner.import.message" = "Name the runner. Without original colors, it is drawn in the menu bar text color like the built-in runners.";
+"customRunner.importFailed" = "Failed to add the custom runner.";
+"customRunner.remove.title" = "Delete Custom Runner?";
+"customRunner.remove.message" = "Only the frames copied into the app are deleted. Your original folder stays as it is.";
+"error.customRunner.noFrames" = "The folder has no PNG frames.";
+"error.customRunner.invalidFrame" = "%@ does not meet the requirements (PNG, 36 px tall, 10–100 px wide).";
+"error.customRunner.tooManyFrames" = "A runner can have up to %d frames.";
+"error.customRunner.savingFailed" = "Failed to save the custom runner.";
