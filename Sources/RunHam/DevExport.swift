@@ -69,7 +69,11 @@ enum DevExport {
             monitor.sample()
         }
         let views: [(String, () -> AnyView)] = [
-            ("dashboard", { AnyView(DashboardView(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics)) }),
+            ("dashboard", {
+                let header = DashboardHeaderModel()
+                header.isExpanded = true
+                return AnyView(DashboardView(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics, header: header))
+            }),
             ("settings-general", { AnyView(GeneralSettingsView(settings: settings, launchAtLogin: LaunchAtLogin())) }),
             ("settings-runner", { AnyView(RunnerSettingsView(settings: settings, metrics: monitor.metrics, customRunners: customRunners)) }),
             ("settings-metrics", { AnyView(MetricsSettingsView(settings: settings, customMetrics: customMetrics)) }),

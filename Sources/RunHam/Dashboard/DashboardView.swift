@@ -6,11 +6,16 @@ struct DashboardView: View {
     var metrics: SystemMetrics
     var settings: AppSettings
     var customMetrics: CustomMetricsStore
+    /// 상태바 메뉴에서만 넣는 맨 위 줄(설정·종료 바로가기)
+    var header: DashboardHeaderModel?
 
     static let width: CGFloat = 300
 
     var body: some View {
         VStack(spacing: 8) {
+            if let header {
+                DashboardHeader(model: header)
+            }
             cpuCard
             if settings.showsMemory, let memory = metrics.memory {
                 memoryCard(memory)

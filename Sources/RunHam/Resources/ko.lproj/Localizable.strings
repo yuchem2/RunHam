@@ -35,6 +35,7 @@
 "menu.settings" = "설정…";
 "menu.activityMonitor" = "활성 상태 보기 열기";
 "menu.quit" = "RunHam 종료";
+"menu.more" = "더 보기";
 "metricsBar.title" = "메트릭스 바";
 "metricsBar.hide" = "메트릭스 바 숨기기";
 

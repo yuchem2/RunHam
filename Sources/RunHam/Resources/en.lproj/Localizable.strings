@@ -35,6 +35,7 @@
 "menu.settings" = "Settings…";
 "menu.activityMonitor" = "Open Activity Monitor";
 "menu.quit" = "Quit RunHam";
+"menu.more" = "More";
 "metricsBar.title" = "Metrics Bar";
 "metricsBar.hide" = "Hide Metrics Bar";
 
