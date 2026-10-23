@@ -6,7 +6,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let settings = AppSettings()
     private lazy var statusMenu = StatusMenu(settings: settings)
     private let runnerView = RunnerStatusView()
-    private let monitor = CPUMonitor()
+    private let monitor = MetricsMonitor()
     private var appliedRunner: (id: String, flipped: Bool)?
     private var appliedInterval: TimeInterval?
 
@@ -21,7 +21,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = item
 
         statusMenu.onChange = { [weak self] in self?.applySettings() }
-        monitor.onUpdate = { [weak self] percent in self?.cpuDidUpdate(percent) }
+        monitor.onCPUUpdate = { [weak self] percent in self?.cpuDidUpdate(percent) }
         applySettings()
     }
 
@@ -41,7 +41,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         runnerView.showsCPU = settings.showsCPUUsage
         statusItem?.length = runnerView.preferredWidth
-        cpuDidUpdate(monitor.latestPercent)
+        cpuDidUpdate(monitor.metrics.cpu.percent)
     }
 
     private func cpuDidUpdate(_ percent: Double) {

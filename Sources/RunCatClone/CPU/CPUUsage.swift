@@ -41,6 +41,16 @@ enum CPUUsage {
         return min(user / total + system / total, maxRatio)
     }
 
+    /// 대시보드용 항목별 비율. nice 는 user 에 합쳐 보여 준다.
+    static func breakdown(from old: CPUTicks, to new: CPUTicks) -> (user: Double, system: Double, idle: Double) {
+        let user = Double(new.user &- old.user) + Double(new.nice &- old.nice)
+        let system = Double(new.system &- old.system)
+        let idle = Double(new.idle &- old.idle)
+        let total = user + system + idle
+        guard total > 0 else { return (0, 0, 1) }
+        return (user / total, system / total, idle / total)
+    }
+
     /// 소수점 한 자리 퍼센트. `round(ratio * 1000) / 10`
     static func percent(fromRatio ratio: Double) -> Double {
         (ratio * 1000).rounded() / 10
