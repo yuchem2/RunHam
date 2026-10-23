@@ -62,7 +62,6 @@
 "settings.section.appearance" = "모양";
 "settings.runner" = "러너";
 "settings.flip" = "좌우 반전";
-"settings.section.behavior" = "동작";
 "settings.slowDown" = "부하가 높을 때 느리게 달리기";
 "settings.slowDown.detail" = "Mac이 바빠질수록 빨라지는 대신 느려집니다.";
 "settings.showCPU" = "메뉴바에 CPU 사용률 표시";

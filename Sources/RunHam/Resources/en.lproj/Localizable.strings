@@ -62,7 +62,6 @@
 "settings.section.appearance" = "Appearance";
 "settings.runner" = "Runner";
 "settings.flip" = "Flip horizontally";
-"settings.section.behavior" = "Behavior";
 "settings.slowDown" = "Slow down under load";
 "settings.slowDown.detail" = "Runs slower as your Mac gets busier, instead of faster.";
 "settings.showCPU" = "Show CPU usage in menu bar";
