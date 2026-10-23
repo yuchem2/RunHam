@@ -13,7 +13,7 @@
 
 /* ダッシュボード */
 "dashboard.lastUpdated" = "最終更新：%@";
-"dashboard.cpu.detail" = "ユーザ %1$@ · システム %2$@ · アイドル %3$@";
+"dashboard.cpu.detail" = "ユーザ %1$@ · システム %2$@ · アイドル状態 %3$@";
 "dashboard.memory.used" = "%2$@ 中 %1$@ 使用";
 "dashboard.memory.app" = "アプリ %@";
 "dashboard.memory.wired" = "確保 %@";
@@ -21,22 +21,22 @@
 "dashboard.storage.available" = "%2$@ 中 %1$@ 利用可能";
 "dashboard.network.connected" = "接続済み";
 "dashboard.network.offline" = "オフライン";
-"dashboard.copyAddress" = "%@ をコピー";
+"dashboard.copyAddress" = "%@をコピー";
 "network.wifi" = "Wi-Fi";
 "network.ethernet" = "Ethernet";
-"network.cellular" = "モバイル通信";
+"network.cellular" = "モバイルデータ通信";
 "battery.charging" = "充電中";
 "battery.pluggedIn" = "電源に接続";
 "battery.onBattery" = "バッテリー駆動";
-"battery.cycles" = "充放電回数 %d 回";
-"battery.health" = "状態 %d%%";
+"battery.cycles" = "充放電回数 %d";
+"battery.health" = "最大容量 %d%%";
 
 /* ステータスメニュー */
 "menu.settings" = "設定…";
 "menu.activityMonitor" = "アクティビティモニタを開く";
-"menu.quit" = "RunHam を終了";
+"menu.quit" = "RunHamを終了";
 "menu.more" = "その他";
-"menu.about" = "RunHam について";
+"menu.about" = "RunHamについて";
 "metricsBar.title" = "メトリクスバー";
 "metricsBar.hide" = "メトリクスバーを隠す";
 
@@ -53,18 +53,18 @@
 "settings.updateInterval" = "更新間隔";
 "settings.updateInterval.detail" = "システムメトリクスの測定間隔";
 "settings.seconds" = "%d秒";
-"about.credit" = "Apache License 2.0 に従います。";
+"about.credit" = "Apache License 2.0に従います。";
 
 /* 設定 - ランナー */
 "settings.preview" = "プレビュー";
-"settings.preview.live" = "リアルタイム CPU";
+"settings.preview.live" = "リアルタイムCPU";
 "settings.preview.manual" = "手動";
 "settings.speed" = "速度";
 "settings.section.appearance" = "外観";
 "settings.runner" = "ランナー";
 "settings.flip" = "左右反転";
 "settings.slowDown" = "高負荷時に減速";
-"settings.showCPU" = "CPU 使用率を表示";
+"settings.showCPU" = "CPU使用率を表示";
 "runner.hamster" = "ハムスター";
 "runner.hamsterBall" = "ハムスターボール";
 "runner.hamsterSnack" = "ひまわりの種を食べるハムスター";
@@ -72,15 +72,15 @@
 
 /* 設定 - メトリクス */
 "settings.section.dashboardCards" = "ダッシュボードカード";
-"settings.card.cpu.detail" = "使用率グラフ、ユーザ / システム / アイドルの内訳（常に表示）";
-"settings.card.memory.detail" = "アプリ、確保、圧縮メモリ";
+"settings.card.cpu.detail" = "使用率グラフ、ユーザ / システム / アイドル状態の内訳（常に表示）";
+"settings.card.memory.detail" = "アプリメモリ、確保されているメモリ、圧縮されたメモリ";
 "settings.card.storage.detail" = "起動ディスクの空き容量";
-"settings.card.battery.detail" = "残量、充放電回数、状態（バッテリーのない Mac では非表示）";
-"settings.card.network.detail" = "接続の種類、IP アドレス、現在のアップロード / ダウンロード速度";
+"settings.card.battery.detail" = "充電残量、充放電回数、最大容量（バッテリーのないMacでは非表示）";
+"settings.card.network.detail" = "接続の種類、IPアドレス、現在のアップロード / ダウンロード速度";
 "settings.showMetricsBar" = "メトリクスバーを表示";
 "settings.showMetricsBar.detail" = "選んだ値をメニューバーに常に表示します。";
-"settings.metricsBar.customDetail" = "metricsBarValue の値を表示します。";
-"settings.metricsBar.notch" = "ノッチのある MacBook では、メトリクスバーが長いとノッチに隠れたり、ほかのメニューバー項目を押し出したりすることがあります。";
+"settings.metricsBar.customDetail" = "metricsBarValueの値を表示します。";
+"settings.metricsBar.notch" = "ノッチのあるMacBookでは、メトリクスバーが長いとノッチに隠れたり、ほかのメニューバー項目を押し出したりすることがあります。";
 "metricsBar.notice.title" = "メトリクスバー使用時の注意";
 "common.show" = "表示";
 "common.dontShowAgain" = "今後表示しない";
@@ -88,12 +88,12 @@
 /* カスタムメトリクス */
 "custom.title" = "カスタムメトリクス";
 "custom.add" = "カスタムメトリクスを追加…";
-"custom.schema" = "JSON スキーマを見る";
-"custom.footer" = "登録した JSON の内容はダッシュボードのカードとして表示され、ファイルが変わるたびに読み直します。内容はスクリプトや cron などで自分で更新してください。RunCat Neo のスキーマと互換性があります。";
-"custom.choose" = "JSON ファイルを選択してください。";
+"custom.schema" = "JSONスキーマを見る";
+"custom.footer" = "登録したJSONの内容はダッシュボードのカードとして表示され、ファイルが変わるたびに読み直します。内容はスクリプトやcronなどで自分で更新してください。RunCat Neoのスキーマと互換性があります。";
+"custom.choose" = "JSONファイルを選択してください。";
 "custom.importFailed" = "カスタムメトリクスを追加できませんでした。";
 "custom.remove.title" = "カスタムメトリクスを削除しますか？";
-"custom.remove.message" = "ダッシュボードからカードが消えるだけで、ディスク上の JSON ファイルは削除されません。";
+"custom.remove.message" = "ダッシュボードからカードが消えるだけで、ディスク上のJSONファイルは削除されません。";
 "custom.errorDetected" = "エラー発生";
 "custom.updated" = "%@に更新";
 "error.unreadable" = "指定したファイルを読み込めません。";
@@ -105,35 +105,35 @@
 "settings.section.customRunners" = "カスタムランナー";
 "customRunner.add" = "カスタムランナーを追加…";
 "customRunner.gallery" = "ランナーギャラリー";
-"customRunner.frames" = "%1$d フレーム · %2$d×%3$d px";
-"customRunner.requirements" = "PNG · 高さ 36px · 幅 10〜100px · 最大 30 枚。フレームをドラッグして順番を変えられます。";
-"customRunner.choose" = "PNG フレームファイル、またはフレームの入ったフォルダを選択してください。";
+"customRunner.frames" = "%1$dフレーム · %2$d×%3$d px";
+"customRunner.requirements" = "PNG · 高さ36px · 幅10〜100px · 最大30枚。フレームをドラッグして順番を変えられます。";
+"customRunner.choose" = "PNGフレームファイル、またはフレームの入ったフォルダを選択してください。";
 "customRunner.remove.title" = "カスタムランナーを削除しますか？";
 "customRunner.remove.message" = "アプリにコピーしたフレームだけが削除され、元のフォルダはそのまま残ります。";
-"error.customRunner.noFrames" = "フォルダに PNG フレームがありません。";
-"error.customRunner.invalidFrame" = "%@ は条件（PNG、高さ 36px、幅 10〜100px）を満たしていません。";
-"error.customRunner.tooManyFrames" = "フレームは最大 %d 枚までです。";
+"error.customRunner.noFrames" = "フォルダにPNGフレームがありません。";
+"error.customRunner.invalidFrame" = "%@は条件（PNG、高さ36px、幅10〜100px）を満たしていません。";
+"error.customRunner.tooManyFrames" = "フレームは最大%d枚までです。";
 "error.customRunner.savingFailed" = "カスタムランナーを保存できませんでした。";
 "customRunner.defaultName" = "マイランナー";
 "customRunner.editor.addTitle" = "カスタムランナーを追加";
 "customRunner.editor.editTitle" = "カスタムランナーを編集";
 "customRunner.editor.name" = "名前";
 "customRunner.editor.color" = "色";
-"customRunner.editor.color.template" = "モノクロ";
+"customRunner.editor.color.template" = "白黒";
 "customRunner.editor.color.original" = "カラー";
 "customRunner.editor.frames" = "フレーム";
-"customRunner.editor.empty" = "+ を押すか、PNG ファイルやフォルダをここにドロップしてください。";
+"customRunner.editor.empty" = "+ を押すか、PNGファイルやフォルダをここにドロップしてください。";
 "customRunner.editor.preview" = "プレビュー";
 "customRunner.editor.addFrames" = "フレームを追加";
 "customRunner.editor.removeFrame" = "選択したフレームを削除";
 "customRunner.editor.moveEarlier" = "前へ移動";
 "customRunner.editor.moveLater" = "後ろへ移動";
 "customRunner.editor.reverse" = "順番を反転";
-"customRunner.editor.count" = "%1$d / %2$d 枚";
+"customRunner.editor.count" = "%1$d / %2$d枚";
 "common.save" = "保存";
 "common.edit" = "編集";
 "menu.licenses" = "オープンソースライセンス";
-"licenses.empty" = "RunHam は現在、外部のオープンソースライブラリを使用していません。";
+"licenses.empty" = "RunHamは現在、外部のオープンソースライブラリを使用していません。";
 "licenses.source" = "リポジトリ";
 "menu.reportProblem" = "問題を報告";
 "issue.body" = "## 何が起きましたか？\n\n\n## 再現手順\n\n1. \n\n## 環境\n\n```\n%@\n```\n";

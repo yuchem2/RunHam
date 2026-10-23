@@ -7,17 +7,17 @@
 /* 指标名称 */
 "metric.cpu" = "CPU";
 "metric.memory" = "内存";
-"metric.storage" = "存储空间";
+"metric.storage" = "储存空间";
 "metric.battery" = "电池";
 "metric.network" = "网络";
 
 /* 仪表盘 */
 "dashboard.lastUpdated" = "上次更新：%@";
-"dashboard.cpu.detail" = "用户 %1$@ · 系统 %2$@ · 空闲 %3$@";
+"dashboard.cpu.detail" = "用户 %1$@ · 系统 %2$@ · 闲置 %3$@";
 "dashboard.memory.used" = "已用 %1$@，共 %2$@";
 "dashboard.memory.app" = "App %@";
 "dashboard.memory.wired" = "联动 %@";
-"dashboard.memory.compressed" = "已压缩 %@";
+"dashboard.memory.compressed" = "被压缩 %@";
 "dashboard.storage.available" = "可用 %1$@，共 %2$@";
 "dashboard.network.connected" = "已连接";
 "dashboard.network.offline" = "离线";
@@ -28,8 +28,8 @@
 "battery.charging" = "正在充电";
 "battery.pluggedIn" = "已接通电源";
 "battery.onBattery" = "使用电池";
-"battery.cycles" = "循环 %d 次";
-"battery.health" = "健康度 %d%%";
+"battery.cycles" = "循环计数 %d";
+"battery.health" = "最大容量 %d%%";
 
 /* 状态栏菜单 */
 "menu.settings" = "设置…";
@@ -72,10 +72,10 @@
 
 /* 设置 - 指标 */
 "settings.section.dashboardCards" = "仪表盘卡片";
-"settings.card.cpu.detail" = "使用率图表，用户 / 系统 / 空闲占比（始终显示）";
-"settings.card.memory.detail" = "App、联动和已压缩内存";
+"settings.card.cpu.detail" = "使用率图表，用户 / 系统 / 闲置占比（始终显示）";
+"settings.card.memory.detail" = "App内存、联动内存和被压缩的内存";
 "settings.card.storage.detail" = "启动磁盘的可用空间";
-"settings.card.battery.detail" = "电量、循环次数和健康度（没有电池的 Mac 上隐藏）";
+"settings.card.battery.detail" = "剩余电量、循环计数和最大容量（没有电池的 Mac 上隐藏）";
 "settings.card.network.detail" = "连接类型、IP 地址、当前上传 / 下载速度";
 "settings.showMetricsBar" = "显示指标栏";
 "settings.showMetricsBar.detail" = "在菜单栏中持续显示所选数值。";
@@ -132,7 +132,7 @@
 "customRunner.editor.count" = "%1$d / %2$d 张";
 "common.save" = "保存";
 "common.edit" = "编辑";
-"menu.licenses" = "开源许可";
+"menu.licenses" = "开源许可证";
 "licenses.empty" = "RunHam 目前没有使用任何第三方开源库。";
 "licenses.source" = "代码仓库";
 "menu.reportProblem" = "报告问题";
