@@ -260,7 +260,16 @@ private struct MetricsBarSection: View {
 
     var body: some View {
         Section {
-            Toggle(isOn: $settings.showsMetricsBar) {
+            Toggle(isOn: Binding(
+                get: { settings.showsMetricsBar },
+                set: { newValue in
+                    if newValue {
+                        MetricsBarNotice.confirmEnabling(settings: settings)
+                    } else {
+                        settings.showsMetricsBar = false
+                    }
+                }
+            )) {
                 SettingLabel(L("settings.showMetricsBar"), symbol: "menubar.rectangle", detail: L("settings.showMetricsBar.detail"))
             }
             if settings.showsMetricsBar {
@@ -287,10 +296,6 @@ private struct MetricsBarSection: View {
             }
         } header: {
             Text(L("metricsBar.title"))
-        } footer: {
-            Text(L("settings.metricsBar.notch"))
-                .font(.caption)
-                .foregroundStyle(.secondary)
         }
     }
 }

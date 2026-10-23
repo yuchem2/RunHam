@@ -63,6 +63,7 @@ enum DevExport {
                     try png(rep).write(to: directory.appendingPathComponent("\(name)-\(code)-\(suffix).png"))
                 }
             }
+            try exportNotice(to: directory.appendingPathComponent("metricsbar-notice-\(code).png"))
         }
     }
 
@@ -99,6 +100,22 @@ enum DevExport {
             guard let tiff = output.tiffRepresentation, let rep = NSBitmapImageRep(data: tiff) else { continue }
             try png(rep).write(to: directory.appendingPathComponent("metricsbar-\(name).png"))
         }
+    }
+
+    /// 메트릭스 바 노치 안내 경고창을 띄우지 않고 그대로 그린다.
+    private static func exportNotice(to url: URL) throws {
+        let alert = NSAlert()
+        alert.messageText = L("metricsBar.notice.title")
+        alert.informativeText = L("settings.metricsBar.notch")
+        alert.addButton(withTitle: L("common.show"))
+        alert.addButton(withTitle: L("common.cancel"))
+        alert.showsSuppressionButton = true
+        alert.suppressionButton?.title = L("common.dontShowAgain")
+        alert.layout()
+        guard let view = alert.window.contentView,
+              let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return }
+        view.cacheDisplay(in: view.bounds, to: rep)
+        try png(rep).write(to: url)
     }
 
     static func snapshot(_ view: some View, appearance: NSAppearance) -> NSBitmapImageRep {

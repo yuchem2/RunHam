@@ -45,14 +45,14 @@
 
 /* 설정 - 일반 */
 "settings.launchAtLogin" = "로그인 시 실행";
-"settings.launchAtLogin.detail" = "로그인하면 메뉴바에서 바로 달리기 시작합니다.";
+"settings.launchAtLogin.detail" = "로그인하면 메뉴바에서 바로 실행됩니다.";
 "settings.language" = "언어";
-"settings.language.detail" = "앱 언어를 바로 바꿉니다.";
+"settings.language.detail" = "언어 변경";
 "settings.updateInterval" = "업데이트 간격";
-"settings.updateInterval.detail" = "시스템 메트릭을 측정하는 주기입니다.";
+"settings.updateInterval.detail" = "시스템 메트릭 측정 주기";
 "settings.seconds" = "%d초";
 "about.version" = "버전 %@";
-"about.credit" = "Takuto Nakamura의 RunCat Neo(Apache License 2.0)에서 영감을 받았습니다.";
+"about.credit" = "Apache License 2.0을 따릅니다.";
 
 /* 설정 - 러너 */
 "settings.preview" = "미리보기";
@@ -71,15 +71,18 @@
 
 /* 설정 - 메트릭 */
 "settings.section.dashboardCards" = "대시보드 카드";
-"settings.card.cpu.detail" = "사용률 그래프와 사용자 / 시스템 / 대기 비율입니다. 항상 표시됩니다.";
-"settings.card.memory.detail" = "앱, 와이어드, 압축 메모리입니다.";
-"settings.card.storage.detail" = "시동 디스크의 사용 가능한 공간입니다.";
-"settings.card.battery.detail" = "잔량, 충전 횟수, 성능 상태입니다. 배터리가 없는 Mac에서는 숨겨집니다.";
-"settings.card.network.detail" = "연결 종류, IP 주소, 현재 업로드 / 다운로드 속도입니다.";
+"settings.card.cpu.detail" = "사용률 그래프, 사용자 / 시스템 / 대기 비율 (항상 표시)";
+"settings.card.memory.detail" = "앱, 와이어드, 압축 메모리";
+"settings.card.storage.detail" = "시동 디스크의 사용 가능한 공간";
+"settings.card.battery.detail" = "잔량, 충전 횟수, 성능 상태 (배터리가 없는 Mac에서는 숨김)";
+"settings.card.network.detail" = "연결 종류, IP 주소, 현재 업로드 / 다운로드 속도";
 "settings.showMetricsBar" = "메트릭스 바 표시";
 "settings.showMetricsBar.detail" = "선택한 값을 메뉴바에 계속 표시합니다.";
 "settings.metricsBar.customDetail" = "metricsBarValue 값을 표시합니다.";
 "settings.metricsBar.notch" = "노치가 있는 MacBook에서는 메트릭스 바가 길면 노치에 가려지거나 다른 메뉴바 항목을 밀어낼 수 있습니다.";
+"metricsBar.notice.title" = "메트릭스 바 사용 시 주의사항";
+"common.show" = "표시";
+"common.dontShowAgain" = "다시 표시하지 않음";
 
 /* 사용자 지정 메트릭 */
 "custom.title" = "사용자 지정 메트릭";

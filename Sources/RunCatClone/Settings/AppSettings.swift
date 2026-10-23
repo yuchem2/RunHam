@@ -21,6 +21,7 @@ final class AppSettings {
         static let showsMetricsBar = "SHOWS_METRICS_BAR"
         static let metricsBar = "METRICS_BAR_CONFIGURATION"
         static let language = "APP_LANGUAGE"
+        static let metricsBarNoticeSuppressed = "METRICS_BAR_NOTICE_SUPPRESSED"
     }
 
     @ObservationIgnored private let defaults: UserDefaults
@@ -77,6 +78,11 @@ final class AppSettings {
         didSet { save((try? JSONEncoder().encode(metricsBar)) ?? Data(), Key.metricsBar) }
     }
 
+    /// 메트릭스 바를 켤 때 노치 안내를 다시 보지 않기로 했는지
+    var metricsBarNoticeSuppressed: Bool {
+        didSet { save(metricsBarNoticeSuppressed, Key.metricsBarNoticeSuppressed) }
+    }
+
     /// 표시 언어. 바꾸면 재시작 없이 바로 적용된다.
     var language: AppLanguage {
         didSet {
@@ -115,6 +121,7 @@ final class AppSettings {
         showsBattery = defaults.bool(forKey: Key.showsBattery)
         showsNetwork = defaults.bool(forKey: Key.showsNetwork)
         showsMetricsBar = defaults.bool(forKey: Key.showsMetricsBar)
+        metricsBarNoticeSuppressed = defaults.bool(forKey: Key.metricsBarNoticeSuppressed)
         language = AppLanguage(storageValue: defaults.string(forKey: Key.language) ?? AppLanguage.system.storageValue)
         metricsBar = defaults.data(forKey: Key.metricsBar)
             .flatMap { try? JSONDecoder().decode(MetricsBarConfiguration.self, from: $0) } ?? .default

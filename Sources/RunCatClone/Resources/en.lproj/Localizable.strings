@@ -47,12 +47,12 @@
 "settings.launchAtLogin" = "Launch at login";
 "settings.launchAtLogin.detail" = "Start running in the menu bar when you log in.";
 "settings.language" = "Language";
-"settings.language.detail" = "Changes the app's language right away.";
+"settings.language.detail" = "Change language";
 "settings.updateInterval" = "Update interval";
-"settings.updateInterval.detail" = "How often system metrics are sampled.";
+"settings.updateInterval.detail" = "System metrics sampling interval";
 "settings.seconds" = "%ds";
 "about.version" = "Version %@";
-"about.credit" = "Inspired by RunCat Neo by Takuto Nakamura (Apache License 2.0).";
+"about.credit" = "Licensed under the Apache License 2.0.";
 
 /* 설정 - 러너 */
 "settings.preview" = "Preview";
@@ -71,15 +71,18 @@
 
 /* 설정 - 메트릭 */
 "settings.section.dashboardCards" = "Dashboard Cards";
-"settings.card.cpu.detail" = "Usage graph and user / system / idle split. Always shown.";
-"settings.card.memory.detail" = "App, wired and compressed memory.";
-"settings.card.storage.detail" = "Available space on the startup disk.";
-"settings.card.battery.detail" = "Charge, cycle count and health. Hidden on Macs without a battery.";
-"settings.card.network.detail" = "Connection type, IP address and current upload / download speed.";
+"settings.card.cpu.detail" = "Usage graph, user / system / idle split (always shown)";
+"settings.card.memory.detail" = "App, wired and compressed memory";
+"settings.card.storage.detail" = "Available space on the startup disk";
+"settings.card.battery.detail" = "Charge, cycle count and health (hidden on Macs without a battery)";
+"settings.card.network.detail" = "Connection type, IP address, current upload / download speed";
 "settings.showMetricsBar" = "Show Metrics Bar";
 "settings.showMetricsBar.detail" = "Keeps selected values visible in the menu bar.";
 "settings.metricsBar.customDetail" = "Shows its metricsBarValue.";
 "settings.metricsBar.notch" = "On a MacBook with a notch, a long Metrics Bar may be hidden behind the notch or push other menu bar items out of view.";
+"metricsBar.notice.title" = "Notes on Using the Metrics Bar";
+"common.show" = "Show";
+"common.dontShowAgain" = "Don't show this again";
 
 /* 사용자 지정 메트릭 */
 "custom.title" = "Custom Metrics";
