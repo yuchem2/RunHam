@@ -72,16 +72,15 @@ struct GeneralSettingsView: View {
 }
 
 private struct AboutRow: View {
+    /// 번들 아이콘(.icns)과 같은 그림. 개발 실행(번들 밖)에서도 똑같이 보이도록 직접 그린다.
+    static let appIcon = AppIconRenderer.render(pixels: 88)
+
     var body: some View {
         HStack(spacing: 12) {
-            // 대표 캐릭터: 쳇바퀴 햄스터
-            let mascot = Runner.builtIns[0]
-            Image(decorative: mascot.previewFrames[0], scale: 1)
+            Image(decorative: Self.appIcon, scale: 2)
                 .resizable()
-                .interpolation(mascot.isPixelArt ? .none : .high)
-                .renderingMode(.template)
-                .foregroundStyle(.primary)
-                .frame(width: 48, height: 36)
+                .interpolation(.high)
+                .frame(width: 44, height: 44)
             VStack(alignment: .leading, spacing: 2) {
                 Text(L("app.name")).font(.headline)
                 Text(L("about.version", Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev"))
@@ -161,7 +160,7 @@ struct RunnerSettingsView: View {
                         }
                     }
                 } label: {
-                    SettingLabel(L("settings.runner"), symbol: "cat")
+                    SettingLabel(L("settings.runner"), icon: Image(decorative: HamsterSymbol.image, scale: 1).resizable())
                 }
                 Toggle(isOn: $settings.isFlippedHorizontally) {
                     SettingLabel(L("settings.flip"), symbol: "arrow.left.and.right.righttriangle.left.righttriangle.right")
@@ -480,12 +479,22 @@ private struct CustomMetricsSection: View {
 /// 아이콘 + 제목 + (선택) 한 줄 설명.
 private struct SettingLabel: View {
     var title: String
-    var symbol: String
+    var icon: Image
+    var isSymbol: Bool
     var detail: String?
 
     init(_ title: String, symbol: String, detail: String? = nil) {
         self.title = title
-        self.symbol = symbol
+        self.icon = Image(systemName: symbol)
+        self.isSymbol = true
+        self.detail = detail
+    }
+
+    /// SF Symbol 이 아닌 템플릿 이미지 아이콘(예: 외곽선 햄스터)
+    init(_ title: String, icon: Image, detail: String? = nil) {
+        self.title = title
+        self.icon = icon
+        self.isSymbol = false
         self.detail = detail
     }
 
@@ -500,9 +509,18 @@ private struct SettingLabel: View {
                 }
             }
         } icon: {
-            Image(systemName: symbol)
-                .foregroundStyle(.tint)
-                .frame(width: 20)
+            if isSymbol {
+                icon
+                    .foregroundStyle(.tint)
+                    .frame(width: 20)
+            } else {
+                icon
+                    .renderingMode(.template)
+                    .interpolation(.high)
+                    .scaledToFit()
+                    .foregroundStyle(.tint)
+                    .frame(width: 20, height: 16)
+            }
         }
     }
 }
