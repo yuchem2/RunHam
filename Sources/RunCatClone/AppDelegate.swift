@@ -22,6 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = item
 
         statusMenu.onOpenSettings = { [weak self] in self?.settingsWindow.show() }
+        statusMenu.onWillOpen = { [weak self] in self?.monitor.refreshStorage() }
         settings.onChange = { [weak self] in self?.applySettings() }
         monitor.onCPUUpdate = { [weak self] percent in self?.cpuDidUpdate(percent) }
         applySettings()

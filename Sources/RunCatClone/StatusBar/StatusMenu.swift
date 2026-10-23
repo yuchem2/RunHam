@@ -9,6 +9,7 @@ final class StatusMenu: NSObject, NSMenuDelegate {
     private let dashboardView: NSHostingView<DashboardView>
 
     var onOpenSettings: (() -> Void)?
+    var onWillOpen: (() -> Void)?
 
     init(metrics: SystemMetrics, settings: AppSettings) {
         dashboardView = NSHostingView(rootView: DashboardView(metrics: metrics, settings: settings))
@@ -34,6 +35,7 @@ final class StatusMenu: NSObject, NSMenuDelegate {
 
     // 카드 표시 설정이나 배터리 유무에 따라 높이가 달라지므로 열 때마다 맞춘다.
     func menuWillOpen(_ menu: NSMenu) {
+        onWillOpen?()
         resizeDashboard()
     }
 

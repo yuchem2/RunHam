@@ -34,7 +34,11 @@ final class MetricsMonitor {
     let metrics = SystemMetrics()
     var onCPUUpdate: ((Double) -> Void)?
 
+    /// 저장공간 가용량 조회(`volumeAvailableCapacityForImportantUsage`)는 CacheDelete 를 거쳐 비싸므로 드물게 갱신한다.
+    static let storageRefreshInterval: TimeInterval = 60
+
     private var cpuSampler = CPUSampler()
+    private var lastStorageRefresh: Date?
     private var lastNetwork: (counters: NetworkCounters, time: Date)?
     private var timer: Timer?
     private let pathMonitor = NWPathMonitor()
@@ -74,7 +78,9 @@ final class MetricsMonitor {
             onCPUUpdate?(snapshot.percent)
         }
         metrics.memory = MemoryUsage.current()
-        metrics.storage = StorageUsage.current()
+        if lastStorageRefresh.map({ now.timeIntervalSince($0) >= Self.storageRefreshInterval }) ?? true {
+            refreshStorage()
+        }
         metrics.battery = BatteryStatus.current()
         if let counters = NetworkCounters.current() {
             if let last = lastNetwork {
@@ -83,6 +89,11 @@ final class MetricsMonitor {
             lastNetwork = (counters, now)
         }
         metrics.lastUpdated = now
+    }
+
+    func refreshStorage() {
+        metrics.storage = StorageUsage.current()
+        lastStorageRefresh = Date()
     }
 
     private nonisolated static func interfaceName(for path: NWPath) -> String? {
