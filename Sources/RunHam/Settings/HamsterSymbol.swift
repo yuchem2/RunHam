@@ -5,8 +5,8 @@ import AppKit
 enum HamsterSymbol {
     /// 웅크린 첫 자세가 가장 동글동글하다
     static let pose = HamsterHopSprite.poses[0]
-    /// 실루엣 좌표 단위의 선 두께(아이콘 크기 20pt 에서 약 1.3pt)
-    static let lineWidth: CGFloat = 1.5
+    /// 실루엣 좌표 단위의 선 두께. 툴바(17pt)에서 약 1.1pt 로 SF Symbol 보통 굵기와 비슷하다.
+    static let lineWidth: CGFloat = 1.1
     static let pixelsPerUnit: CGFloat = 8
 
     static let image: CGImage = trimmed(render())
