@@ -113,8 +113,8 @@ struct LicensesView: View {
 
 /// 문제를 알릴 때 붙일 환경 정보를 만들어 복사하게 한다.
 struct BugReportView: View {
-    /// 이슈를 받을 곳(예: GitHub 저장소의 새 이슈 주소). 정해지면 넣고, 없으면 복사만 한다.
-    static let issuesURL: URL? = nil
+    /// 이슈를 받을 곳(GitHub 저장소의 새 이슈 화면). nil 이면 복사만 한다.
+    static let issuesURL: URL? = URL(string: "https://github.com/yuchem2/RunHam/issues/new")
 
     var settings: AppSettings
     var customRunners: CustomRunnerStore

@@ -53,6 +53,6 @@ RunCat Neo (Copyright 2026 Kyome22 / Takuto Nakamura, Apache License 2.0, https:
 원본 코드를 가져올 경우 해당 파일에 원본 저작권 헤더를 유지하고, 변경 사실을 적고, Apache 2.0 LICENSE 사본을 함께 둔다.
 앱 안에서는 메뉴 맨 위 햄버거 버튼 → "사용한 오픈소스 라이선스" 에서 출처와 Apache License 2.0 전문(`Resources/Licenses/Apache-2.0.txt`)을 볼 수 있다.
 
-## 아직 없는 것
+## 라이선스
 
-- 버그 리포트를 받을 이슈 페이지 주소(`BugReportView.issuesURL`). 정해지기 전까지는 환경 정보 복사만 한다
+Apache License 2.0 (`LICENSE`). 버그 리포트는 https://github.com/yuchem2/RunHam/issues 로 받는다(앱 메뉴 → 버그 리포트).
