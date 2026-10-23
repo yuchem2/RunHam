@@ -11,8 +11,8 @@ final class StatusMenu: NSObject, NSMenuDelegate {
     var onOpenSettings: (() -> Void)?
     var onWillOpen: (() -> Void)?
 
-    init(metrics: SystemMetrics, settings: AppSettings) {
-        dashboardView = NSHostingView(rootView: DashboardView(metrics: metrics, settings: settings))
+    init(metrics: SystemMetrics, settings: AppSettings, customMetrics: CustomMetricsStore) {
+        dashboardView = NSHostingView(rootView: DashboardView(metrics: metrics, settings: settings, customMetrics: customMetrics))
         super.init()
         menu.delegate = self
         dashboardItem.view = dashboardView

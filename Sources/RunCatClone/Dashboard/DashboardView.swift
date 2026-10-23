@@ -5,6 +5,7 @@ import SwiftUI
 struct DashboardView: View {
     var metrics: SystemMetrics
     var settings: AppSettings
+    var customMetrics: CustomMetricsStore
 
     static let width: CGFloat = 300
 
@@ -23,8 +24,15 @@ struct DashboardView: View {
             if settings.showsNetwork {
                 networkCard
             }
+            ForEach(customMetrics.sources) { source in
+                CustomMetricsCard(
+                    source: source,
+                    document: customMetrics.snapshots[source.id],
+                    failed: customMetrics.failedIDs.contains(source.id)
+                )
+            }
             if let updated = metrics.lastUpdated {
-                Text("Last updated: \(updated.formatted(date: .omitted, time: .standard))")
+                Text("Last updated: \(updated.formatted(Date.FormatStyle(date: .omitted, time: .standard).locale(Format.locale)))")
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -120,6 +128,36 @@ private struct MetricCard<Content: View>: View {
     }
 }
 
+/// Custom Metrics JSON 한 개를 카드로 그린다. 행은 `title: formattedValue`, normalizedValue 가 있으면 강조색 막대.
+private struct CustomMetricsCard: View {
+    var source: CustomMetricsStore.Source
+    var document: CustomMetricsDocument?
+    var failed: Bool
+
+    var body: some View {
+        MetricCard(
+            symbol: document?.resolvedSymbol ?? CustomMetricsDocument.defaultSymbol,
+            title: document?.title ?? source.fileName,
+            value: ""
+        ) {
+            ForEach(Array((document?.metrics ?? []).enumerated()), id: \.offset) { _, metric in
+                Text("\(metric.title): \(metric.formattedValue)")
+                    .lineLimit(1)
+                if let ratio = metric.normalizedValue {
+                    UsageBar(ratio: ratio, tint: .accentColor)
+                }
+            }
+            if failed || document == nil {
+                Label("Error Detected", systemImage: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.red)
+            } else if let updated = document?.lastUpdatedDate {
+                Text("Updated \(updated.formatted(.relative(presentation: .named).locale(Format.locale)))")
+                    .foregroundStyle(.tertiary)
+            }
+        }
+    }
+}
+
 /// IP 주소 한 줄. 누르면 주소를 클립보드에 복사한다.
 private struct AddressRow: View {
     var label: String
@@ -157,6 +195,8 @@ private struct AddressRow: View {
 private struct UsageBar: View {
     var ratio: Double
     var inverted = false
+    /// 지정하면 사용률과 관계없이 이 색으로 칠한다.
+    var tint: Color?
 
     var body: some View {
         GeometryReader { proxy in
@@ -171,6 +211,7 @@ private struct UsageBar: View {
     }
 
     private var color: Color {
+        if let tint { return tint }
         let level = inverted ? 1 - ratio : ratio
         switch level {
         case ..<0.6: return .green
@@ -221,6 +262,9 @@ private struct LineGraph: View {
 }
 
 enum Format {
+    /// UI 문자열이 영어뿐이라 날짜도 앱 현지화(영어)에 맞춰 섞이지 않게 한다.
+    static let locale = Locale(identifier: Bundle.main.preferredLocalizations.first ?? "en")
+
     static func percent(_ value: Double) -> String {
         String(format: "%.1f%%", value)
     }

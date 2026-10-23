@@ -28,6 +28,12 @@ enum DevExport {
 
     private static func exportViews(to directory: URL) throws {
         let settings = AppSettings(defaults: UserDefaults(suiteName: "RunCatClone.DevExport")!)
+        let customMetrics = CustomMetricsStore(defaults: UserDefaults(suiteName: "RunCatClone.DevExport")!)
+        let sample = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+            .appendingPathComponent("../../docs/custom-metrics-sample.json").standardizedFileURL
+        if FileManager.default.fileExists(atPath: sample.path) {
+            try? customMetrics.add(sample)
+        }
         let monitor = MetricsMonitor()
         monitor.sample()
         // 네트워크 연결 상태(NWPathMonitor)는 메인 큐 콜백으로 오므로 런루프를 돌리며 기다린다.
@@ -36,11 +42,12 @@ enum DevExport {
             monitor.sample()
         }
         let views: [(String, AnyView)] = [
-            ("dashboard", AnyView(DashboardView(metrics: monitor.metrics, settings: settings))),
+            ("dashboard", AnyView(DashboardView(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics))),
             ("settings-general", AnyView(GeneralSettingsView(settings: settings, launchAtLogin: LaunchAtLogin()))),
             ("settings-runner", AnyView(RunnerSettingsView(settings: settings, metrics: monitor.metrics))),
-            ("settings-metrics", AnyView(MetricsSettingsView(settings: settings))),
+            ("settings-metrics", AnyView(MetricsSettingsView(settings: settings, customMetrics: customMetrics))),
         ]
+        defer { customMetrics.sources.forEach { customMetrics.remove($0.id) } }
         for (name, view) in views {
             // 대시보드는 투명 배경이라 다크 캡처에선 글자가 보이지 않아 라이트만 내보낸다.
             let appearances: [NSAppearance.Name] = name == "dashboard" ? [.aqua] : [.aqua, .darkAqua]

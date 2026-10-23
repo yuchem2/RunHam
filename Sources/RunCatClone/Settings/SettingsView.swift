@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 /// 설정 탭 공통 폭. 탭마다 높이만 달라지고 폭은 같게 유지한다.
@@ -206,6 +207,7 @@ private struct RunnerStage: View {
 
 struct MetricsSettingsView: View {
     @Bindable var settings: AppSettings
+    var customMetrics: CustomMetricsStore
 
     var body: some View {
         Form {
@@ -229,10 +231,88 @@ struct MetricsSettingsView: View {
             } header: {
                 Text("Dashboard Cards")
             }
+
+            CustomMetricsSection(store: customMetrics)
         }
         .formStyle(.grouped)
         .frame(width: SettingsLayout.width)
         .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+/// 등록한 JSON 파일 목록. 추가할 때 스키마를 검사하고, 지울 때는 카드만 지운다고 확인받는다.
+private struct CustomMetricsSection: View {
+    static let schemaURL = URL(string: "https://github.com/runcat-dev/RunCatNeo/blob/main/docs/CustomMetricsSchema.md")!
+
+    var store: CustomMetricsStore
+
+    var body: some View {
+        Section {
+            ForEach(store.sources) { source in
+                HStack(spacing: 8) {
+                    Image(systemName: store.failedIDs.contains(source.id) ? "exclamationmark.triangle.fill" : "doc.text")
+                        .foregroundStyle(store.failedIDs.contains(source.id) ? AnyShapeStyle(.red) : AnyShapeStyle(.tint))
+                        .frame(width: 20)
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(store.snapshots[source.id]?.title ?? source.fileName)
+                        Text(source.path)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                    }
+                    Spacer()
+                    Button {
+                        confirmRemoval(of: source)
+                    } label: {
+                        Image(systemName: "minus.circle.fill")
+                            .foregroundStyle(.secondary)
+                    }
+                    .buttonStyle(.plain)
+                    .help("Remove")
+                }
+            }
+            HStack {
+                Button("Add Custom Metrics Source…", action: addSource)
+                Spacer()
+                Link("View JSON schema", destination: Self.schemaURL)
+                    .font(.caption)
+            }
+        } header: {
+            Text("Custom Metrics")
+        } footer: {
+            Text("The registered JSON content is shown as cards on the dashboard and reloads whenever the file changes. Updating the content is up to you (for example, a script or cron job). Compatible with RunCat Neo's schema.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private func addSource() {
+        let panel = NSOpenPanel()
+        panel.message = "Choose a JSON file."
+        panel.allowedContentTypes = [.json]
+        panel.allowsMultipleSelection = false
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            try store.add(url)
+        } catch {
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = "Failed importing custom metrics source."
+            alert.informativeText = error.localizedDescription
+            alert.runModal()
+        }
+    }
+
+    private func confirmRemoval(of source: CustomMetricsStore.Source) {
+        let alert = NSAlert()
+        alert.messageText = "Remove Custom Metrics?"
+        alert.informativeText = "Its card will disappear from the dashboard. The underlying JSON file on disk is not deleted."
+        alert.addButton(withTitle: "Remove")
+        alert.addButton(withTitle: "Cancel")
+        if alert.runModal() == .alertFirstButtonReturn {
+            store.remove(source.id)
+        }
     }
 }
 
