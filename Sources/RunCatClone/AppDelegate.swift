@@ -3,8 +3,12 @@ import AppKit
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
+    private let settings = AppSettings()
+    private lazy var statusMenu = StatusMenu(settings: settings)
     private let runnerView = RunnerStatusView()
     private let monitor = CPUMonitor()
+    private var appliedRunner: (id: String, flipped: Bool)?
+    private var appliedInterval: TimeInterval?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -13,27 +17,36 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             runnerView.autoresizingMask = [.width, .height]
             button.addSubview(runnerView)
         }
-        let menu = NSMenu()
-        menu.addItem(withTitle: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
-        item.menu = menu
+        item.menu = statusMenu.menu
         statusItem = item
 
-        runnerView.setRunner(Runner.builtIn(id: "cat"), flipped: false)
-        runnerView.showsCPU = true
-        item.length = runnerView.preferredWidth
-
-        monitor.onUpdate = { [weak self] percent in
-            self?.cpuDidUpdate(percent)
-        }
-        monitor.start(interval: 2)
+        statusMenu.onChange = { [weak self] in self?.applySettings() }
+        monitor.onUpdate = { [weak self] percent in self?.cpuDidUpdate(percent) }
+        applySettings()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         monitor.stop()
     }
 
+    private func applySettings() {
+        let runner = (id: settings.runnerID, flipped: settings.isFlippedHorizontally)
+        if appliedRunner?.id != runner.id || appliedRunner?.flipped != runner.flipped {
+            runnerView.setRunner(Runner.builtIn(id: runner.id), flipped: runner.flipped)
+            appliedRunner = runner
+        }
+        if appliedInterval != settings.updateInterval {
+            monitor.start(interval: settings.updateInterval)
+            appliedInterval = settings.updateInterval
+        }
+        runnerView.showsCPU = settings.showsCPUUsage
+        statusItem?.length = runnerView.preferredWidth
+        cpuDidUpdate(monitor.latestPercent)
+    }
+
     private func cpuDidUpdate(_ percent: Double) {
+        statusMenu.cpuPercent = percent
         runnerView.cpuText = String(format: "%.1f%%", percent)
-        runnerView.setSpeed(RunnerSpeed.speed(cpuPercent: percent, decreasesUnderLoad: false))
+        runnerView.setSpeed(RunnerSpeed.speed(cpuPercent: percent, decreasesUnderLoad: settings.speedDecreasesUnderLoad))
     }
 }
