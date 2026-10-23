@@ -1,79 +1,134 @@
 import CoreGraphics
-import Foundation
 
-/// 원본 에셋을 쓰지 않고 코드로 그리는 고양이 실루엣 (56×36px, 5프레임 갤럽).
+/// 도트로 그린 고양이 러너 (28×18pt 캔버스, @2x 56×36px, 5프레임 갤럽).
+/// 원본 에셋을 쓰지 않고 머리·몸통·꼬리·다리 부품을 프레임마다 다시 배치해 만든다.
 enum CatSprite {
-    static let width = 56
-    static let frameCount = 5
+    static let canvasWidth = 28
+    static let canvasHeight = 18
+    static let pixelScale = 2
 
     static func makeRunner() -> Runner {
-        let frames = (0..<frameCount).map { index in
-            SpriteRenderer.render(width: width) { draw(in: $0, phase: Double(index) / Double(frameCount)) }
+        Runner(id: "cat", name: "Cat", frames: frames.map { render($0).makeImage(scale: pixelScale) })
+    }
+
+    // MARK: - 부품
+
+    /// 머리 11×9. 정면을 보는 큰 얼굴이 몸통 앞쪽 위에 얹혀 2등신 느낌을 낸다.
+    static let head = PixelSprite([
+        ".#.......#.",
+        ".##.....##.",
+        ".#+#####+#.",
+        "###########",
+        "###o###o###",
+        "###o###o###",
+        "#+###+###+#",
+        ".#########.",
+        "..#######..",
+    ])
+
+    /// 몸통 10×5. 짧고 둥글게 해서 머리가 큰 2등신 비율을 만든다.
+    static let body = PixelSprite([
+        "..######..",
+        ".########.",
+        "##########",
+        "##########",
+        ".########.",
+    ])
+
+    enum Tail {
+        case up, mid, down
+
+        var sprite: PixelSprite {
+            switch self {
+            case .up:
+                PixelSprite([
+                    "##...",
+                    "##...",
+                    ".##..",
+                    "..##.",
+                    "...##",
+                ])
+            case .mid:
+                PixelSprite([
+                    "##....",
+                    ".###..",
+                    "...###",
+                ])
+            case .down:
+                PixelSprite([
+                    "....##",
+                    "..###.",
+                    "###...",
+                ])
+            }
         }
-        return Runner(id: "cat", name: "Cat", frames: frames)
+
+        /// 꼬리 오른쪽 끝이 몸통 왼쪽 위에 닿도록 몸통 기준 상대 위치로 둔다.
+        var offset: (x: Int, y: Int) {
+            switch self {
+            case .up: (-4, -3)
+            case .mid: (-5, -1)
+            case .down: (-5, 1)
+            }
+        }
     }
 
-    /// phase 0..<1 — 0 에서 다리가 가장 크게 벌어지고 0.5 에서 모인다.
-    private static func draw(in ctx: CGContext, phase: Double) {
-        let wave = cos(phase * 2 * .pi)
-        let bob = CGFloat(sin(phase * 2 * .pi)) * 1.5
-        let tilt = CGFloat(wave) * 0.08
+    // MARK: - 프레임
 
-        ctx.saveGState()
-        ctx.translateBy(x: 28, y: 17 + bob)
-        ctx.rotate(by: tilt)
-
-        // 몸통
-        ctx.addEllipse(in: CGRect(x: -13, y: -5.5, width: 26, height: 11))
-        ctx.fillPath()
-
-        // 머리
-        ctx.addEllipse(in: CGRect(x: 10, y: -1, width: 13, height: 12))
-        ctx.fillPath()
-
-        // 귀
-        ctx.move(to: CGPoint(x: 11.5, y: 8))
-        ctx.addLine(to: CGPoint(x: 13, y: 15))
-        ctx.addLine(to: CGPoint(x: 17, y: 10))
-        ctx.move(to: CGPoint(x: 17, y: 10.5))
-        ctx.addLine(to: CGPoint(x: 21, y: 15.5))
-        ctx.addLine(to: CGPoint(x: 22, y: 8))
-        ctx.fillPath()
-
-        // 꼬리: 달리는 박자에 맞춰 위아래로 흔든다
-        let tailLift = CGFloat(-wave) * 4
-        ctx.setLineWidth(3)
-        ctx.move(to: CGPoint(x: -11, y: 2))
-        ctx.addQuadCurve(to: CGPoint(x: -25, y: 6 + tailLift), control: CGPoint(x: -19, y: 0))
-        ctx.strokePath()
-
-        // 다리: 앞다리는 앞으로, 뒷다리는 뒤로 뻗었다가 몸 아래로 모인다
-        ctx.setLineWidth(3.4)
-        // 모으는 구간은 덜 교차시키고 발끝만 바깥으로 꺾어 다리가 겹쳐 보이지 않게 한다
-        let spread = wave >= 0 ? 0.9 * wave : 0.45 * wave
-        let tuck = max(0, -wave)
-        drawLeg(ctx, hip: CGPoint(x: 9, y: -2), angle: spread + 0.15, bend: 0.9 * tuck, length: 12)
-        drawLeg(ctx, hip: CGPoint(x: 6, y: -2), angle: spread - 0.2, bend: 0.6 * tuck, length: 12)
-        drawLeg(ctx, hip: CGPoint(x: -7, y: -2), angle: -spread - 0.1, bend: -0.9 * tuck, length: 12)
-        drawLeg(ctx, hip: CGPoint(x: -10, y: -2), angle: -spread + 0.25, bend: -0.6 * tuck, length: 12)
-
-        ctx.restoreGState()
+    /// 다리는 프레임마다 몸통 아래 3행짜리 띠로 직접 그린다(짧은 다리가 더 귀엽다).
+    /// 가까운 쪽 다리는 `#`, 먼 쪽 다리는 `+`(반투명)로 칠해 다리가 뭉치지 않고 앞뒤가 읽히게 한다.
+    struct Pose {
+        var lift: Int
+        var tail: Tail
+        var legs: PixelSprite
     }
 
-    /// angle 은 수직 아래 기준 라디안, 양수면 진행 방향(+x)으로 뻗는다. bend 는 무릎 아래를 추가로 꺾는 각도.
-    private static func drawLeg(_ ctx: CGContext, hip: CGPoint, angle: Double, bend: Double, length: CGFloat) {
-        let knee = CGPoint(
-            x: hip.x + CGFloat(sin(angle)) * length * 0.55,
-            y: hip.y - CGFloat(cos(angle)) * length * 0.55
-        )
-        let footAngle = angle * 0.6 + bend
-        let foot = CGPoint(
-            x: knee.x + CGFloat(sin(footAngle)) * length * 0.5,
-            y: knee.y - CGFloat(cos(footAngle)) * length * 0.5
-        )
-        ctx.move(to: hip)
-        ctx.addLine(to: knee)
-        ctx.addLine(to: foot)
-        ctx.strokePath()
+    static let frames: [Pose] = [
+        // 쭉 뻗기: 앞다리는 앞으로, 뒷다리는 뒤로
+        Pose(lift: 0, tail: .mid, legs: PixelSprite([
+            "..##++....++##..",
+            ".##++......++##.",
+            "##++........++##",
+        ])),
+        // 앞발 착지, 뒷다리 앞으로 끌어오기
+        Pose(lift: 0, tail: .up, legs: PixelSprite([
+            "..##++....++##..",
+            "..##.++...++##..",
+            ".##...++..++##..",
+        ])),
+        // 모으기: 네 다리를 배 밑으로 접고 몸이 떠오른다
+        Pose(lift: 1, tail: .up, legs: PixelSprite([
+            "...##+..+##.....",
+            "....##..##......",
+        ])),
+        // 뒷발 착지, 앞다리 뻗을 준비
+        Pose(lift: 0, tail: .mid, legs: PixelSprite([
+            "...##++...++##..",
+            "...##++....++##.",
+            "...##++.....++##",
+        ])),
+        // 박차기: 뒷다리로 밀며 앞다리를 내민다
+        Pose(lift: 0, tail: .down, legs: PixelSprite([
+            "..##++...++##...",
+            ".##++....++.##..",
+            "##++.....++..##.",
+        ])),
+    ]
+
+    static let bodyOrigin = (x: 8, y: 10)
+    static let headOrigin = (x: 15, y: 3)
+    /// 다리 띠의 왼쪽 끝 x
+    static let legsX = 5
+
+    static func render(_ pose: Pose) -> PixelCanvas {
+        var canvas = PixelCanvas(width: canvasWidth, height: canvasHeight)
+        let dy = -pose.lift
+        let bodyY = bodyOrigin.y + dy
+
+        canvas.stamp(pose.legs, x: legsX, y: bodyY + body.height)
+        canvas.stamp(body, x: bodyOrigin.x, y: bodyY)
+        canvas.stamp(pose.tail.sprite, x: bodyOrigin.x + pose.tail.offset.x, y: bodyY + pose.tail.offset.y)
+        canvas.stamp(head, x: headOrigin.x, y: headOrigin.y + dy)
+        return canvas
     }
 }

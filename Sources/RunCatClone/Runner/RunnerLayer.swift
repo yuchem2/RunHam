@@ -10,6 +10,9 @@ final class RunnerLayer: CALayer {
     override init() {
         super.init()
         spriteLayer.contentsGravity = .resizeAspect
+        // 도트 러너가 확대·축소될 때 번지지 않게 한다.
+        spriteLayer.magnificationFilter = .nearest
+        spriteLayer.minificationFilter = .nearest
         mask = spriteLayer
     }
 
