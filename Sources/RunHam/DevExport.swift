@@ -73,9 +73,11 @@ enum DevExport {
                 let header = DashboardHeaderModel()
                 header.isExpanded = true
                 header.items = [
-                    .init(symbol: "info.circle", key: "menu.about") {},
-                    .init(symbol: "gearshape", key: "menu.settings", shortcut: "⌘,", startsGroup: true) {},
+                    .init(symbol: "gearshape", key: "menu.settings", shortcut: "⌘,") {},
                     .init(symbol: "waveform.path.ecg.rectangle", key: "menu.activityMonitor") {},
+                    .init(symbol: "info.circle", key: "menu.about", startsGroup: true) {},
+                    .init(symbol: "doc.text", key: "menu.licenses") {},
+                    .init(symbol: "ladybug", key: "menu.bugReport") {},
                     .init(symbol: "power", key: "menu.quit", shortcut: "⌘Q", startsGroup: true) {},
                 ]
                 return AnyView(DashboardView(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics, header: header))
@@ -83,6 +85,8 @@ enum DevExport {
             ("settings-general", { AnyView(GeneralSettingsView(settings: settings, launchAtLogin: LaunchAtLogin())) }),
             ("settings-runner", { AnyView(RunnerSettingsView(settings: settings, metrics: monitor.metrics, customRunners: customRunners)) }),
             ("settings-metrics", { AnyView(MetricsSettingsView(settings: settings, customMetrics: customMetrics)) }),
+            ("licenses", { AnyView(LicensesView()) }),
+            ("bug-report", { AnyView(BugReportView(settings: settings, customRunners: customRunners)) }),
             ("custom-runner-editor", {
                 let draft = CustomRunnerDraft(name: "Hamster", images: Runner.builtIns[0].frames)
                 draft.selection = draft.frames[2].id

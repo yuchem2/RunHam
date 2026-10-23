@@ -16,6 +16,8 @@ final class StatusMenu: NSObject, NSMenuDelegate {
     private let dashboardView = NSHostingView(rootView: AnyView(EmptyView()))
 
     var onOpenSettings: (() -> Void)?
+    var onOpenLicenses: (() -> Void)?
+    var onOpenBugReport: (() -> Void)?
     var onWillOpen: (() -> Void)?
 
     init(metrics: SystemMetrics, settings: AppSettings, customMetrics: CustomMetricsStore) {
@@ -23,14 +25,20 @@ final class StatusMenu: NSObject, NSMenuDelegate {
         super.init()
         // 메뉴를 먼저 닫고 나서 실행해야 설정 창이 메뉴 뒤로 숨지 않는다
         header.items = [
-            .init(symbol: "info.circle", key: "menu.about") { [weak self] in
-                self?.closeMenu { Self.showAbout() }
-            },
-            .init(symbol: "gearshape", key: "menu.settings", shortcut: "⌘,", startsGroup: true) { [weak self] in
+            .init(symbol: "gearshape", key: "menu.settings", shortcut: "⌘,") { [weak self] in
                 self?.closeMenu { self?.onOpenSettings?() }
             },
             .init(symbol: "waveform.path.ecg.rectangle", key: "menu.activityMonitor") { [weak self] in
                 self?.closeMenu { self?.openActivityMonitor() }
+            },
+            .init(symbol: "info.circle", key: "menu.about", startsGroup: true) { [weak self] in
+                self?.closeMenu { Self.showAbout() }
+            },
+            .init(symbol: "doc.text", key: "menu.licenses") { [weak self] in
+                self?.closeMenu { self?.onOpenLicenses?() }
+            },
+            .init(symbol: "ladybug", key: "menu.bugReport") { [weak self] in
+                self?.closeMenu { self?.onOpenBugReport?() }
             },
             .init(symbol: "power", key: "menu.quit", shortcut: "⌘Q", startsGroup: true) { [weak self] in
                 self?.closeMenu { NSApp.terminate(nil) }

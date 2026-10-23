@@ -12,7 +12,7 @@ final class DashboardHeaderModel {
         var key: String
         /// 오른쪽에 흐리게 보여 줄 단축키(⌘, 등)
         var shortcut: String?
-        /// 위에 구분선을 긋는다(종료처럼 성격이 다른 항목)
+        /// 위에 구분선을 긋는다(묶음이 바뀌는 첫 항목)
         var startsGroup = false
         var action: () -> Void
     }
@@ -68,8 +68,8 @@ struct DashboardOptionsPanel: View {
         }
         .padding(5)
         .frame(width: 200)
-        // 설정 창과 같은 바탕색(라이트는 흰색)
-        .background(Color(nsColor: .textBackgroundColor), in: RoundedRectangle(cornerRadius: 9))
+        // macOS 메뉴처럼 반투명 바탕
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 9))
         .overlay(RoundedRectangle(cornerRadius: 9).stroke(Color.primary.opacity(0.12)))
         .shadow(color: .black.opacity(0.18), radius: 10, y: 4)
     }

@@ -1,4 +1,5 @@
 import AppKit
+import SwiftUI
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -10,6 +11,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private lazy var statusMenu = StatusMenu(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics)
     private lazy var metricsBar = MetricsBarController(settings: settings, metrics: monitor.metrics, customMetrics: customMetrics)
     private lazy var settingsWindow = SettingsWindowController(settings: settings, metrics: monitor.metrics, customMetrics: customMetrics, customRunners: customRunners)
+    private lazy var licensesWindow = InfoWindowController(titleKey: "menu.licenses") { AnyView(LicensesView()) }
+    private lazy var bugReportWindow = InfoWindowController(titleKey: "menu.bugReport") { [settings, customRunners] in
+        AnyView(BugReportView(settings: settings, customRunners: customRunners))
+    }
     private let runnerView = RunnerStatusView()
     private var appliedRunner: (id: String, flipped: Bool)?
     private var appliedInterval: TimeInterval?
@@ -25,6 +30,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = item
 
         statusMenu.onOpenSettings = { [weak self] in self?.settingsWindow.show() }
+        statusMenu.onOpenLicenses = { [weak self] in self?.licensesWindow.show() }
+        statusMenu.onOpenBugReport = { [weak self] in self?.bugReportWindow.show() }
         statusMenu.onWillOpen = { [weak self] in self?.monitor.refreshStorage() }
         metricsBar.onOpenSettings = { [weak self] in self?.settingsWindow.show() }
         settings.onChange = { [weak self] in self?.applySettings() }

@@ -132,3 +132,13 @@
 "customRunner.editor.count" = "%1$d / %2$d장";
 "common.save" = "저장";
 "common.edit" = "편집";
+"menu.licenses" = "사용한 오픈소스 라이선스";
+"menu.bugReport" = "버그 리포트";
+"licenses.intro" = "RunHam은 아래 오픈소스의 동작과 데이터 형식을 참고해 새로 만들었습니다. 원본 코드와 이미지는 포함하지 않습니다.";
+"licenses.source" = "저장소";
+"licenses.runCatNeo.usage" = "참고: 메뉴바 러너 동작, 메트릭스 바 배치, 커스텀 메트릭 JSON 형식, 커스텀 러너 프레임 규칙";
+"licenses.fullText" = "Apache License 2.0 전문";
+"bugReport.intro" = "문제를 알려 주실 때 무엇을 하다가 어떤 일이 생겼는지와 함께 아래 환경 정보를 붙여 주세요.";
+"bugReport.copy" = "환경 정보 복사";
+"bugReport.copied" = "복사했습니다";
+"bugReport.openIssues" = "이슈 페이지 열기";
