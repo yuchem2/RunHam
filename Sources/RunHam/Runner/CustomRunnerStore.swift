@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import Observation
 
-/// RunCat Neo 와 같은 규칙의 커스텀 러너 프레임 오류
+/// 커스텀 러너 프레임 오류
 enum CustomRunnerError: LocalizedError, Equatable {
     case noFrames
     case invalidFrame(String)
@@ -19,8 +19,9 @@ enum CustomRunnerError: LocalizedError, Equatable {
     }
 }
 
-/// PNG 프레임 폴더(또는 파일들)를 읽고 RunCat Neo 커스텀 러너 규칙으로 검사한다.
-/// 규칙: PNG, 높이 36px(메뉴바 18pt @2x), 너비 10~100px, 1~30장. 파일 이름 순서(숫자는 크기 순)로 재생한다.
+/// PNG 프레임 폴더(또는 파일들)를 읽고 커스텀 러너 규칙으로 검사한다.
+/// 규칙: PNG, 높이 36px(메뉴바 18pt @2x), 너비 10~100px, 1~30장. 폴더는 파일 이름 순서(숫자는 크기 순)로 읽고,
+/// 순서는 편집 시트에서 바꿀 수 있다.
 enum CustomRunnerImporter {
     static let frameHeight = 36
     static let frameWidths = 10...100
@@ -46,6 +47,15 @@ enum CustomRunnerImporter {
                 frameWidths.contains(image.width)
             else { throw CustomRunnerError.invalidFrame(url.lastPathComponent) }
             return image
+        }
+    }
+
+    /// 이미 읽은 프레임들이 규칙(장수·크기)에 맞는지
+    static func validate(_ frames: [CGImage]) throws {
+        guard !frames.isEmpty else { throw CustomRunnerError.noFrames }
+        guard frames.count <= maxFrames else { throw CustomRunnerError.tooManyFrames }
+        guard frames.allSatisfy({ $0.height == frameHeight && frameWidths.contains($0.width) }) else {
+            throw CustomRunnerError.invalidFrame("")
         }
     }
 
@@ -94,25 +104,26 @@ final class CustomRunnerStore {
         runners.first { $0.id == id }
     }
 
-    /// 폴더의 PNG 프레임을 검사해 복사하고 러너로 등록한다. 이름이 겹치면 숫자를 붙인다.
+    /// 폴더의 PNG 프레임을 파일 이름 순서로 읽어 바로 등록한다(개발용 `--import-runner`).
     @discardableResult
     func add(folder: URL, name: String? = nil, isTemplate: Bool = true) throws -> Runner {
         let frames = try CustomRunnerImporter.loadFrames(from: CustomRunnerImporter.frameURLs(in: folder))
+        return try add(frames: frames, name: name ?? CustomRunnerImporter.suggestedName(for: folder), isTemplate: isTemplate)
+    }
+
+    /// 편집 시트에서 정한 순서 그대로 프레임을 복사해 등록한다. 이름이 겹치면 숫자를 붙인다.
+    @discardableResult
+    func add(frames: [CGImage], name: String, isTemplate: Bool) throws -> Runner {
+        try CustomRunnerImporter.validate(frames)
         let record = Record(
             id: Self.idPrefix + UUID().uuidString,
-            name: uniqueName(name?.trimmingCharacters(in: .whitespaces).nilIfEmpty ?? CustomRunnerImporter.suggestedName(for: folder)),
+            name: uniqueName(name.trimmingCharacters(in: .whitespaces).nilIfEmpty ?? L("customRunner.defaultName")),
             frameCount: frames.count,
             isTemplate: isTemplate
         )
         let folderURL = directory.appendingPathComponent(record.id, isDirectory: true)
         do {
-            try FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: true)
-            for (index, frame) in frames.enumerated() {
-                guard let data = NSBitmapImageRep(cgImage: frame).representation(using: .png, properties: [:]) else {
-                    throw CustomRunnerError.savingFailed
-                }
-                try data.write(to: folderURL.appendingPathComponent("frame-\(index).png"))
-            }
+            try write(frames, to: folderURL)
             records.append(record)
             try save()
         } catch {
@@ -123,6 +134,46 @@ final class CustomRunnerStore {
         rebuild()
         onChange?()
         return runner(id: record.id)!
+    }
+
+    /// 이미 등록한 러너의 이름·색상·프레임(순서 포함)을 바꾼다.
+    func update(id: String, frames: [CGImage], name: String, isTemplate: Bool) throws {
+        guard let index = records.firstIndex(where: { $0.id == id }) else { return }
+        try CustomRunnerImporter.validate(frames)
+        let folderURL = directory.appendingPathComponent(id, isDirectory: true)
+        let staging = directory.appendingPathComponent(id + ".editing", isDirectory: true)
+        let previous = records[index]
+        do {
+            // 새 프레임을 옆 폴더에 다 쓴 뒤 바꿔 끼워서, 실패해도 기존 프레임이 남는다
+            try? FileManager.default.removeItem(at: staging)
+            try write(frames, to: staging)
+            _ = try FileManager.default.replaceItemAt(folderURL, withItemAt: staging)
+            records[index].name = uniqueName(name.trimmingCharacters(in: .whitespaces).nilIfEmpty ?? previous.name, excluding: id)
+            records[index].frameCount = frames.count
+            records[index].isTemplate = isTemplate
+            try save()
+        } catch {
+            try? FileManager.default.removeItem(at: staging)
+            records[index] = previous
+            throw CustomRunnerError.savingFailed
+        }
+        rebuild()
+        onChange?()
+    }
+
+    /// 앱에 복사해 둔 프레임을 다시 읽는다(편집 시트를 열 때).
+    func frames(of id: String) -> [CGImage] {
+        runner(id: id)?.frames ?? []
+    }
+
+    private func write(_ frames: [CGImage], to folder: URL) throws {
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        for (index, frame) in frames.enumerated() {
+            guard let data = NSBitmapImageRep(cgImage: frame).representation(using: .png, properties: [:]) else {
+                throw CustomRunnerError.savingFailed
+            }
+            try data.write(to: folder.appendingPathComponent("frame-\(index).png"))
+        }
     }
 
     /// 앱에 복사해 둔 프레임만 지운다(원본 폴더는 건드리지 않는다).
@@ -143,8 +194,8 @@ final class CustomRunnerStore {
         onChange?()
     }
 
-    private func uniqueName(_ base: String) -> String {
-        let existing = Set(records.map(\.name))
+    private func uniqueName(_ base: String, excluding id: String? = nil) -> String {
+        let existing = Set(records.filter { $0.id != id }.map(\.name))
         guard existing.contains(base) else { return base }
         var number = 2
         while existing.contains("\(base) \(number)") { number += 1 }

@@ -91,6 +91,62 @@ struct CustomRunnerTests {
         #expect(Runner.resolve(id: runner.id, custom: reloaded).id == "hamster")
     }
 
+    /// 왼쪽 위에 칠한 너비(marker + 1)로 어느 프레임인지 알아낸다
+    private func marker(of image: CGImage) -> Int {
+        let rep = NSBitmapImageRep(cgImage: image)
+        var width = 0
+        while width < image.width, (rep.colorAt(x: width, y: image.height - 1)?.alphaComponent ?? 0) > 0.5 { width += 1 }
+        return width - 1
+    }
+
+    private func frame(_ marker: Int) -> CGImage {
+        SpriteRenderer.render(width: 30, height: 36) { context in
+            context.fill(CGRect(x: 0, y: 0, width: marker + 1, height: 2))
+        }
+    }
+
+    @Test func savesFramesInEditedOrderAndUpdatesThem() throws {
+        let storage = try makeDirectory()
+        let store = CustomRunnerStore(directory: storage)
+        let runner = try store.add(frames: [frame(2), frame(0), frame(1)], name: "  ", isTemplate: true)
+        #expect(runner.name == L("customRunner.defaultName"))
+        #expect(runner.frames.map(marker(of:)) == [2, 0, 1])
+
+        // 순서를 바꾸고, 한 장을 빼고, 이름·색상을 고친다
+        try store.update(id: runner.id, frames: [frame(1), frame(2)], name: "Bunny", isTemplate: false)
+        let reloaded = CustomRunnerStore(directory: storage)
+        let updated = try #require(reloaded.runner(id: runner.id))
+        #expect(updated.name == "Bunny")
+        #expect(!updated.isTemplate)
+        #expect(updated.frames.map(marker(of:)) == [1, 2])
+        #expect(!FileManager.default.fileExists(atPath: storage.appendingPathComponent(runner.id).appendingPathComponent("frame-2.png").path))
+
+        // 규칙에 맞지 않으면 저장하지 않고 기존 프레임을 지킨다
+        #expect(throws: CustomRunnerError.noFrames) { try reloaded.update(id: runner.id, frames: [], name: "X", isTemplate: true) }
+        #expect(CustomRunnerStore(directory: storage).runner(id: runner.id)?.frames.count == 2)
+    }
+
+    @Test func draftReordersFrames() {
+        let draft = CustomRunnerDraft(images: [frame(0), frame(1), frame(2), frame(3)])
+        let ids = draft.frames.map(\.id)
+        draft.move(ids[0], to: ids[2])
+        #expect(draft.frames.map(\.id) == [ids[1], ids[2], ids[0], ids[3]])
+        draft.move(ids[3], to: ids[1])
+        #expect(draft.frames.map(\.id) == [ids[3], ids[1], ids[2], ids[0]])
+
+        draft.selection = ids[2]
+        draft.moveSelected(by: -1)
+        #expect(draft.frames.map(\.id) == [ids[3], ids[2], ids[1], ids[0]])
+        draft.moveSelected(by: -5)
+        #expect(draft.frames.first?.id == ids[3])
+
+        draft.reverse()
+        #expect(draft.frames.map(\.id) == [ids[0], ids[1], ids[2], ids[3]])
+        draft.removeSelected()
+        #expect(draft.frames.map(\.id) == [ids[0], ids[1], ids[3]])
+        #expect(draft.selection == ids[3])
+    }
+
     /// 사용자의 실제 RunCat Neo 커스텀 러너(돌고래)가 있으면 그대로 불러와지는지 확인한다.
     @Test(.enabled(if: FileManager.default.fileExists(atPath: "/path/to/dolphin-frames")))
     func importsRunCatNeoDolphinRunner() throws {

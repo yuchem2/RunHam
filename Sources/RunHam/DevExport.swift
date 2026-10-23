@@ -73,6 +73,11 @@ enum DevExport {
             ("settings-general", { AnyView(GeneralSettingsView(settings: settings, launchAtLogin: LaunchAtLogin())) }),
             ("settings-runner", { AnyView(RunnerSettingsView(settings: settings, metrics: monitor.metrics, customRunners: customRunners)) }),
             ("settings-metrics", { AnyView(MetricsSettingsView(settings: settings, customMetrics: customMetrics)) }),
+            ("custom-runner-editor", {
+                let draft = CustomRunnerDraft(name: "Hamster", images: Runner.builtIns[0].frames)
+                draft.selection = draft.frames[2].id
+                return AnyView(CustomRunnerEditorView(draft: draft, onCancel: {}, onSave: {}))
+            }),
         ]
         defer { customMetrics.sources.forEach { customMetrics.remove($0.id) } }
         try exportMetricsBars(metrics: monitor.metrics, customMetrics: customMetrics, to: directory)

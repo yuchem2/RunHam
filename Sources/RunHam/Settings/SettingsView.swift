@@ -201,12 +201,13 @@ private struct RunnerStage: View {
     }
 }
 
-/// RunCat Neo 처럼 PNG 프레임 폴더로 추가하는 커스텀 러너 목록
+/// PNG 프레임으로 만드는 커스텀 러너 목록. 추가·편집은 시트에서 이름·색상·프레임 순서를 정한다.
 private struct CustomRunnersSection: View {
     static let galleryURL = URL(string: "https://runcat-dev.github.io/RunnerGallery/")!
 
     var store: CustomRunnerStore
     var settings: AppSettings
+    @State private var draft: CustomRunnerDraft?
 
     var body: some View {
         Section {
@@ -220,12 +221,14 @@ private struct CustomRunnersSection: View {
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
-                    Toggle(L("customRunner.keepColors"), isOn: Binding(
-                        get: { !runner.isTemplate },
-                        set: { store.setTemplate(!$0, id: runner.id) }
-                    ))
-                    .toggleStyle(.checkbox)
-                    .font(.caption)
+                    Button {
+                        draft = CustomRunnerDraft(editingID: runner.id, name: runner.name, isTemplate: runner.isTemplate, images: store.frames(of: runner.id))
+                    } label: {
+                        Image(systemName: "pencil.circle.fill")
+                            .foregroundStyle(.secondary)
+                    }
+                    .buttonStyle(.plain)
+                    .help(L("common.edit"))
                     Button {
                         confirmRemoval(of: runner)
                     } label: {
@@ -237,54 +240,31 @@ private struct CustomRunnersSection: View {
                 }
             }
             HStack {
-                Button(L("customRunner.add"), action: addRunner)
+                Button(L("customRunner.add")) { draft = CustomRunnerDraft() }
                 Spacer()
                 Link(L("customRunner.gallery"), destination: Self.galleryURL)
                     .font(.caption)
             }
         } header: {
             Text(L("settings.section.customRunners"))
-        } footer: {
-            Text(L("customRunner.requirements"))
-                .font(.caption)
-                .foregroundStyle(.secondary)
+        }
+        .sheet(item: $draft) { draft in
+            CustomRunnerEditorView(draft: draft, onCancel: { self.draft = nil }, onSave: { save(draft) })
         }
     }
 
-    private func addRunner() {
-        let panel = NSOpenPanel()
-        panel.message = L("customRunner.choose")
-        panel.canChooseDirectories = true
-        panel.canChooseFiles = false
-        panel.allowsMultipleSelection = false
-        guard panel.runModal() == .OK, let folder = panel.url else { return }
-
-        // 이름과 색상 처리 방식을 한 번에 묻는다
-        let alert = NSAlert()
-        alert.messageText = L("customRunner.import.title")
-        alert.informativeText = L("customRunner.import.message")
-        let nameField = NSTextField(string: CustomRunnerImporter.suggestedName(for: folder))
-        nameField.frame = NSRect(x: 0, y: 24, width: 240, height: 24)
-        let keepColors = NSButton(checkboxWithTitle: L("customRunner.keepColors"), target: nil, action: nil)
-        keepColors.frame = NSRect(x: 0, y: 0, width: 240, height: 18)
-        let accessory = NSView(frame: NSRect(x: 0, y: 0, width: 240, height: 48))
-        accessory.addSubview(nameField)
-        accessory.addSubview(keepColors)
-        alert.accessoryView = accessory
-        alert.addButton(withTitle: L("common.add"))
-        alert.addButton(withTitle: L("common.cancel"))
-        alert.window.initialFirstResponder = nameField
-        guard alert.runModal() == .alertFirstButtonReturn else { return }
-
+    private func save(_ draft: CustomRunnerDraft) {
+        let images = draft.frames.map(\.image)
         do {
-            let runner = try store.add(folder: folder, name: nameField.stringValue, isTemplate: keepColors.state != .on)
-            settings.runnerID = runner.id
+            if let id = draft.editingID {
+                try store.update(id: id, frames: images, name: draft.name, isTemplate: draft.isTemplate)
+            } else {
+                let runner = try store.add(frames: images, name: draft.name, isTemplate: draft.isTemplate)
+                settings.runnerID = runner.id
+            }
+            self.draft = nil
         } catch {
-            let failure = NSAlert()
-            failure.alertStyle = .warning
-            failure.messageText = L("customRunner.importFailed")
-            failure.informativeText = error.localizedDescription
-            failure.runModal()
+            draft.errorMessage = error.localizedDescription
         }
     }
 
