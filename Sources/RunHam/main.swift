@@ -1,6 +1,6 @@
 import AppKit
 
-if DevExport.run(arguments: CommandLine.arguments) {
+if DevExport.run(arguments: CommandLine.arguments) || Showcase.run(arguments: CommandLine.arguments) {
     exit(0)
 }
 
