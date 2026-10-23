@@ -6,7 +6,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let settings = AppSettings()
     private let monitor = MetricsMonitor()
     private lazy var statusMenu = StatusMenu(metrics: monitor.metrics, settings: settings)
-    private lazy var settingsWindow = SettingsWindowController(settings: settings)
+    private lazy var settingsWindow = SettingsWindowController(settings: settings, metrics: monitor.metrics)
     private let runnerView = RunnerStatusView()
     private var appliedRunner: (id: String, flipped: Bool)?
     private var appliedInterval: TimeInterval?

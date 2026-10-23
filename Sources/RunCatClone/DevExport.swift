@@ -38,7 +38,7 @@ enum DevExport {
         let views: [(String, AnyView)] = [
             ("dashboard", AnyView(DashboardView(metrics: monitor.metrics, settings: settings))),
             ("settings-general", AnyView(GeneralSettingsView(settings: settings, launchAtLogin: LaunchAtLogin()))),
-            ("settings-runner", AnyView(RunnerSettingsView(settings: settings))),
+            ("settings-runner", AnyView(RunnerSettingsView(settings: settings, metrics: monitor.metrics))),
             ("settings-metrics", AnyView(MetricsSettingsView(settings: settings))),
         ]
         for (name, view) in views {
@@ -46,7 +46,7 @@ enum DevExport {
             let appearances: [NSAppearance.Name] = name == "dashboard" ? [.aqua] : [.aqua, .darkAqua]
             for appearance in appearances {
                 let suffix = appearance == .aqua ? "light" : "dark"
-                let framed = name == "dashboard" ? view : AnyView(view.frame(width: 440))
+                let framed = view
                 let rep = snapshot(framed, appearance: NSAppearance(named: appearance)!)
                 try png(rep).write(to: directory.appendingPathComponent("\(name)-\(suffix).png"))
             }

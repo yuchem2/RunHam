@@ -67,6 +67,8 @@ final class AppSettings {
 
     /// 설정 창 미리보기 속도. 저장하지 않는다(원본의 `previewSpeed` 와 같은 역할).
     var previewSpeed: Double = 1
+    /// 미리보기가 현재 CPU 기준 속도(메뉴바와 같은 속도)를 따를지 여부. 저장하지 않는다.
+    var previewFollowsCPU = true
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults

@@ -1,15 +1,17 @@
 import AppKit
 import SwiftUI
 
-/// 설정 창. 처음 열 때 만들고 이후엔 재사용한다.
+/// macOS 기본 설정 창처럼 툴바 탭(아이콘 + 이름)을 쓰는 설정 창. 처음 열 때 만들고 이후엔 재사용한다.
 @MainActor
 final class SettingsWindowController {
     private let settings: AppSettings
+    private let metrics: SystemMetrics
     private let launchAtLogin = LaunchAtLogin()
     private var window: NSWindow?
 
-    init(settings: AppSettings) {
+    init(settings: AppSettings, metrics: SystemMetrics) {
         self.settings = settings
+        self.metrics = metrics
     }
 
     func show() {
@@ -21,13 +23,32 @@ final class SettingsWindowController {
     }
 
     private func makeWindow() -> NSWindow {
-        let controller = NSHostingController(rootView: SettingsView(settings: settings, launchAtLogin: launchAtLogin))
-        controller.sizingOptions = [.preferredContentSize]
-        let window = NSWindow(contentViewController: controller)
-        window.title = "RunCat Clone Settings"
+        let tabs = NSTabViewController()
+        tabs.tabStyle = .toolbar
+        // 탭 이름이 창 제목이 된다.
+        tabs.canPropagateSelectedChildViewControllerTitle = true
+        addTab(to: tabs, title: "General", symbol: "gearshape",
+               view: GeneralSettingsView(settings: settings, launchAtLogin: launchAtLogin))
+        addTab(to: tabs, title: "Runner", symbol: "cat",
+               view: RunnerSettingsView(settings: settings, metrics: metrics))
+        addTab(to: tabs, title: "Metrics", symbol: "gauge.with.dots.needle.33percent",
+               view: MetricsSettingsView(settings: settings))
+
+        let window = NSWindow(contentViewController: tabs)
         window.styleMask = [.titled, .closable]
+        window.toolbarStyle = .preference
         window.isReleasedWhenClosed = false
         window.center()
         return window
+    }
+
+    private func addTab(to tabs: NSTabViewController, title: String, symbol: String, view: some View) {
+        let controller = NSHostingController(rootView: view)
+        controller.sizingOptions = [.preferredContentSize]
+        controller.title = title
+        let item = NSTabViewItem(viewController: controller)
+        item.label = title
+        item.image = NSImage(systemSymbolName: symbol, accessibilityDescription: title)
+        tabs.addTabViewItem(item)
     }
 }
