@@ -14,10 +14,10 @@ struct RunnerTests {
 
     @Test func catSpriteMetrics() {
         let cat = Runner.builtIn(id: "cat")
-        // 8프레임 한 보폭이 속도 1 에서 2.5초
-        #expect(cat.frames.count == 8)
-        #expect(cat.frames.allSatisfy { $0.width == 56 && $0.height == 36 })
-        #expect(cat.pointSize == .init(width: 28, height: 18))
+        // 10프레임 한 보폭이 속도 1 에서 2.5초
+        #expect(cat.frames.count == 10)
+        #expect(cat.frames.allSatisfy { $0.width == 60 && $0.height == 36 })
+        #expect(cat.pointSize == .init(width: 30, height: 18))
         #expect(abs(cat.cycleDuration - 2.5) < 0.0001)
     }
 
@@ -31,7 +31,7 @@ struct RunnerTests {
 
     @Test func builtInRunners() {
         #expect(Runner.builtIns.map(\.id) == [
-            "hamster", "hamster-ball", "hamster-snack", "hamster-roll", "hamster-cheeks",
+            "hamster", "hamster-ball", "hamster-snack", "hamster-roll",
             "cat", "chick", "penguin", "whale", "shark",
         ])
         // 모든 기본 러너는 메뉴바 높이(18pt)를 쓰고 이름이 번역돼 있다

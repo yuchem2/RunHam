@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/yuchem2/RunHam/releases"><img src="https://img.shields.io/github/v/release/yuchem2/RunHam?include_prereleases&label=release" alt="Release"></a>
   <img src="https://img.shields.io/badge/macOS-14%2B-black?logo=apple" alt="macOS 14+">
   <img src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white" alt="Swift 6">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="Apache License 2.0"></a>
@@ -26,15 +27,19 @@
 
 ---
 
+## Why RunHam
+
+- 🐹 **Nine hand-drawn runners.** Hamsters, a cat, a chick, a penguin, a whale and a shark, all drawn in one consistent style: a soft silhouette with a single white eye that reads clearly at menu bar size, in light and dark mode.
+- 🪶 **Light on your Mac.** Native Swift with no third-party libraries. In our measurements it used about the same CPU as RunCat Neo, with less memory and a smaller app. [See the numbers](#resource-usage).
+- 🎨 **Make your own runner in the app.** Drop in PNG frames, drag them into order, and preview the animation before adding. [Format guide](Formats/custom-runner.md)
+- 🧩 **Your own data on the dashboard.** Any script that writes a small JSON file can add a live card. [Format guide](Formats/custom-metrics.md)
+
 ## Features
 
-- 🐹 **A runner that reacts to your Mac.** The busier the CPU, the faster the hamster hops. Prefer the opposite? Turn on *Slow down under load*.
-- 📊 **Dashboard in one click.** CPU history, memory, storage, battery and network (type, speed and local IP) right from the menu bar.
-- 📌 **Metrics Bar.** Keep the numbers you care about visible next to the runner all the time.
-- 🎨 **Custom runners.** Bring your own PNG frames, reorder them by dragging, and preview the animation before adding.
-- 🧩 **Custom metrics.** Point RunHam at a JSON file and it becomes a live dashboard card.
-- 🌏 **Four languages.** English, 한국어, 日本語 and 简体中文, switchable without restarting.
-- 🪶 **Lightweight.** Native Swift with no third-party libraries. It usually stays under 1% CPU.
+- **Runner**: the busier the CPU, the faster it moves. Prefer the opposite? Turn on *Slow down under load*.
+- **Dashboard**: CPU history, memory, storage, battery and network (type, speed and local IP) one click away.
+- **Metrics Bar**: keep the numbers you care about next to the runner at all times.
+- **Four languages**: English, 한국어, 日本語 and 简体中文, switchable without restarting.
 
 ## Screenshots
 
@@ -61,15 +66,25 @@
 
 ## Runners
 
-| | Runner | |
-|:---:|---|---|
-| <picture><source media="(prefers-color-scheme: dark)" srcset="Runners/hamster/preview-dark.gif"><img src="Runners/hamster/preview-light.gif" height="56" alt="Hamster"></picture> | **Hamster** (default) | Crouches, kicks off and lands with a stretch. |
-| <picture><source media="(prefers-color-scheme: dark)" srcset="Runners/hamster-ball/preview-dark.gif"><img src="Runners/hamster-ball/preview-light.gif" height="56" alt="Hamster Ball"></picture> | **Hamster Ball** | Scurries inside a rolling exercise ball. |
-| <picture><source media="(prefers-color-scheme: dark)" srcset="Runners/hamster-snack/preview-dark.gif"><img src="Runners/hamster-snack/preview-light.gif" height="56" alt="Snacking Hamster"></picture> | **Snacking Hamster** | Munches a sunflower seed, dropping crumbs. |
-| <picture><source media="(prefers-color-scheme: dark)" srcset="Runners/cat/preview-dark.gif"><img src="Runners/cat/preview-light.gif" height="56" alt="Cat"></picture> | **Cat** | A sleek galloping cat. |
+<table>
+  <tr>
+    <td align="center" width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset="Runners/hamster/preview-dark.gif"><img src="Runners/hamster/preview-light.gif" height="48" alt="Hamster"></picture><br><b>Hamster</b><br><sub>Crouches, kicks off and lands with a stretch. The default runner.</sub></td>
+    <td align="center" width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset="Runners/hamster-ball/preview-dark.gif"><img src="Runners/hamster-ball/preview-light.gif" height="48" alt="Hamster Ball"></picture><br><b>Hamster Ball</b><br><sub>Scurries inside a rolling exercise ball.</sub></td>
+    <td align="center" width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset="Runners/hamster-roll/preview-dark.gif"><img src="Runners/hamster-roll/preview-light.gif" height="48" alt="Rolling Hamster"></picture><br><b>Rolling Hamster</b><br><sub>Curls up into a ball and rolls forward.</sub></td>
+  </tr>
+  <tr>
+    <td align="center" width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset="Runners/hamster-snack/preview-dark.gif"><img src="Runners/hamster-snack/preview-light.gif" height="48" alt="Snacking Hamster"></picture><br><b>Snacking Hamster</b><br><sub>Munches a sunflower seed, dropping crumbs.</sub></td>
+    <td align="center" width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset="Runners/cat/preview-dark.gif"><img src="Runners/cat/preview-light.gif" height="48" alt="Cat"></picture><br><b>Cat</b><br><sub>Gallops with a long, streaming tail.</sub></td>
+    <td align="center" width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset="Runners/chick/preview-dark.gif"><img src="Runners/chick/preview-light.gif" height="48" alt="Chick"></picture><br><b>Chick</b><br><sub>A round little chick hopping along.</sub></td>
+  </tr>
+  <tr>
+    <td align="center" width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset="Runners/penguin/preview-dark.gif"><img src="Runners/penguin/preview-light.gif" height="48" alt="Penguin"></picture><br><b>Penguin</b><br><sub>Waddles side to side, flapping its flippers.</sub></td>
+    <td align="center" width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset="Runners/whale/preview-dark.gif"><img src="Runners/whale/preview-light.gif" height="48" alt="Whale"></picture><br><b>Whale</b><br><sub>A plush whale riding the waves, tail a beat behind.</sub></td>
+    <td align="center" width="33%"><picture><source media="(prefers-color-scheme: dark)" srcset="Runners/shark/preview-dark.gif"><img src="Runners/shark/preview-light.gif" height="48" alt="Shark"></picture><br><b>Shark</b><br><sub>A great white surging through the water, jaws snapping.</sub></td>
+  </tr>
+</table>
 
-Every built-in runner is also available as plain PNG frames in [`Runners/`](Runners/),
-so you can use them in other apps or as a starting point for your own.
+Every built-in runner is also available as plain PNG frames in [`Runners/`](Runners/).
 
 ## Installation
 
@@ -102,20 +117,44 @@ Move `build/RunHam.app` to `/Applications` and turn on **Launch at login** in Se
 2. Click **+** or drop PNG files or a folder onto the frame grid.
 3. Drag frames (or use ‹ ›) to set the order, check the preview, and click **Add**.
 
-Frames must be PNG, 36 px tall, 10–100 px wide, up to 30 frames.
-**Monochrome** runners follow the menu bar text color in light and dark mode; **Color** keeps the original colors.
-Runners from the [Runner Gallery](https://runcat-dev.github.io/RunnerGallery/) work too.
+Frames are PNG, 36 px tall, 10–100 px wide, up to 30.
+**Monochrome** runners follow the menu bar text color; **Color** keeps the original colors.
+See the [custom runner format](Formats/custom-runner.md) for details and tips.
 
 <br clear="right">
 
 ### Custom metrics
 
 Register a JSON file in **Settings › Metrics › Custom Metrics** and it shows up as a dashboard card that refreshes whenever the file changes.
-The format follows the [RunCat Neo Custom Metrics schema](https://github.com/runcat-dev/RunCatNeo/blob/main/docs/CustomMetricsSchema.md).
 
-```bash
-./scripts/custom-metrics-example.sh ~/custom-metrics/load.json --watch   # writes system load every 5 seconds
+```json
+{
+  "title": "Build Server",
+  "symbol": "hammer.fill",
+  "metrics": [
+    { "title": "Queue", "formattedValue": "3 of 4 jobs", "normalizedValue": 0.75 }
+  ],
+  "lastUpdatedDate": "2026-10-23T00:00:00Z"
+}
 ```
+
+See the [custom metrics format](Formats/custom-metrics.md) and the [JSON Schema](Formats/custom-metrics.schema.json).
+[`scripts/custom-metrics-example.sh`](scripts/custom-metrics-example.sh) writes your system load every 5 seconds as a working example.
+
+## Resource usage
+
+Measured side by side on the same Mac (Apple M5, macOS 26.7), both apps idle with the menu closed and the Metrics Bar off,
+sampled every 4 seconds for 2 minutes (RunHam: Hamster, RunCat Neo: Cat).
+
+| | RunHam 0.1.0 | RunCat Neo 1.0 |
+|---|---:|---:|
+| CPU (average) | **0.4%** | 0.5% |
+| CPU (peak) | **0.9%** | 2.1% |
+| Memory | **about 40 MB** | about 66 MB |
+| App size | **2.5 MB** | 4.6 MB |
+
+Memory is Activity Monitor's *Memory* column after the app had been running for a while.
+Your numbers will vary with the runner, update interval and dashboard cards.
 
 ## Development
 
@@ -136,7 +175,7 @@ Choose **Report a Problem** from the ☰ menu to open a new issue with your envi
 
 ## Acknowledgements
 
-RunHam was built from scratch, inspired by the behavior and data formats of [RunCat Neo](https://github.com/runcat-dev/RunCatNeo)
+RunHam was built from scratch, inspired by [RunCat Neo](https://github.com/runcat-dev/RunCatNeo)
 (Copyright 2026 Kyome22 / Takuto Nakamura, Apache License 2.0). It does not include RunCat Neo's code or images.
 
 ## License

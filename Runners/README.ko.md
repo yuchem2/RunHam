@@ -10,11 +10,10 @@ RunHam 기본 러너의 PNG 프레임입니다. 그림 코드로 만들어 내�
 | <img src="hamster-ball/preview-light.gif" height="40" alt="햄스터 공"> | [`hamster-ball/`](hamster-ball/) | 햄스터 공 | 8 | 24 × 18 |
 | <img src="hamster-snack/preview-light.gif" height="40" alt="해바라기씨 먹는 햄스터"> | [`hamster-snack/`](hamster-snack/) | 해바라기씨 먹는 햄스터 | 6 | 22 × 18 |
 | <img src="hamster-roll/preview-light.gif" height="40" alt="데굴데굴 햄스터"> | [`hamster-roll/`](hamster-roll/) | 데굴데굴 햄스터 | 8 | 24 × 18 |
-| <img src="hamster-cheeks/preview-light.gif" height="40" alt="볼 빵빵 햄스터"> | [`hamster-cheeks/`](hamster-cheeks/) | 볼 빵빵 햄스터 | 8 | 22 × 18 |
-| <img src="cat/preview-light.gif" height="40" alt="고양이"> | [`cat/`](cat/) | 고양이 | 8 | 28 × 18 |
+| <img src="cat/preview-light.gif" height="40" alt="고양이"> | [`cat/`](cat/) | 고양이 | 10 | 30 × 18 |
 | <img src="chick/preview-light.gif" height="40" alt="병아리"> | [`chick/`](chick/) | 병아리 | 6 | 20 × 18 |
 | <img src="penguin/preview-light.gif" height="40" alt="펭귄"> | [`penguin/`](penguin/) | 펭귄 | 8 | 18 × 18 |
-| <img src="whale/preview-light.gif" height="40" alt="고래"> | [`whale/`](whale/) | 고래 | 8 | 30 × 18 |
+| <img src="whale/preview-light.gif" height="40" alt="고래"> | [`whale/`](whale/) | 고래 | 8 | 26 × 18 |
 | <img src="shark/preview-light.gif" height="40" alt="상어"> | [`shark/`](shark/) | 상어 | 8 | 34 × 18 |
 | | [`sleeping-hamster.png`](sleeping-hamster.png) | 빈 메트릭스 바에 보이는 자는 햄스터 | 1 | 28 × 18 |
 

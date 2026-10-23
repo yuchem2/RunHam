@@ -10,11 +10,10 @@ PNG frames of RunHam's built-in runners. They are generated from the drawing cod
 | <img src="hamster-ball/preview-light.gif" height="40" alt="Hamster Ball"> | [`hamster-ball/`](hamster-ball/) | Hamster Ball | 8 | 24 × 18 |
 | <img src="hamster-snack/preview-light.gif" height="40" alt="Snacking Hamster"> | [`hamster-snack/`](hamster-snack/) | Snacking Hamster | 6 | 22 × 18 |
 | <img src="hamster-roll/preview-light.gif" height="40" alt="Rolling Hamster"> | [`hamster-roll/`](hamster-roll/) | Rolling Hamster | 8 | 24 × 18 |
-| <img src="hamster-cheeks/preview-light.gif" height="40" alt="Cheeky Hamster"> | [`hamster-cheeks/`](hamster-cheeks/) | Cheeky Hamster | 8 | 22 × 18 |
-| <img src="cat/preview-light.gif" height="40" alt="Cat"> | [`cat/`](cat/) | Cat | 8 | 28 × 18 |
+| <img src="cat/preview-light.gif" height="40" alt="Cat"> | [`cat/`](cat/) | Cat | 10 | 30 × 18 |
 | <img src="chick/preview-light.gif" height="40" alt="Chick"> | [`chick/`](chick/) | Chick | 6 | 20 × 18 |
 | <img src="penguin/preview-light.gif" height="40" alt="Penguin"> | [`penguin/`](penguin/) | Penguin | 8 | 18 × 18 |
-| <img src="whale/preview-light.gif" height="40" alt="Whale"> | [`whale/`](whale/) | Whale | 8 | 30 × 18 |
+| <img src="whale/preview-light.gif" height="40" alt="Whale"> | [`whale/`](whale/) | Whale | 8 | 26 × 18 |
 | <img src="shark/preview-light.gif" height="40" alt="Shark"> | [`shark/`](shark/) | Shark | 8 | 34 × 18 |
 | | [`sleeping-hamster.png`](sleeping-hamster.png) | Shown in an empty Metrics Bar | 1 | 28 × 18 |
 

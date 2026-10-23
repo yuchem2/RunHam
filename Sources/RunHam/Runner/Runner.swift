@@ -60,7 +60,7 @@ struct Runner: @unchecked Sendable {
 extension Runner {
     static let builtIns: [Runner] = [
         HamsterHopSprite.makeRunner(), HamsterBallSprite.makeRunner(), HamsterSnackSprite.makeRunner(),
-        RollingHamsterSprite.makeRunner(), CheekyHamsterSprite.makeRunner(),
+        RollingHamsterSprite.makeRunner(),
         CatSprite.makeRunner(), ChickSprite.makeRunner(), PenguinSprite.makeRunner(),
         WhaleSprite.makeRunner(), SharkSprite.makeRunner(),
     ]
