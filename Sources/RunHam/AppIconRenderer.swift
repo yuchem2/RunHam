@@ -22,17 +22,10 @@ enum AppIconRenderer {
             space: CGColorSpace(name: CGColorSpace.sRGB)!,
             bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
         )!
-        // macOS 아이콘 격자: 1024 캔버스 안 824 크기의 둥근 사각형, 아래로 살짝 그림자
+        // 여백 없이 캔버스 전체를 둥근 사각형으로 채운다(그림자 없음)
         context.scaleBy(x: size / 1024, y: size / 1024)
-        let tile = CGRect(x: 100, y: 100, width: 824, height: 824)
-        let shape = CGPath(roundedRect: tile, cornerWidth: 185, cornerHeight: 185, transform: nil)
-
-        context.saveGState()
-        context.setShadow(offset: CGSize(width: 0, height: -10), blur: 24, color: CGColor(gray: 0, alpha: 0.3))
-        context.addPath(shape)
-        context.setFillColor(bottom)
-        context.fillPath()
-        context.restoreGState()
+        let tile = CGRect(x: 0, y: 0, width: 1024, height: 1024)
+        let shape = CGPath(roundedRect: tile, cornerWidth: 230, cornerHeight: 230, transform: nil)
 
         context.saveGState()
         context.addPath(shape)
@@ -41,8 +34,8 @@ enum AppIconRenderer {
         context.drawLinearGradient(gradient, start: CGPoint(x: 0, y: tile.maxY), end: CGPoint(x: 0, y: tile.minY), options: [])
 
         // 햄스터: 몸통 중심을 타일 왼쪽 가까이 두어 엉덩이가 잘리게 한다
-        let scale: CGFloat = 44
-        let origin = CGPoint(x: 372, y: 470)
+        let scale: CGFloat = 54
+        let origin = CGPoint(x: 330, y: 470)
         context.saveGState()
         context.setShadow(offset: CGSize(width: 0, height: -8), blur: 20, color: CGColor(gray: 0, alpha: 0.18))
         context.beginTransparencyLayer(auxiliaryInfo: nil)

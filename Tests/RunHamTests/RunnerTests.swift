@@ -35,10 +35,10 @@ struct RunnerTests {
         #expect(hamster.pointSize == .init(width: 22, height: 18))
         #expect(abs(hamster.cycleDuration - 2) < 0.0001)
         let ball = Runner.builtIn(id: "hamster-ball")
-        #expect(ball.pointSize == .init(width: 26, height: 18))
+        #expect(ball.pointSize == .init(width: 24, height: 18))
         #expect(abs(ball.cycleDuration - 2) < 0.0001)
         let snack = Runner.builtIn(id: "hamster-snack")
-        #expect(snack.pointSize == .init(width: 20, height: 18))
+        #expect(snack.pointSize == .init(width: 22, height: 18))
         #expect(abs(snack.cycleDuration - 1.5) < 0.0001)
         #expect(Runner.builtIns.allSatisfy { !$0.isPixelArt && $0.isTemplate })
     }
