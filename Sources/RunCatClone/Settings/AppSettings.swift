@@ -18,6 +18,8 @@ final class AppSettings {
         static let showsStorage = "SHOWS_STORAGE_METRICS"
         static let showsBattery = "SHOWS_BATTERY_METRICS"
         static let showsNetwork = "SHOWS_NETWORK_METRICS"
+        static let showsMetricsBar = "SHOWS_METRICS_BAR"
+        static let metricsBar = "METRICS_BAR_CONFIGURATION"
     }
 
     @ObservationIgnored private let defaults: UserDefaults
@@ -65,6 +67,15 @@ final class AppSettings {
         didSet { save(showsNetwork, Key.showsNetwork) }
     }
 
+    /// 메뉴바에 수치를 상시 표시하는 메트릭스 바 사용 여부(기본 꺼짐)
+    var showsMetricsBar: Bool {
+        didSet { save(showsMetricsBar, Key.showsMetricsBar) }
+    }
+
+    var metricsBar: MetricsBarConfiguration {
+        didSet { save((try? JSONEncoder().encode(metricsBar)) ?? Data(), Key.metricsBar) }
+    }
+
     /// 설정 창 미리보기 속도. 저장하지 않는다(원본의 `previewSpeed` 와 같은 역할).
     var previewSpeed: Double = 1
     /// 미리보기가 현재 CPU 기준 속도(메뉴바와 같은 속도)를 따를지 여부. 저장하지 않는다.
@@ -82,6 +93,7 @@ final class AppSettings {
             Key.showsStorage: true,
             Key.showsBattery: true,
             Key.showsNetwork: true,
+            Key.showsMetricsBar: false,
         ])
         runnerID = defaults.string(forKey: Key.runnerID) ?? "cat"
         speedDecreasesUnderLoad = defaults.bool(forKey: Key.speedDecreasesUnderLoad)
@@ -93,6 +105,9 @@ final class AppSettings {
         showsStorage = defaults.bool(forKey: Key.showsStorage)
         showsBattery = defaults.bool(forKey: Key.showsBattery)
         showsNetwork = defaults.bool(forKey: Key.showsNetwork)
+        showsMetricsBar = defaults.bool(forKey: Key.showsMetricsBar)
+        metricsBar = defaults.data(forKey: Key.metricsBar)
+            .flatMap { try? JSONDecoder().decode(MetricsBarConfiguration.self, from: $0) } ?? .default
     }
 
     private func save(_ value: Any, _ key: String) {

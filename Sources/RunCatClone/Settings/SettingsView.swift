@@ -232,11 +232,55 @@ struct MetricsSettingsView: View {
                 Text("Dashboard Cards")
             }
 
+            MetricsBarSection(settings: settings, customMetrics: customMetrics)
+
             CustomMetricsSection(store: customMetrics)
         }
         .formStyle(.grouped)
         .frame(width: SettingsLayout.width)
         .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+/// 메뉴바 상시 표시 설정. 메트릭스 바 아이콘을 눌러도 같은 항목을 켜고 끌 수 있다.
+private struct MetricsBarSection: View {
+    @Bindable var settings: AppSettings
+    var customMetrics: CustomMetricsStore
+
+    var body: some View {
+        Section {
+            Toggle(isOn: $settings.showsMetricsBar) {
+                SettingLabel("Show Metrics Bar", symbol: "menubar.rectangle", detail: "Keeps selected values visible in the menu bar.")
+            }
+            if settings.showsMetricsBar {
+                ForEach(MetricsBarConfiguration.SystemMetric.allCases, id: \.self) { metric in
+                    Toggle(isOn: Binding(
+                        get: { settings.metricsBar.shows(metric) },
+                        set: { if $0 != settings.metricsBar.shows(metric) { settings.metricsBar.toggle(metric) } }
+                    )) {
+                        SettingLabel(metric.title, symbol: metric.symbol)
+                    }
+                }
+                ForEach(customMetrics.sources) { source in
+                    Toggle(isOn: Binding(
+                        get: { settings.metricsBar.visibleCustomMetricsSourceIDs.contains(source.id) },
+                        set: { _ in settings.metricsBar.toggleCustomMetrics(source.id) }
+                    )) {
+                        SettingLabel(
+                            customMetrics.snapshots[source.id]?.title ?? source.fileName,
+                            symbol: customMetrics.snapshots[source.id]?.resolvedSymbol ?? CustomMetricsDocument.defaultSymbol,
+                            detail: "Shows its metricsBarValue."
+                        )
+                    }
+                }
+            }
+        } header: {
+            Text("Metrics Bar")
+        } footer: {
+            Text("On a MacBook with a notch, a long Metrics Bar may be hidden behind the notch or push other menu bar items out of view.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
     }
 }
 

@@ -7,6 +7,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let monitor = MetricsMonitor()
     private let customMetrics = CustomMetricsStore()
     private lazy var statusMenu = StatusMenu(metrics: monitor.metrics, settings: settings, customMetrics: customMetrics)
+    private lazy var metricsBar = MetricsBarController(settings: settings, metrics: monitor.metrics, customMetrics: customMetrics)
     private lazy var settingsWindow = SettingsWindowController(settings: settings, metrics: monitor.metrics, customMetrics: customMetrics)
     private let runnerView = RunnerStatusView()
     private var appliedRunner: (id: String, flipped: Bool)?
@@ -24,6 +25,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         statusMenu.onOpenSettings = { [weak self] in self?.settingsWindow.show() }
         statusMenu.onWillOpen = { [weak self] in self?.monitor.refreshStorage() }
+        metricsBar.onOpenSettings = { [weak self] in self?.settingsWindow.show() }
         settings.onChange = { [weak self] in self?.applySettings() }
         monitor.onCPUUpdate = { [weak self] percent in self?.cpuDidUpdate(percent) }
         applySettings()
@@ -46,10 +48,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         runnerView.showsCPU = settings.showsCPUUsage
         statusItem?.length = runnerView.preferredWidth
         cpuDidUpdate(monitor.metrics.cpu.percent)
+        metricsBar.update()
     }
 
     private func cpuDidUpdate(_ percent: Double) {
         runnerView.cpuText = String(format: "%.1f%%", percent)
         runnerView.setSpeed(RunnerSpeed.speed(cpuPercent: percent, decreasesUnderLoad: settings.speedDecreasesUnderLoad))
+        metricsBar.update()
     }
 }

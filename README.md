@@ -25,6 +25,7 @@ Xcode 가 설치돼 있지만 라이선스에 동의하지 않은 상태라면 C
 - 애니메이션: `CAKeyframeAnimation(contents)`, 속도 1 = 초당 2프레임, 속도 변경 시 위상 유지
 - 메뉴: 시스템 메트릭 대시보드(CPU 그래프, 메모리, 저장공간, 배터리, 네트워크 + 로컬 IP), 설정…, 활성 상태 보기
 - Custom Metrics: RunCat Neo 와 같은 JSON 스키마의 파일을 등록하면 대시보드 카드로 표시, 파일이 바뀌면 바로 갱신
+- 메트릭스 바: CPU·메모리·저장공간·배터리·네트워크·Custom Metrics(metricsBarValue)를 메뉴바에 상시 표시. 아무것도 켜지 않으면 자는 고양이
 - 설정 창: General(로그인 시 실행, 업데이트 간격) / Runner(미리보기, 반전, 부하 시 감속, 메뉴바 CPU 표시) / Metrics(카드 표시)
 - 고양이 러너는 원본 에셋을 쓰지 않고 도트(ASCII 격자 → nearest-neighbor)로 직접 그린다
 - `RunCatClone --export-previews <dir>`: 러너 프레임·대시보드·설정 화면을 PNG 로 내보내는 개발용 플래그
@@ -42,9 +43,10 @@ Xcode 가 설치돼 있지만 라이선스에 동의하지 않은 상태라면 C
 
 ## 출처
 
-RunCat Neo (Copyright 2026 Kyome22 / Takuto Nakamura, Apache License 2.0) 의 동작과 공개 스키마를 참고했다.
-원본 소스·이미지는 포함하지 않는다.
+RunCat Neo (Copyright 2026 Kyome22 / Takuto Nakamura, Apache License 2.0, https://github.com/runcat-dev/RunCatNeo) 의
+동작, 공개 스키마, 메트릭스 바 레이아웃(MetricsBarView / IndicatorKind)을 참고했다. 원본 소스·이미지는 포함하지 않는다.
+원본 코드를 가져올 경우 해당 파일에 원본 저작권 헤더를 유지하고, 변경 사실을 적고, Apache 2.0 LICENSE 사본을 함께 둔다.
 
 ## 아직 없는 것
 
-메트릭스 바(메뉴바에 수치 상시 표시, Custom Metrics 의 metricsBarValue 포함), 다른 러너, 커스텀 러너(PNG 업로드) 에디터
+다른 러너, 커스텀 러너(PNG 업로드) 에디터, 다국어

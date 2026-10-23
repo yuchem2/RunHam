@@ -283,6 +283,18 @@ enum Format {
         ByteCountFormatter.string(fromByteCount: Int64(bytesPerSecond), countStyle: .file) + "/s"
     }
 
+    /// 메트릭스 바용 짧은 속도 표기(예: 1.2MB/s). 10진 단위.
+    static func shortRate(_ bytesPerSecond: Double) -> String {
+        let units = ["B", "KB", "MB", "GB"]
+        var value = max(bytesPerSecond, 0)
+        var index = 0
+        while value >= 1000, index < units.count - 1 {
+            value /= 1000
+            index += 1
+        }
+        return index == 0 ? String(format: "%.0f%@/s", value, units[index]) : String(format: "%.1f%@/s", value, units[index])
+    }
+
     static func batterySymbol(_ battery: BatteryStatus) -> String {
         if battery.isCharging { return "battery.100percent.bolt" }
         switch battery.level {

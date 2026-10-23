@@ -48,6 +48,7 @@ enum DevExport {
             ("settings-metrics", AnyView(MetricsSettingsView(settings: settings, customMetrics: customMetrics))),
         ]
         defer { customMetrics.sources.forEach { customMetrics.remove($0.id) } }
+        try exportMetricsBars(metrics: monitor.metrics, customMetrics: customMetrics, to: directory)
         for (name, view) in views {
             // 대시보드는 투명 배경이라 다크 캡처에선 글자가 보이지 않아 라이트만 내보낸다.
             let appearances: [NSAppearance.Name] = name == "dashboard" ? [.aqua] : [.aqua, .darkAqua]
@@ -57,6 +58,41 @@ enum DevExport {
                 let rep = snapshot(framed, appearance: NSAppearance(named: appearance)!)
                 try png(rep).write(to: directory.appendingPathComponent("\(name)-\(suffix).png"))
             }
+        }
+    }
+
+    /// 메트릭스 바 이미지를 밝은/어두운 메뉴바 색 위에 4배 확대해서 그린다.
+    private static func exportMetricsBars(metrics: SystemMetrics, customMetrics: CustomMetricsStore, to directory: URL) throws {
+        var everything = MetricsBarConfiguration(showsCPU: true, showsMemory: true, showsStorage: true, showsBattery: true, showsNetwork: true)
+        everything.visibleCustomMetricsSourceIDs = Set(customMetrics.sources.map(\.id))
+        let cases: [(String, MetricsBarConfiguration)] = [
+            ("cpu", .default),
+            ("all", everything),
+            ("empty", MetricsBarConfiguration(showsCPU: false)),
+        ]
+        for (name, configuration) in cases {
+            let items = MetricsBarController.items(configuration: configuration, metrics: metrics, customMetrics: customMetrics)
+            let image = MetricsBarRenderer.image(for: items)
+            let zoom: CGFloat = 4
+            let size = CGSize(width: (image.size.width + 16) * zoom, height: (image.size.height + 8) * 2 * zoom)
+            let output = NSImage(size: size, flipped: false) { _ in
+                for (index, (background, foreground)) in [(NSColor(white: 0.93, alpha: 1), NSColor.black), (NSColor(white: 0.15, alpha: 1), NSColor.white)].enumerated() {
+                    let band = CGRect(x: 0, y: CGFloat(1 - index) * size.height / 2, width: size.width, height: size.height / 2)
+                    background.setFill()
+                    band.fill()
+                    let tinted = NSImage(size: image.size, flipped: false) { rect in
+                        image.draw(in: rect)
+                        foreground.set()
+                        rect.fill(using: .sourceAtop)
+                        return true
+                    }
+                    NSGraphicsContext.current?.imageInterpolation = .none
+                    tinted.draw(in: CGRect(x: 8 * zoom, y: band.minY + 4 * zoom, width: image.size.width * zoom, height: image.size.height * zoom))
+                }
+                return true
+            }
+            guard let tiff = output.tiffRepresentation, let rep = NSBitmapImageRep(data: tiff) else { continue }
+            try png(rep).write(to: directory.appendingPathComponent("metricsbar-\(name).png"))
         }
     }
 

@@ -6,17 +6,18 @@ import SwiftUI
 final class StatusMenu: NSObject, NSMenuDelegate {
     let menu = NSMenu()
     private let dashboardItem = NSMenuItem()
-    private let dashboardView: NSHostingView<DashboardView>
+    private let dashboard: DashboardView
+    /// 메뉴가 닫혀 있는 동안에는 빈 뷰로 바꿔 둔다. 그렇지 않으면 보이지 않는 대시보드가 측정값이 바뀔 때마다 다시 그려진다.
+    private let dashboardView = NSHostingView(rootView: AnyView(EmptyView()))
 
     var onOpenSettings: (() -> Void)?
     var onWillOpen: (() -> Void)?
 
     init(metrics: SystemMetrics, settings: AppSettings, customMetrics: CustomMetricsStore) {
-        dashboardView = NSHostingView(rootView: DashboardView(metrics: metrics, settings: settings, customMetrics: customMetrics))
+        dashboard = DashboardView(metrics: metrics, settings: settings, customMetrics: customMetrics)
         super.init()
         menu.delegate = self
         dashboardItem.view = dashboardView
-        resizeDashboard()
 
         let settingsItem = NSMenuItem(title: "Settings…", action: #selector(openSettings), keyEquivalent: ",")
         settingsItem.target = self
@@ -36,7 +37,12 @@ final class StatusMenu: NSObject, NSMenuDelegate {
     // 카드 표시 설정이나 배터리 유무에 따라 높이가 달라지므로 열 때마다 맞춘다.
     func menuWillOpen(_ menu: NSMenu) {
         onWillOpen?()
+        dashboardView.rootView = AnyView(dashboard)
         resizeDashboard()
+    }
+
+    func menuDidClose(_ menu: NSMenu) {
+        dashboardView.rootView = AnyView(EmptyView())
     }
 
     private func resizeDashboard() {
