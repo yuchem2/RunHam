@@ -49,7 +49,7 @@ Xcode 가 설치돼 있지만 라이선스에 동의하지 않은 상태라면 C
 RunCat Neo (Copyright 2026 Kyome22 / Takuto Nakamura, Apache License 2.0, https://github.com/runcat-dev/RunCatNeo) 의
 동작, 공개 스키마, 메트릭스 바 레이아웃(MetricsBarView / IndicatorKind)을 참고했다. 원본 소스·이미지는 포함하지 않는다.
 원본 코드를 가져올 경우 해당 파일에 원본 저작권 헤더를 유지하고, 변경 사실을 적고, Apache 2.0 LICENSE 사본을 함께 둔다.
-앱 안에서는 메뉴 맨 위 햄버거 버튼 → "사용한 오픈소스 라이선스" 에서 출처와 Apache License 2.0 전문(`Resources/Licenses/Apache-2.0.txt`)을 볼 수 있다.
+앱 안에서는 메뉴 맨 위 햄버거 버튼 → "오픈소스 라이선스" 에서 출처와 Apache License 2.0 전문(`Resources/Licenses/Apache-2.0.txt`)을 볼 수 있다.
 
 ## 라이선스
 
