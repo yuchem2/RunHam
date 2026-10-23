@@ -15,6 +15,8 @@ mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN_DIR/RunHam" "$APP/Contents/MacOS/RunHam"
 # 문자열 테이블 등 SwiftPM 리소스 번들. 앱은 Contents/Resources 에서 먼저 찾는다(Localization.resources).
 cp -R "$RESOURCES" "$APP/Contents/Resources/"
+# 앱 아이콘(scripts/make-icon.sh 로 만든다)
+cp "$ROOT/Assets/AppIcon.icns" "$APP/Contents/Resources/AppIcon.icns"
 
 # 지원 언어 목록은 리소스 번들의 lproj 폴더에서 만든다. 새 언어 폴더를 추가하면 자동으로 포함된다.
 LOCALIZATIONS=""
@@ -28,6 +30,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <plist version="1.0">
 <dict>
     <key>CFBundleExecutable</key><string>RunHam</string>
+    <key>CFBundleIconFile</key><string>AppIcon</string>
     <key>CFBundleIdentifier</key><string>dev.personal.RunHam</string>
     <key>CFBundleName</key><string>RunHam</string>
     <key>CFBundleDisplayName</key><string>RunHam</string>

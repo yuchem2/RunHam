@@ -29,11 +29,14 @@ struct RunnerTests {
     }
 
     @Test func builtInRunnersAreHamstersAndCat() {
-        #expect(Runner.builtIns.map(\.id) == ["hamster", "hamster-snack", "cat"])
+        #expect(Runner.builtIns.map(\.id) == ["hamster", "hamster-ball", "hamster-snack", "cat"])
         let hamster = Runner.builtIn(id: "hamster")
-        #expect(hamster.frames.count == 6)
-        #expect(hamster.pointSize == .init(width: 24, height: 18))
+        #expect(hamster.frames.count == 8)
+        #expect(hamster.pointSize == .init(width: 22, height: 18))
         #expect(abs(hamster.cycleDuration - 2) < 0.0001)
+        let ball = Runner.builtIn(id: "hamster-ball")
+        #expect(ball.pointSize == .init(width: 26, height: 18))
+        #expect(abs(ball.cycleDuration - 2) < 0.0001)
         let snack = Runner.builtIn(id: "hamster-snack")
         #expect(snack.pointSize == .init(width: 20, height: 18))
         #expect(abs(snack.cycleDuration - 1.5) < 0.0001)
@@ -41,7 +44,7 @@ struct RunnerTests {
     }
 
     @Test func unknownOrRemovedRunnerFallsBackToHamster() {
-        // 지운 러너(예전 통통·도트 고양이)나 없는 id 는 기본 러너인 쳇바퀴 햄스터로
+        // 지운 러너(예전 통통·도트 고양이)나 없는 id 는 기본 러너인 깡총 햄스터로
         #expect(Runner.builtIn(id: "pixel-cat").id == "hamster")
         #expect(Runner.builtIn(id: "chubby-cat").id == "hamster")
         #expect(Runner.builtIn(id: "unknown").id == "hamster")

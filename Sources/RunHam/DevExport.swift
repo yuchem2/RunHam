@@ -2,10 +2,18 @@ import AppKit
 import SwiftUI
 
 /// 개발용: 화면 녹화 권한 없이도 결과물을 확인할 수 있도록 러너 프레임과 화면을 PNG 로 내보낸다.
-/// `RunHam --export-previews <dir>`
+/// `RunHam --export-previews <dir>`, `RunHam --export-app-icon <AppIcon.iconset>`
 @MainActor
 enum DevExport {
     static func run(arguments: [String]) -> Bool {
+        if let flag = arguments.firstIndex(of: "--export-app-icon"), flag + 1 < arguments.count {
+            do {
+                try exportAppIcon(to: URL(fileURLWithPath: arguments[flag + 1], isDirectory: true))
+            } catch {
+                FileHandle.standardError.write(Data("icon export failed: \(error)\n".utf8))
+            }
+            return true
+        }
         guard let flag = arguments.firstIndex(of: "--export-previews"), flag + 1 < arguments.count else { return false }
         let directory = URL(fileURLWithPath: arguments[flag + 1], isDirectory: true)
         do {
@@ -16,6 +24,17 @@ enum DevExport {
             FileHandle.standardError.write(Data("export failed: \(error)\n".utf8))
         }
         return true
+    }
+
+    /// iconutil 이 읽는 .iconset 폴더(16~512pt, 1x·2x)
+    private static func exportAppIcon(to directory: URL) throws {
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        for points in [16, 32, 128, 256, 512] {
+            for scale in [1, 2] {
+                let name = scale == 1 ? "icon_\(points)x\(points).png" : "icon_\(points)x\(points)@2x.png"
+                try png(NSBitmapImageRep(cgImage: AppIconRenderer.render(pixels: points * scale))).write(to: directory.appendingPathComponent(name))
+            }
+        }
     }
 
     private static func exportFrames(to directory: URL) throws {

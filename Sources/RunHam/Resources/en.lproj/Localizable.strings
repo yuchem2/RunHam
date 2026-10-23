@@ -68,6 +68,7 @@
 "settings.showCPU" = "Show CPU usage in menu bar";
 "settings.showCPU.detail" = "Displays the current CPU percentage next to the runner.";
 "runner.hamster" = "Hamster";
+"runner.hamsterBall" = "Hamster Ball";
 "runner.hamsterSnack" = "Snacking Hamster";
 "runner.cat" = "Cat";
 

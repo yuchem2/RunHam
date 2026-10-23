@@ -68,6 +68,7 @@
 "settings.showCPU" = "메뉴바에 CPU 사용률 표시";
 "settings.showCPU.detail" = "러너 옆에 현재 CPU 사용률을 표시합니다.";
 "runner.hamster" = "햄스터";
+"runner.hamsterBall" = "햄스터 공";
 "runner.hamsterSnack" = "해바라기씨 먹는 햄스터";
 "runner.cat" = "고양이";
 

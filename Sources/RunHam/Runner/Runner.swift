@@ -58,7 +58,9 @@ struct Runner: @unchecked Sendable {
 }
 
 extension Runner {
-    static let builtIns: [Runner] = [HamsterWheelSprite.makeRunner(), HamsterSnackSprite.makeRunner(), SleekCatSprite.makeRunner()]
+    static let builtIns: [Runner] = [
+        HamsterHopSprite.makeRunner(), HamsterBallSprite.makeRunner(), HamsterSnackSprite.makeRunner(), SleekCatSprite.makeRunner(),
+    ]
 
     static func builtIn(id: String) -> Runner {
         builtIns.first { $0.id == id } ?? builtIns[0]
