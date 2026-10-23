@@ -23,13 +23,16 @@ final class StatusMenu: NSObject, NSMenuDelegate {
         super.init()
         // 메뉴를 먼저 닫고 나서 실행해야 설정 창이 메뉴 뒤로 숨지 않는다
         header.items = [
-            .init(symbol: "gearshape", titleKey: "menu.settings", shortcut: "⌘,") { [weak self] in
+            .init(symbol: "info.circle", key: "menu.about") { [weak self] in
+                self?.closeMenu { Self.showAbout() }
+            },
+            .init(symbol: "gearshape", key: "menu.settings", shortcut: "⌘,", startsGroup: true) { [weak self] in
                 self?.closeMenu { self?.onOpenSettings?() }
             },
-            .init(symbol: "waveform.path.ecg.rectangle", titleKey: "menu.activityMonitor") { [weak self] in
+            .init(symbol: "waveform.path.ecg.rectangle", key: "menu.activityMonitor") { [weak self] in
                 self?.closeMenu { self?.openActivityMonitor() }
             },
-            .init(symbol: "power", titleKey: "menu.quit", shortcut: "⌘Q", startsGroup: true) { [weak self] in
+            .init(symbol: "power", key: "menu.quit", shortcut: "⌘Q", startsGroup: true) { [weak self] in
                 self?.closeMenu { NSApp.terminate(nil) }
             },
         ]
@@ -81,6 +84,18 @@ final class StatusMenu: NSObject, NSMenuDelegate {
         dashboardView.layoutSubtreeIfNeeded()
         let size = dashboardView.fittingSize
         dashboardView.frame = CGRect(origin: .zero, size: CGSize(width: DashboardView.width, height: size.height))
+    }
+
+    /// macOS 기본 정보 창: 앱 아이콘·이름·버전에 라이선스 문구를 붙인다
+    static func showAbout() {
+        NSApp.activate()
+        NSApp.orderFrontStandardAboutPanel(options: [
+            .applicationIcon: NSImage(cgImage: AppIconRenderer.render(pixels: 256), size: NSSize(width: 128, height: 128)),
+            .credits: NSAttributedString(
+                string: L("about.credit"),
+                attributes: [.font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize), .foregroundColor: NSColor.secondaryLabelColor]
+            ),
+        ])
     }
 
     @objc private func openSettings() {

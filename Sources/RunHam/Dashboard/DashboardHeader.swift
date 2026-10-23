@@ -7,9 +7,9 @@ import SwiftUI
 @Observable
 final class DashboardHeaderModel {
     struct Item: Identifiable {
-        var id: String { titleKey }
+        var id: String { key }
         var symbol: String
-        var titleKey: String
+        var key: String
         /// 오른쪽에 흐리게 보여 줄 단축키(⌘, 등)
         var shortcut: String?
         /// 위에 구분선을 긋는다(종료처럼 성격이 다른 항목)
@@ -68,7 +68,8 @@ struct DashboardOptionsPanel: View {
         }
         .padding(5)
         .frame(width: 200)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 9))
+        // 설정 창과 같은 바탕색(라이트는 흰색)
+        .background(Color(nsColor: .textBackgroundColor), in: RoundedRectangle(cornerRadius: 9))
         .overlay(RoundedRectangle(cornerRadius: 9).stroke(Color.primary.opacity(0.12)))
         .shadow(color: .black.opacity(0.18), radius: 10, y: 4)
     }
@@ -84,7 +85,7 @@ private struct OptionRow: View {
             HStack(spacing: 8) {
                 Image(systemName: item.symbol)
                     .frame(width: 18)
-                Text(L(item.titleKey))
+                Text(L(item.key))
                 Spacer()
                 if let shortcut = item.shortcut {
                     Text(shortcut)

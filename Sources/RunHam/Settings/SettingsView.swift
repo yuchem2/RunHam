@@ -60,38 +60,11 @@ struct GeneralSettingsView: View {
                     SettingLabel(L("settings.updateInterval"), symbol: "timer", detail: L("settings.updateInterval.detail"))
                 }
             }
-            Section {
-                AboutRow()
-            }
         }
         .settingsFormStyle()
         .frame(width: SettingsLayout.width)
         .fixedSize(horizontal: false, vertical: true)
         .onAppear { launchAtLogin.refresh() }
-    }
-}
-
-private struct AboutRow: View {
-    /// 번들 아이콘(.icns)과 같은 그림. 개발 실행(번들 밖)에서도 똑같이 보이도록 직접 그린다.
-    static let appIcon = AppIconRenderer.render(pixels: 88)
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(decorative: Self.appIcon, scale: 2)
-                .resizable()
-                .interpolation(.high)
-                .frame(width: 44, height: 44)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(L("app.name")).font(.headline)
-                Text(L("about.version", Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev"))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Text(L("about.credit"))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-        }
-        .padding(.vertical, 2)
     }
 }
 

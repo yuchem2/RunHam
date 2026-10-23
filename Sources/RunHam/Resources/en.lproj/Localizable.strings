@@ -36,6 +36,7 @@
 "menu.activityMonitor" = "Open Activity Monitor";
 "menu.quit" = "Quit RunHam";
 "menu.more" = "More";
+"menu.about" = "About RunHam";
 "metricsBar.title" = "Metrics Bar";
 "metricsBar.hide" = "Hide Metrics Bar";
 
@@ -52,7 +53,6 @@
 "settings.updateInterval" = "Update interval";
 "settings.updateInterval.detail" = "System metrics sampling interval";
 "settings.seconds" = "%ds";
-"about.version" = "Version %@";
 "about.credit" = "Licensed under the Apache License 2.0.";
 
 /* 설정 - 러너 */

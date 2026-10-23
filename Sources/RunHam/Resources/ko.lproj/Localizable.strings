@@ -36,6 +36,7 @@
 "menu.activityMonitor" = "활성 상태 보기 열기";
 "menu.quit" = "RunHam 종료";
 "menu.more" = "더 보기";
+"menu.about" = "RunHam에 관하여";
 "metricsBar.title" = "메트릭스 바";
 "metricsBar.hide" = "메트릭스 바 숨기기";
 
@@ -52,7 +53,6 @@
 "settings.updateInterval" = "업데이트 간격";
 "settings.updateInterval.detail" = "시스템 메트릭 측정 주기";
 "settings.seconds" = "%d초";
-"about.version" = "버전 %@";
 "about.credit" = "Apache License 2.0을 따릅니다.";
 
 /* 설정 - 러너 */
