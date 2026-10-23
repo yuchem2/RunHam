@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 /// 상태바 메뉴 맨 위에 넣는 시스템 메트릭 카드 묶음.
@@ -83,6 +84,12 @@ struct DashboardView: View {
                 Spacer()
                 Label(Format.rate(metrics.throughput.sent), systemImage: "arrow.up")
             }
+            if let ipv4 = metrics.addresses.ipv4 {
+                AddressRow(label: "IPv4", address: ipv4, interface: metrics.networkBSDName)
+            }
+            if let ipv6 = metrics.addresses.ipv6 {
+                AddressRow(label: "IPv6", address: ipv6, interface: nil)
+            }
         }
     }
 }
@@ -110,6 +117,39 @@ private struct MetricCard<Content: View>: View {
         }
         .padding(10)
         .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+/// IP 주소 한 줄. 누르면 주소를 클립보드에 복사한다.
+private struct AddressRow: View {
+    var label: String
+    var address: String
+    var interface: String?
+
+    var body: some View {
+        Button {
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(address, forType: .string)
+        } label: {
+            HStack(spacing: 4) {
+                Text(label)
+                    .frame(width: 30, alignment: .leading)
+                Text(address)
+                    .foregroundStyle(.primary)
+                    .textSelection(.disabled)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                if let interface {
+                    Text("(\(interface))")
+                }
+                Spacer(minLength: 4)
+                Image(systemName: "doc.on.doc")
+                    .imageScale(.small)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .help("Copy \(address)")
     }
 }
 

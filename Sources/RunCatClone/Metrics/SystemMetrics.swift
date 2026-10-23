@@ -17,6 +17,9 @@ final class SystemMetrics {
     var throughput = NetworkThroughput.zero
     var isNetworkConnected = false
     var networkInterface: String?
+    /// 현재 경로의 BSD 인터페이스 이름(en0 등)
+    var networkBSDName: String?
+    var addresses = NetworkAddresses()
     var lastUpdated: Date?
 
     func appendCPU(_ snapshot: CPUSnapshot) {
@@ -47,9 +50,12 @@ final class MetricsMonitor {
         pathMonitor.pathUpdateHandler = { [weak self] path in
             let connected = path.status == .satisfied
             let interface = Self.interfaceName(for: path)
+            let bsdName = connected ? path.availableInterfaces.first?.name : nil
             MainActor.assumeIsolated {
                 self?.metrics.isNetworkConnected = connected
                 self?.metrics.networkInterface = interface
+                self?.metrics.networkBSDName = bsdName
+                self?.refreshAddresses()
             }
         }
         pathMonitor.start(queue: .main)
@@ -88,7 +94,13 @@ final class MetricsMonitor {
             }
             lastNetwork = (counters, now)
         }
+        refreshAddresses()
         metrics.lastUpdated = now
+    }
+
+    /// DHCP 갱신 등으로 경로 변경 없이 주소만 바뀔 수 있어 샘플마다 다시 읽는다(getifaddrs 라 가볍다).
+    func refreshAddresses() {
+        metrics.addresses = metrics.networkBSDName.map(NetworkAddresses.current(interface:)) ?? NetworkAddresses()
     }
 
     func refreshStorage() {

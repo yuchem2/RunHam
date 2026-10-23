@@ -67,3 +67,13 @@ struct MetricsTests {
         #expect(NetworkCounters.current() != nil)
     }
 }
+
+struct NetworkAddressTests {
+    @Test func loopbackHasIPv4() {
+        #expect(NetworkAddresses.current(interface: "lo0").ipv4 == "127.0.0.1")
+    }
+
+    @Test func unknownInterfaceHasNoAddress() {
+        #expect(NetworkAddresses.current(interface: "does-not-exist0") == NetworkAddresses())
+    }
+}
