@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://github.com/yuchem2/RunHam/releases"><img src="https://img.shields.io/github/v/release/yuchem2/RunHam?include_prereleases&label=release" alt="Release"></a>
-  <img src="https://img.shields.io/badge/macOS-14%2B-black?logo=apple" alt="macOS 14+">
+  <img src="https://img.shields.io/badge/macOS-14%2B%20·%20Apple%20silicon-black?logo=apple" alt="macOS 14+, Apple silicon">
   <img src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white" alt="Swift 6">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="Apache License 2.0"></a>
   <img src="https://img.shields.io/badge/languages-EN%20%7C%20KO%20%7C%20JA%20%7C%20ZH-lightgrey" alt="English, Korean, Japanese, Chinese">
@@ -88,7 +88,18 @@ Every built-in runner is also available as plain PNG frames in [`Runners/`](Runn
 
 ## Installation
 
-Pre-built releases are not available yet. Build from source:
+**Requires macOS 14 or later on Apple silicon (M1 or later).**
+
+1. Download the latest `RunHam-x.y.z.zip` from [Releases](https://github.com/yuchem2/RunHam/releases/latest) and unzip it.
+2. Move `RunHam.app` to the Applications folder.
+3. RunHam is not notarized by Apple yet, so macOS blocks the first launch. Open it once in one of these ways:
+   - Right-click (or Control-click) `RunHam.app`, choose **Open**, then **Open** again.
+   - Or try to open it, then go to **System Settings › Privacy & Security** and click **Open Anyway**.
+   - Or run `xattr -dr com.apple.quarantine /Applications/RunHam.app` in Terminal.
+
+Turn on **Launch at login** in Settings to keep it running.
+
+### Build from source
 
 ```bash
 git clone https://github.com/yuchem2/RunHam.git
@@ -97,8 +108,7 @@ cd RunHam
 open build/RunHam.app
 ```
 
-Requires macOS 14 or later and Xcode (or the Command Line Tools) with Swift 6.
-Move `build/RunHam.app` to `/Applications` and turn on **Launch at login** in Settings to keep it running.
+Requires Xcode (or the Command Line Tools) with Swift 6.
 
 ## Usage
 
@@ -162,6 +172,7 @@ Your numbers will vary with the runner, update interval and dashboard cards.
 ./scripts/test.sh               # unit tests
 ./scripts/export-showcase.sh    # regenerates Runners/ and the README images
 ./scripts/make-icon.sh          # regenerates Assets/AppIcon.icns
+./scripts/release.sh            # builds build/RunHam-<version>.zip (--upload creates the GitHub release)
 ```
 
 - Runners and the app icon are drawn in code with Core Graphics (`Sources/RunHam/Runner/`, `AppIconRenderer`). No image assets are bundled.
