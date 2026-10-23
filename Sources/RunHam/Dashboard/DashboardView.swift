@@ -46,6 +46,8 @@ struct DashboardView: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
         .frame(width: Self.width)
+        // 설정 창과 같은 바탕(라이트는 흰색). 메뉴 기본 회색 위에 덮는다.
+        .background(SettingsLayout.background)
         .overlay(alignment: .topTrailing) {
             if let header, header.isExpanded {
                 ZStack(alignment: .topTrailing) {
@@ -143,7 +145,7 @@ private struct MetricCard<Content: View>: View {
             .foregroundStyle(.secondary)
         }
         .padding(10)
-        .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 10))
+        .dashboardCardStyle()
     }
 }
 
@@ -341,5 +343,13 @@ enum Format {
         if let cycles = battery.cycleCount { parts.append(L("battery.cycles", cycles)) }
         if let health = battery.health { parts.append(L("battery.health", Int((health * 100).rounded()))) }
         return parts.joined(separator: " · ")
+    }
+}
+
+extension View {
+    /// 흰 바탕 위 카드: 설정 창의 묶음 상자처럼 아주 옅은 바탕과 가는 테두리
+    func dashboardCardStyle() -> some View {
+        background(Color.primary.opacity(0.03), in: RoundedRectangle(cornerRadius: 10))
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.08)))
     }
 }
