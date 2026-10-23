@@ -75,7 +75,7 @@ struct MetricsBarTests {
         let low = [MetricsBarItem(symbol: "cpu", content: .value("1.0%", reference: "100.0%"))]
         let high = [MetricsBarItem(symbol: "cpu", content: .value("99.9%", reference: "100.0%"))]
         #expect(MetricsBarRenderer.width(of: low) == MetricsBarRenderer.width(of: high))
-        #expect(MetricsBarRenderer.width(of: []) == SleepingCatSprite.pointSize.width)
+        #expect(MetricsBarRenderer.width(of: []) == SleepingHamsterSprite.pointSize.width)
         let long = [MetricsBarItem(symbol: "star", content: .freeform(String(repeating: "W", count: 50)))]
         #expect(MetricsBarRenderer.width(of: long) == MetricsBarRenderer.iconSize.width + MetricsBarRenderer.freeformMaxWidth)
     }

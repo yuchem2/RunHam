@@ -67,9 +67,9 @@
 "settings.slowDown.detail" = "Mac이 바빠질수록 빨라지는 대신 느려집니다.";
 "settings.showCPU" = "메뉴바에 CPU 사용률 표시";
 "settings.showCPU.detail" = "러너 옆에 현재 CPU 사용률을 표시합니다.";
+"runner.hamster" = "햄스터";
+"runner.hamsterSnack" = "해바라기씨 먹는 햄스터";
 "runner.cat" = "고양이";
-"runner.chubbyCat" = "통통 고양이";
-"runner.pixelCat" = "도트 고양이";
 
 /* 설정 - 메트릭 */
 "settings.section.dashboardCards" = "대시보드 카드";

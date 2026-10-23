@@ -74,13 +74,14 @@ struct GeneralSettingsView: View {
 private struct AboutRow: View {
     var body: some View {
         HStack(spacing: 12) {
-            let cat = Runner.builtIn(id: "cat")
-            Image(decorative: cat.previewFrames[0], scale: 1)
+            // 대표 캐릭터: 쳇바퀴 햄스터
+            let mascot = Runner.builtIns[0]
+            Image(decorative: mascot.previewFrames[0], scale: 1)
                 .resizable()
-                .interpolation(cat.isPixelArt ? .none : .high)
+                .interpolation(mascot.isPixelArt ? .none : .high)
                 .renderingMode(.template)
                 .foregroundStyle(.primary)
-                .frame(width: 56, height: 36)
+                .frame(width: 48, height: 36)
             VStack(alignment: .leading, spacing: 2) {
                 Text(L("app.name")).font(.headline)
                 Text(L("about.version", Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev"))

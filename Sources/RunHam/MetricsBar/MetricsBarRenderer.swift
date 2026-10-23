@@ -51,7 +51,7 @@ enum MetricsBarRenderer {
     }
 
     static func width(of items: [MetricsBarItem]) -> CGFloat {
-        guard !items.isEmpty else { return SleepingCatSprite.pointSize.width }
+        guard !items.isEmpty else { return SleepingHamsterSprite.pointSize.width }
         let widths = items.map { iconSize.width + contentWidth($0.content) }
         return ceil(widths.reduce(0, +) + spacing * CGFloat(widths.count - 1))
     }
@@ -59,7 +59,7 @@ enum MetricsBarRenderer {
     /// 비어 있으면 자는 고양이를 그린다(원본과 같은 빈 상태).
     static func image(for items: [MetricsBarItem]) -> NSImage {
         guard !items.isEmpty else {
-            let image = NSImage(cgImage: SleepingCatSprite.image, size: SleepingCatSprite.pointSize)
+            let image = NSImage(cgImage: SleepingHamsterSprite.image, size: SleepingHamsterSprite.pointSize)
             image.isTemplate = true
             return image
         }

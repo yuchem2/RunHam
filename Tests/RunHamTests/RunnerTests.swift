@@ -19,7 +19,6 @@ struct RunnerTests {
         #expect(cat.frames.allSatisfy { $0.width == 56 && $0.height == 36 })
         #expect(cat.pointSize == .init(width: 28, height: 18))
         #expect(abs(cat.cycleDuration - 2.5) < 0.0001)
-        #expect(Runner.builtIn(id: "pixel-cat").cycleDuration == 2.5)
     }
 
     @Test func vectorCatIsSmoothAndHasHighResolutionPreview() {
@@ -29,44 +28,22 @@ struct RunnerTests {
         #expect(cat.previewFrames.allSatisfy { $0.width == 168 && $0.height == 108 })
     }
 
-    @Test func builtInRunnersAreSleekChubbyAndPixel() {
-        #expect(Runner.builtIns.map(\.id) == ["cat", "chubby-cat", "pixel-cat"])
-        let chubby = Runner.builtIn(id: "chubby-cat")
-        #expect(!chubby.isPixelArt)
-        #expect(chubby.frames.allSatisfy { $0.width == 56 && $0.height == 36 })
+    @Test func builtInRunnersAreHamstersAndCat() {
+        #expect(Runner.builtIns.map(\.id) == ["hamster", "hamster-snack", "cat"])
+        let hamster = Runner.builtIn(id: "hamster")
+        #expect(hamster.frames.count == 6)
+        #expect(hamster.pointSize == .init(width: 24, height: 18))
+        #expect(abs(hamster.cycleDuration - 2) < 0.0001)
+        let snack = Runner.builtIn(id: "hamster-snack")
+        #expect(snack.pointSize == .init(width: 20, height: 18))
+        #expect(abs(snack.cycleDuration - 1.5) < 0.0001)
+        #expect(Runner.builtIns.allSatisfy { !$0.isPixelArt && $0.isTemplate })
     }
 
-    @Test func pixelCatStaysAvailable() {
-        let pixel = Runner.builtIn(id: "pixel-cat")
-        #expect(pixel.id == "pixel-cat")
-        #expect(pixel.isPixelArt)
-        #expect(pixel.frames.count == 5)
-        #expect(pixel.pointSize == .init(width: 28, height: 18))
-        // 없는 id 는 기본 러너(벡터 고양이)로
-        #expect(Runner.builtIn(id: "unknown").id == "cat")
-    }
-}
-
-struct PixelArtTests {
-    @Test func stampHandlesSolidShadeAndHoles() {
-        var canvas = PixelCanvas(width: 3, height: 1)
-        canvas.stamp(PixelSprite(["###"]), x: 0, y: 0)
-        canvas.stamp(PixelSprite(["o+."]), x: 0, y: 0)
-        #expect(canvas[0, 0] == 0)
-        #expect(canvas[1, 0] == PixelCanvas.shade)
-        #expect(canvas[2, 0] == PixelCanvas.solid)
-    }
-
-    @Test func stampClipsOutsideCanvas() {
-        var canvas = PixelCanvas(width: 2, height: 2)
-        canvas.stamp(PixelSprite(["###", "###"]), x: 1, y: 1)
-        #expect(canvas.alpha == [0, 0, 0, 1])
-    }
-
-    @Test func imageIsNearestNeighborScaled() {
-        var canvas = PixelCanvas(width: 2, height: 1)
-        canvas[0, 0] = 1
-        let image = canvas.makeImage(scale: 2)
-        #expect(image.width == 4 && image.height == 2)
+    @Test func unknownOrRemovedRunnerFallsBackToHamster() {
+        // 지운 러너(예전 통통·도트 고양이)나 없는 id 는 기본 러너인 쳇바퀴 햄스터로
+        #expect(Runner.builtIn(id: "pixel-cat").id == "hamster")
+        #expect(Runner.builtIn(id: "chubby-cat").id == "hamster")
+        #expect(Runner.builtIn(id: "unknown").id == "hamster")
     }
 }

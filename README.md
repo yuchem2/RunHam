@@ -1,6 +1,7 @@
-# RunHam
+# RunHam 🐹
 
-CPU 사용률에 따라 메뉴바의 고양이가 빨리 달리는 RunCat Neo 를 리버스 엔지니어링으로 분석해 Swift 로 다시 만든 학습용 프로젝트.
+CPU 사용률이 높을수록 메뉴바의 햄스터가 쳇바퀴를 빨리 돌리는 macOS 메뉴바 앱.
+RunCat Neo 를 리버스 엔지니어링으로 분석해 Swift 로 다시 만들며 시작한 프로젝트다.
 분석 내용은 [docs/reverse-engineering.md](docs/reverse-engineering.md) 참고.
 
 ## 빌드 & 실행
@@ -28,7 +29,7 @@ Xcode 가 설치돼 있지만 라이선스에 동의하지 않은 상태라면 C
 - 메트릭스 바: CPU·메모리·저장공간·배터리·네트워크·Custom Metrics(metricsBarValue)를 메뉴바에 상시 표시. 아무것도 켜지 않으면 자는 고양이
 - 설정 창: General(로그인 시 실행, 업데이트 간격) / Runner(미리보기, 반전, 부하 시 감속, 메뉴바 CPU 표시) / Metrics(카드 표시)
 - 다국어: English / 한국어, 설정 > 일반 > 언어에서 재시작 없이 전환. 새 언어는 lproj 폴더만 추가([docs/localization.md](docs/localization.md))
-- 러너: 옆모습 날렵한 고양이(기본), 통통 고양이, 도트 고양이. 곡선 러너는 뼈대 자세 값으로 프레임을 만든다. 원본 에셋은 쓰지 않는다
+- 러너: 쳇바퀴 햄스터(기본), 해바라기씨 먹는 햄스터(CPU 가 높을수록 빨리 오물오물), 갤럽하는 고양이. 모두 Core Graphics 곡선으로 그리고 원본 에셋은 쓰지 않는다
 - 커스텀 러너: RunCat Neo 와 같은 형식(PNG, 높이 36px, 너비 10~100px, 최대 30장)의 프레임 폴더를 설정 > 러너에서 추가.
   프레임은 `~/Library/Application Support/RunHam/Runners/` 에 복사해 둔다. [러너 갤러리](https://runcat-dev.github.io/RunnerGallery/)(Apache 2.0)의 러너도 zip 을 풀어 추가할 수 있다
 - `RunHam --export-previews <dir>`: 러너 프레임·대시보드·설정 화면을 PNG 로 내보내는 개발용 플래그

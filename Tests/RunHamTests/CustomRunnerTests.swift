@@ -88,7 +88,7 @@ struct CustomRunnerTests {
         reloaded.remove(id: runner.id)
         #expect(!FileManager.default.fileExists(atPath: storage.appendingPathComponent(runner.id).path))
         #expect(FileManager.default.fileExists(atPath: source.appendingPathComponent("frame-0.png").path))
-        #expect(Runner.resolve(id: runner.id, custom: reloaded).id == "cat")
+        #expect(Runner.resolve(id: runner.id, custom: reloaded).id == "hamster")
     }
 
     /// 사용자의 실제 RunCat Neo 커스텀 러너(돌고래)가 있으면 그대로 불러와지는지 확인한다.

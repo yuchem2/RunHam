@@ -13,7 +13,7 @@ struct AppSettingsTests {
 
     @Test func defaultsMatchFirstLaunch() {
         let settings = AppSettings(defaults: makeDefaults())
-        #expect(settings.runnerID == "cat")
+        #expect(settings.runnerID == "hamster")
         #expect(settings.speedDecreasesUnderLoad == false)
         #expect(settings.isFlippedHorizontally == false)
         #expect(settings.showsCPUUsage == false)

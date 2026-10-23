@@ -99,7 +99,7 @@ final class AppSettings {
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         defaults.register(defaults: [
-            Key.runnerID: "cat",
+            Key.runnerID: Runner.builtIns[0].id,
             Key.speedDecreasesUnderLoad: false,
             Key.isFlippedHorizontally: false,
             Key.showsCPUUsage: false,
@@ -110,7 +110,7 @@ final class AppSettings {
             Key.showsNetwork: true,
             Key.showsMetricsBar: false,
         ])
-        runnerID = defaults.string(forKey: Key.runnerID) ?? "cat"
+        runnerID = defaults.string(forKey: Key.runnerID) ?? Runner.builtIns[0].id
         speedDecreasesUnderLoad = defaults.bool(forKey: Key.speedDecreasesUnderLoad)
         isFlippedHorizontally = defaults.bool(forKey: Key.isFlippedHorizontally)
         showsCPUUsage = defaults.bool(forKey: Key.showsCPUUsage)

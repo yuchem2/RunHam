@@ -58,13 +58,13 @@ struct Runner: @unchecked Sendable {
 }
 
 extension Runner {
-    static let builtIns: [Runner] = [SleekCatSprite.makeRunner(), ChubbyCatSprite.makeRunner(), PixelCatSprite.makeRunner()]
+    static let builtIns: [Runner] = [HamsterWheelSprite.makeRunner(), HamsterSnackSprite.makeRunner(), SleekCatSprite.makeRunner()]
 
     static func builtIn(id: String) -> Runner {
         builtIns.first { $0.id == id } ?? builtIns[0]
     }
 
-    /// 기본 러너와 커스텀 러너를 함께 찾는다. 없으면(지운 커스텀 러너 등) 기본 고양이.
+    /// 기본 러너와 커스텀 러너를 함께 찾는다. 없으면(지운 커스텀 러너 등) 기본 햄스터.
     @MainActor
     static func resolve(id: String, custom: CustomRunnerStore) -> Runner {
         custom.runner(id: id) ?? builtIn(id: id)
