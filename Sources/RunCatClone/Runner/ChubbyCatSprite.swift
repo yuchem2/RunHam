@@ -1,11 +1,11 @@
 import CoreGraphics
 import Foundation
 
-/// 곡선(벡터)으로 그리는 고양이 러너. 28×18pt 캔버스를 @2x 로 안티앨리어싱해 렌더링한다.
+/// 곡선(벡터)으로 그리는 통통한 고양이 러너(정면 얼굴, 2등신). 28×18pt 캔버스를 @2x 로 안티앨리어싱해 렌더링한다.
 ///
 /// 프레임은 이미지로 그리지 않고 뼈대 자세(다리 관절 각도, 몸 들썩임, 기울기, 꼬리)로 정의해서
 /// 자세 값만 바꿔 동작을 다듬을 수 있다. 좌표는 포인트 단위, 원점은 왼쪽 아래(지면), 고양이는 오른쪽(+x)을 본다.
-enum VectorCatSprite {
+enum ChubbyCatSprite {
     static let canvas = CGSize(width: 28, height: 18)
     static let scale: CGFloat = 2
 
@@ -14,8 +14,8 @@ enum VectorCatSprite {
 
     static func makeRunner() -> Runner {
         Runner(
-            id: "cat",
-            nameKey: "runner.cat",
+            id: "chubby-cat",
+            nameKey: "runner.chubbyCat",
             frames: gallop.map { render($0, scale: scale) },
             isPixelArt: false,
             previewFrames: gallop.map { render($0, scale: previewScale) }

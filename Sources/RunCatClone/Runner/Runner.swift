@@ -34,7 +34,7 @@ struct Runner: @unchecked Sendable {
 }
 
 extension Runner {
-    static let builtIns: [Runner] = [VectorCatSprite.makeRunner(), PixelCatSprite.makeRunner()]
+    static let builtIns: [Runner] = [SleekCatSprite.makeRunner(), ChubbyCatSprite.makeRunner(), PixelCatSprite.makeRunner()]
 
     static func builtIn(id: String) -> Runner {
         builtIns.first { $0.id == id } ?? builtIns[0]

@@ -27,6 +27,13 @@ struct RunnerTests {
         #expect(cat.previewFrames.allSatisfy { $0.width == 168 && $0.height == 108 })
     }
 
+    @Test func builtInRunnersAreSleekChubbyAndPixel() {
+        #expect(Runner.builtIns.map(\.id) == ["cat", "chubby-cat", "pixel-cat"])
+        let chubby = Runner.builtIn(id: "chubby-cat")
+        #expect(!chubby.isPixelArt)
+        #expect(chubby.frames.allSatisfy { $0.width == 56 && $0.height == 36 })
+    }
+
     @Test func pixelCatStaysAvailable() {
         let pixel = Runner.builtIn(id: "pixel-cat")
         #expect(pixel.id == "pixel-cat")

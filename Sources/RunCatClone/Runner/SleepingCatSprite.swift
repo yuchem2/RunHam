@@ -31,11 +31,11 @@ enum SleepingCatSprite {
         context.fillEllipse(in: CGRect(center: CGPoint(x: 11.4, y: 4.4), size: CGSize(width: 15.6, height: 8.2)))
 
         // 머리와 귀
-        let head = CGPoint(x: VectorCatSprite.headCenter.x + headOffset.x, y: VectorCatSprite.headCenter.y + headOffset.y)
-        context.fillEllipse(in: CGRect(center: head, size: VectorCatSprite.headSize))
+        let head = CGPoint(x: ChubbyCatSprite.headCenter.x + headOffset.x, y: ChubbyCatSprite.headCenter.y + headOffset.y)
+        context.fillEllipse(in: CGRect(center: head, size: ChubbyCatSprite.headSize))
         context.saveGState()
         context.translateBy(x: headOffset.x, y: headOffset.y)
-        VectorCatSprite.drawEars(in: context)
+        ChubbyCatSprite.drawEars(in: context)
         context.restoreGState()
 
         // 감은 눈(‿)은 선으로 뚫는다

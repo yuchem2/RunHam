@@ -28,7 +28,7 @@ Xcode 가 설치돼 있지만 라이선스에 동의하지 않은 상태라면 C
 - 메트릭스 바: CPU·메모리·저장공간·배터리·네트워크·Custom Metrics(metricsBarValue)를 메뉴바에 상시 표시. 아무것도 켜지 않으면 자는 고양이
 - 설정 창: General(로그인 시 실행, 업데이트 간격) / Runner(미리보기, 반전, 부하 시 감속, 메뉴바 CPU 표시) / Metrics(카드 표시)
 - 다국어: English / 한국어, 설정 > 일반 > 언어에서 재시작 없이 전환. 새 언어는 lproj 폴더만 추가([docs/localization.md](docs/localization.md))
-- 러너: 곡선(벡터)으로 그린 고양이(기본, 뼈대 자세로 프레임 생성)와 도트 고양이 중 선택. 원본 에셋은 쓰지 않는다
+- 러너: 옆모습 날렵한 고양이(기본), 통통 고양이, 도트 고양이. 곡선 러너는 뼈대 자세 값으로 프레임을 만든다. 원본 에셋은 쓰지 않는다
 - `RunCatClone --export-previews <dir>`: 러너 프레임·대시보드·설정 화면을 PNG 로 내보내는 개발용 플래그
 
 ## Custom Metrics
