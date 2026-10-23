@@ -27,7 +27,7 @@ Xcode 가 설치돼 있지만 라이선스에 동의하지 않은 상태라면 C
 - Custom Metrics: RunCat Neo 와 같은 JSON 스키마의 파일을 등록하면 대시보드 카드로 표시, 파일이 바뀌면 바로 갱신
 - 메트릭스 바: CPU·메모리·저장공간·배터리·네트워크·Custom Metrics(metricsBarValue)를 메뉴바에 상시 표시. 아무것도 켜지 않으면 자는 고양이
 - 설정 창: General(로그인 시 실행, 업데이트 간격) / Runner(미리보기, 반전, 부하 시 감속, 메뉴바 CPU 표시) / Metrics(카드 표시)
-- 다국어: English / 한국어, 설정 > 일반 > 언어에서 재시작 없이 전환. 새 언어는 `Sources/RunHam/Resources/<code>.lproj/Localizable.strings` 만 추가하면 된다
+- 다국어: English / 한국어 / 日本語 / 简体中文, 설정 > 일반 > 언어에서 재시작 없이 전환. 새 언어는 `Sources/RunHam/Resources/<code>.lproj/Localizable.strings` 만 추가하면 된다
 - 러너: 깡총 햄스터(기본), 햄스터 공 굴리기, 해바라기씨 먹는 햄스터(CPU 가 높을수록 빨리 오물오물), 갤럽하는 고양이. 햄스터들은 검은 실루엣에 하얀 눈 하나인 같은 모양(`HamsterSilhouette`)을 쓰고, 모두 Core Graphics 곡선으로 그려 원본 에셋은 쓰지 않는다
 - 앱 아이콘: 해바라기씨 색 그라데이션 위로 하얀 햄스터가 뛰어드는 그림(`AppIconRenderer`). 그림을 바꾸면 `./scripts/make-icon.sh` 로 `Assets/AppIcon.icns` 를 다시 만든다
 - 커스텀 러너: RunCat Neo 와 같은 형식(PNG, 높이 36px, 너비 10~100px, 최대 30장)의 프레임 폴더를 설정 > 러너에서 추가.
