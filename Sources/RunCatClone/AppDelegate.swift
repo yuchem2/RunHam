@@ -4,9 +4,10 @@ import AppKit
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
     private let settings = AppSettings()
-    private lazy var statusMenu = StatusMenu(settings: settings)
-    private let runnerView = RunnerStatusView()
     private let monitor = MetricsMonitor()
+    private lazy var statusMenu = StatusMenu(metrics: monitor.metrics)
+    private lazy var settingsWindow = SettingsWindowController(settings: settings)
+    private let runnerView = RunnerStatusView()
     private var appliedRunner: (id: String, flipped: Bool)?
     private var appliedInterval: TimeInterval?
 
@@ -20,7 +21,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item.menu = statusMenu.menu
         statusItem = item
 
-        statusMenu.onChange = { [weak self] in self?.applySettings() }
+        statusMenu.onOpenSettings = { [weak self] in self?.settingsWindow.show() }
+        settings.onChange = { [weak self] in self?.applySettings() }
         monitor.onCPUUpdate = { [weak self] percent in self?.cpuDidUpdate(percent) }
         applySettings()
     }
@@ -45,7 +47,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func cpuDidUpdate(_ percent: Double) {
-        statusMenu.cpuPercent = percent
         runnerView.cpuText = String(format: "%.1f%%", percent)
         runnerView.setSpeed(RunnerSpeed.speed(cpuPercent: percent, decreasesUnderLoad: settings.speedDecreasesUnderLoad))
     }
