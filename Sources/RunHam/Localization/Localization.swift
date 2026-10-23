@@ -5,7 +5,7 @@ import SwiftUI
 /// 앱 안에서 고르는 표시 언어. `code == nil` 이면 macOS 언어 설정을 따른다.
 ///
 /// 지원 언어는 코드에 적지 않고 리소스 번들의 `<code>.lproj` 폴더에서 찾는다.
-/// 새 언어는 `Resources/<code>.lproj/Localizable.strings` 를 추가하기만 하면 된다(docs/localization.md).
+/// 새 언어는 `Resources/<code>.lproj/Localizable.strings` 를 추가하기만 하면 된다.
 struct AppLanguage: Hashable, Identifiable, Sendable {
     /// 언어 코드(en, ko, ja, zh-Hans …). nil 은 시스템 설정.
     let code: String?

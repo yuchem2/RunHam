@@ -146,15 +146,4 @@ struct CustomRunnerTests {
         #expect(draft.frames.map(\.id) == [ids[0], ids[1], ids[3]])
         #expect(draft.selection == ids[3])
     }
-
-    /// 사용자의 실제 RunCat Neo 커스텀 러너(돌고래)가 있으면 그대로 불러와지는지 확인한다.
-    @Test(.enabled(if: FileManager.default.fileExists(atPath: "/path/to/dolphin-frames")))
-    func importsRunCatNeoDolphinRunner() throws {
-        let store = CustomRunnerStore(directory: try makeDirectory())
-        let runner = try store.add(folder: URL(fileURLWithPath: "/path/to/dolphin-frames"))
-        #expect(runner.name == "dolphin")
-        #expect(runner.frames.count == 9)
-        #expect(runner.pointSize == CGSize(width: 45, height: 18))
-        #expect(runner.cycleDuration == 4.5)
-    }
 }

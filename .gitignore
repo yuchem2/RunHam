@@ -3,3 +3,6 @@
 .swiftpm/
 build/
 *.xcodeproj/xcuserdata/
+
+# 개인 문서(분석 노트·예제)는 올리지 않는다
+docs/
