@@ -4,6 +4,17 @@ import SwiftUI
 /// 설정 탭 공통 폭. 탭마다 높이만 달라지고 폭은 같게 유지한다.
 enum SettingsLayout {
     static let width: CGFloat = 460
+    /// 라이트 모드에선 흰색, 다크 모드에선 어두운 텍스트 배경색
+    static let background = Color(nsColor: .textBackgroundColor)
+}
+
+extension View {
+    /// 기본 grouped Form 은 회색 바탕에 회색 상자라 설명 글씨가 흐리게 보여서 흰 바탕으로 바꾼다.
+    func settingsFormStyle() -> some View {
+        formStyle(.grouped)
+            .scrollContentBackground(.hidden)
+            .background(SettingsLayout.background)
+    }
 }
 
 // MARK: - General
@@ -53,7 +64,7 @@ struct GeneralSettingsView: View {
                 AboutRow()
             }
         }
-        .formStyle(.grouped)
+        .settingsFormStyle()
         .frame(width: SettingsLayout.width)
         .fixedSize(horizontal: false, vertical: true)
         .onAppear { launchAtLogin.refresh() }
@@ -161,7 +172,7 @@ struct RunnerSettingsView: View {
                 Text(L("settings.section.behavior"))
             }
         }
-        .formStyle(.grouped)
+        .settingsFormStyle()
         .frame(width: SettingsLayout.width)
         .fixedSize(horizontal: false, vertical: true)
     }
@@ -247,7 +258,7 @@ struct MetricsSettingsView: View {
 
             CustomMetricsSection(store: customMetrics)
         }
-        .formStyle(.grouped)
+        .settingsFormStyle()
         .frame(width: SettingsLayout.width)
         .fixedSize(horizontal: false, vertical: true)
     }

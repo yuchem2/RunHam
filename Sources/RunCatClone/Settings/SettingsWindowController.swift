@@ -40,6 +40,8 @@ final class SettingsWindowController {
         let window = NSWindow(contentViewController: tabs)
         window.styleMask = [.titled, .closable]
         window.toolbarStyle = .preference
+        // 탭을 바꾸며 창 크기가 변할 때 내용 밖이 회색으로 비치지 않게 내용과 같은 배경색을 쓴다.
+        window.backgroundColor = .textBackgroundColor
         window.isReleasedWhenClosed = false
         window.center()
         return window
