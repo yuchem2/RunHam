@@ -62,10 +62,8 @@
 "settings.section.appearance" = "모양";
 "settings.runner" = "러너";
 "settings.flip" = "좌우 반전";
-"settings.slowDown" = "부하가 높을 때 느리게 달리기";
-"settings.slowDown.detail" = "Mac이 바빠질수록 빨라지는 대신 느려집니다.";
-"settings.showCPU" = "메뉴바에 CPU 사용률 표시";
-"settings.showCPU.detail" = "러너 옆에 현재 CPU 사용률을 표시합니다.";
+"settings.slowDown" = "부하가 높을 때 감속";
+"settings.showCPU" = "CPU 사용률 표시";
 "runner.hamster" = "햄스터";
 "runner.hamsterBall" = "햄스터 공";
 "runner.hamsterSnack" = "해바라기씨 먹는 햄스터";

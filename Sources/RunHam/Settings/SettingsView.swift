@@ -165,11 +165,11 @@ struct RunnerSettingsView: View {
                 Toggle(isOn: $settings.isFlippedHorizontally) {
                     SettingLabel(L("settings.flip"), symbol: "arrow.left.and.right.righttriangle.left.righttriangle.right")
                 }
-                Toggle(isOn: $settings.speedDecreasesUnderLoad) {
-                    SettingLabel(L("settings.slowDown"), symbol: "gauge.with.dots.needle.bottom.50percent", detail: L("settings.slowDown.detail"))
-                }
                 Toggle(isOn: $settings.showsCPUUsage) {
-                    SettingLabel(L("settings.showCPU"), symbol: "percent", detail: L("settings.showCPU.detail"))
+                    SettingLabel(L("settings.showCPU"), symbol: "percent")
+                }
+                Toggle(isOn: $settings.speedDecreasesUnderLoad) {
+                    SettingLabel(L("settings.slowDown"), symbol: "gauge.with.dots.needle.bottom.50percent")
                 }
             } header: {
                 Text(L("settings.section.appearance"))
