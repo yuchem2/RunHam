@@ -55,6 +55,31 @@ mv -f "$tmp" ~/custom-metrics/load.json
 ./scripts/custom-metrics-example.sh ~/custom-metrics/load.json --watch
 ```
 
+## Claude Code 사용량
+
+[`scripts/claude-usage-metrics.sh`](../scripts/claude-usage-metrics.sh)는 [Claude Code](https://claude.com/claude-code) 토큰 사용량을 카드로 만듭니다.
+Claude Code가 `~/.claude/projects`에 남기는 대화 기록만 읽으며, 네트워크로 보내거나 인증 정보를 쓰지 않습니다.
+
+```bash
+./scripts/claude-usage-metrics.sh ~/custom-metrics/claude.json --watch   # 60초마다 갱신
+```
+
+| 줄 | 보여 주는 것 |
+|---|---|
+| 5h block | 지금 5시간 블록의 남은 시간과 토큰. 블록이 지날수록 막대가 찹니다 |
+| Today | 자정 이후 토큰과 응답 수. 메트릭스 바에도 이 값이 보입니다 |
+| Input / Output | 오늘 캐시를 거치지 않은 입력 토큰과 출력 토큰 |
+| Cache hit | 오늘 입력 중 프롬프트 캐시에서 읽은 비율 |
+| Last 7 days | 오늘을 포함한 최근 7일 토큰 |
+| Top model | 오늘 가장 많이 응답한 모델 |
+
+- 블록은 [ccusage](https://github.com/ryoppippi/ccusage)와 같은 방식으로 나눕니다. 첫 응답 시각을 정시로 내린 때부터 5시간입니다.
+  실제 요금제 한도와 다를 수 있으니 어림값으로 보세요.
+- 토큰 수에는 캐시 읽기·쓰기가 들어가므로 직접 입력한 양보다 훨씬 크게 보입니다.
+- `jq`가 필요합니다(macOS 15 이상은 기본 포함, 그 전에는 `brew install jq`). 기록이 다른 곳에 있으면 `CLAUDE_CONFIG_DIR`을 지정하세요.
+- 바뀌지 않은 기록은 `~/Library/Caches/RunHam/claude-usage`에 캐시하므로 처음 한 번만 전체를 읽습니다.
+- 출력 예: [`examples/claude-usage.json`](examples/claude-usage.json)
+
 ## 문제가 생기면
 
 - 파일을 읽을 수 없거나 형식이 맞지 않으면, 마지막으로 정상이던 내용을 그대로 보여 주고 카드에 **오류 발생**을 표시합니다.

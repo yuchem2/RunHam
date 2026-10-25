@@ -149,7 +149,8 @@ Register a JSON file in **Settings › Metrics › Custom Metrics** and it shows
 ```
 
 See the [custom metrics format](Formats/custom-metrics.md) and the [JSON Schema](Formats/custom-metrics.schema.json).
-[`scripts/custom-metrics-example.sh`](scripts/custom-metrics-example.sh) writes your system load every 5 seconds as a working example.
+[`scripts/custom-metrics-example.sh`](scripts/custom-metrics-example.sh) writes your system load every 5 seconds as a working example,
+and [`scripts/claude-usage-metrics.sh`](scripts/claude-usage-metrics.sh) shows your [Claude Code token usage](Formats/custom-metrics.md#claude-code-usage).
 
 ## Resource usage
 

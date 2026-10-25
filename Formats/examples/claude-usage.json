@@ -1,0 +1,14 @@
+{
+  "title": "Claude Code",
+  "symbol": "sparkles",
+  "metricsBarValue": "7.2M",
+  "metrics": [
+    { "title": "5h block", "formattedValue": "4h 30m left · 7.2M", "normalizedValue": 0.1 },
+    { "title": "Today", "formattedValue": "7.2M tokens · 31 replies" },
+    { "title": "Input / Output", "formattedValue": "62 / 22.8K" },
+    { "title": "Cache hit", "formattedValue": "92%", "normalizedValue": 0.92 },
+    { "title": "Last 7 days", "formattedValue": "2.3B tokens" },
+    { "title": "Top model", "formattedValue": "opus-5-5" }
+  ],
+  "lastUpdatedDate": "2026-10-26T08:31:07+09:00"
+}

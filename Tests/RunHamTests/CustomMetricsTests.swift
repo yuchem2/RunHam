@@ -38,6 +38,18 @@ struct CustomMetricsDocumentTests {
             .appendingPathComponent("../../docs/custom-metrics-sample.json")
         #expect(try CustomMetricsStore.read(sample).metrics.count == 3)
     }
+
+    @Test func formatExamplesAreValid() throws {
+        let examples = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .appendingPathComponent("../../Formats/examples").standardizedFileURL
+        let files = try FileManager.default.contentsOfDirectory(at: examples, includingPropertiesForKeys: nil)
+            .filter { $0.pathExtension == "json" }
+        #expect(files.count >= 3)
+        for file in files {
+            #expect(throws: Never.self, "\(file.lastPathComponent)") { try CustomMetricsStore.read(file) }
+        }
+    }
 }
 
 @MainActor
