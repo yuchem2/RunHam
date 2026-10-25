@@ -77,7 +77,7 @@ final class MetricsBarController: NSObject, NSMenuDelegate {
                 items.append(.init(symbol: "network.slash", content: .iconOnly))
             }
         }
-        for source in customMetrics.sources where configuration.visibleCustomMetricsSourceIDs.contains(source.id) {
+        for source in customMetrics.enabledSources where configuration.visibleCustomMetricsSourceIDs.contains(source.id) {
             let document = customMetrics.snapshots[source.id]
             let failed = customMetrics.failedIDs.contains(source.id)
             // 값이 없거나 읽기에 실패하면 `---` 를 보여 준다.

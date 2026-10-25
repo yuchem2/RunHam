@@ -94,7 +94,8 @@
 "custom.title" = "사용자 지정 메트릭";
 "custom.add" = "사용자 지정 메트릭 추가…";
 "custom.schema" = "JSON 스키마 보기";
-"custom.footer" = "등록한 JSON 내용은 대시보드 카드로 표시되고, 파일이 바뀔 때마다 다시 읽습니다. 내용은 스크립트나 예약 작업으로 갱신하세요.";
+"custom.footer" = "등록한 JSON 내용은 대시보드 카드로 표시되고, 파일이 바뀔 때마다 다시 읽습니다. 내용은 스크립트나 예약 작업으로 갱신하세요. 체크를 끄면 목록에서 지우지 않고 카드만 숨깁니다.";
+"custom.enabled" = "대시보드에 표시";
 "custom.choose" = "JSON 파일을 선택하십시오.";
 "custom.importFailed" = "사용자 지정 메트릭을 추가하지 못했습니다.";
 "custom.remove.title" = "사용자 지정 메트릭을 제거하겠습니까?";

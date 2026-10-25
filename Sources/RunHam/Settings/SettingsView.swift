@@ -327,7 +327,7 @@ private struct MetricsBarSection: View {
                         SettingLabel(metric.title, symbol: metric.symbol)
                     }
                 }
-                ForEach(customMetrics.sources) { source in
+                ForEach(customMetrics.enabledSources) { source in
                     Toggle(isOn: Binding(
                         get: { settings.metricsBar.visibleCustomMetricsSourceIDs.contains(source.id) },
                         set: { _ in settings.metricsBar.toggleCustomMetrics(source.id) }
@@ -346,7 +346,7 @@ private struct MetricsBarSection: View {
     }
 }
 
-/// 등록한 JSON 파일 목록. 추가할 때 스키마를 검사하고, 지울 때는 카드만 지운다고 확인받는다.
+/// 등록한 JSON 파일 목록. 체크박스로 카드를 잠시 숨길 수 있고, 추가할 때 스키마를 검사하고, 지울 때는 카드만 지운다고 확인받는다.
 private struct CustomMetricsSection: View {
     static let schemaURL = URL(string: "https://github.com/yuchem2/RunHam/blob/main/Formats/custom-metrics.md")!
 
@@ -356,17 +356,27 @@ private struct CustomMetricsSection: View {
         Section {
             ForEach(store.sources) { source in
                 HStack(spacing: 8) {
-                    Image(systemName: store.failedIDs.contains(source.id) ? "exclamationmark.triangle.fill" : "doc.text")
-                        .foregroundStyle(store.failedIDs.contains(source.id) ? AnyShapeStyle(.red) : AnyShapeStyle(.tint))
-                        .frame(width: 20)
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(store.snapshots[source.id]?.title ?? source.fileName)
-                        Text(source.path)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
+                    Toggle(L("custom.enabled"), isOn: Binding(
+                        get: { source.isEnabled },
+                        set: { store.setEnabled(source.id, $0) }
+                    ))
+                    .toggleStyle(.checkbox)
+                    .labelsHidden()
+                    .help(L("custom.enabled"))
+                    Group {
+                        Image(systemName: store.failedIDs.contains(source.id) ? "exclamationmark.triangle.fill" : "doc.text")
+                            .foregroundStyle(store.failedIDs.contains(source.id) ? AnyShapeStyle(.red) : AnyShapeStyle(.tint))
+                            .frame(width: 20)
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(store.snapshots[source.id]?.title ?? source.fileName)
+                            Text(source.path)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
+                        }
                     }
+                    .opacity(source.isEnabled ? 1 : 0.5)
                     Spacer()
                     Button {
                         confirmRemoval(of: source)

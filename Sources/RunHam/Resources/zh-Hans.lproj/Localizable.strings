@@ -94,7 +94,8 @@
 "custom.title" = "自定义指标";
 "custom.add" = "添加自定义指标…";
 "custom.schema" = "查看 JSON 结构";
-"custom.footer" = "已登记的 JSON 内容会以卡片形式显示在仪表盘上，文件变化时会重新读取。请用脚本或定时任务更新内容。";
+"custom.footer" = "已登记的 JSON 内容会以卡片形式显示在仪表盘上，文件变化时会重新读取。请用脚本或定时任务更新内容。取消勾选可隐藏卡片而不将其移除。";
+"custom.enabled" = "在仪表盘上显示";
 "custom.choose" = "请选择 JSON 文件。";
 "custom.importFailed" = "无法添加自定义指标。";
 "custom.remove.title" = "要移除自定义指标吗？";

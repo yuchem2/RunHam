@@ -109,4 +109,44 @@ struct CustomMetricsStoreTests {
         #expect(store.sources.isEmpty)
         #expect(FileManager.default.fileExists(atPath: file.path))
     }
+
+    @Test func disabledSourceIsHiddenPersistedAndNotWatched() async throws {
+        let directory = try makeDirectory()
+        let defaults = UserDefaults(suiteName: "RunHamTests.\(UUID().uuidString)")!
+        let file = directory.appendingPathComponent("metrics.json")
+        try write("First", to: file)
+        let store = CustomMetricsStore(defaults: defaults)
+        try store.add(file)
+        let id = try #require(store.sources.first?.id)
+
+        store.setEnabled(id, false)
+        #expect(store.enabledSources.isEmpty)
+        #expect(store.sources.count == 1)
+
+        // 꺼 둔 동안에는 파일이 바뀌어도 다시 읽지 않는다.
+        try write("Second", to: file)
+        try await Task.sleep(for: .milliseconds(800))
+        #expect(store.snapshots[id]?.title == "First")
+
+        // 다시 띄워도 꺼진 채로 남고, 목록에 보일 제목은 한 번 읽어 둔다.
+        let restored = CustomMetricsStore(defaults: defaults)
+        #expect(restored.sources.first?.isEnabled == false)
+        #expect(restored.snapshots[id]?.title == "Second")
+
+        store.setEnabled(id, true)
+        #expect(store.enabledSources.map(\.id) == [id])
+        #expect(store.snapshots[id]?.title == "Second")
+        store.remove(id)
+        restored.sources.forEach { restored.remove($0.id) }
+    }
+
+    @Test func sourcesSavedBeforeEnabledFlagAreEnabled() throws {
+        let defaults = UserDefaults(suiteName: "RunHamTests.\(UUID().uuidString)")!
+        let legacy = #"[{"id":"2C96C728-1383-4D1F-9173-80EB99270076","path":"/nonexistent/metrics.json"}]"#
+        defaults.set(Data(legacy.utf8), forKey: "CUSTOM_METRICS_SOURCES")
+        let store = CustomMetricsStore(defaults: defaults)
+        #expect(store.sources.count == 1)
+        #expect(store.sources.first?.isEnabled == true)
+        store.sources.forEach { store.remove($0.id) }
+    }
 }

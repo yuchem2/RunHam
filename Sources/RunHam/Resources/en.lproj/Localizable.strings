@@ -94,7 +94,8 @@
 "custom.title" = "Custom Metrics";
 "custom.add" = "Add Custom Metrics Source…";
 "custom.schema" = "View JSON schema";
-"custom.footer" = "The registered JSON is shown as a dashboard card and reloads whenever the file changes. Keep the file up to date with a script or a scheduled job.";
+"custom.footer" = "The registered JSON is shown as a dashboard card and reloads whenever the file changes. Keep the file up to date with a script or a scheduled job. Uncheck a source to hide its card without removing it.";
+"custom.enabled" = "Show on Dashboard";
 "custom.choose" = "Choose a JSON file.";
 "custom.importFailed" = "Failed importing custom metrics source.";
 "custom.remove.title" = "Remove Custom Metrics?";

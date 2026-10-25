@@ -9,9 +9,25 @@ final class CustomMetricsStore {
     struct Source: Codable, Identifiable, Equatable, Sendable {
         var id: UUID
         var path: String
+        /// 꺼 두면 목록에는 남지만 대시보드와 메트릭스 바에서 빠지고 파일도 지켜보지 않는다.
+        var isEnabled = true
 
         var url: URL { URL(fileURLWithPath: path) }
         var fileName: String { url.lastPathComponent }
+
+        init(id: UUID, path: String, isEnabled: Bool = true) {
+            self.id = id
+            self.path = path
+            self.isEnabled = isEnabled
+        }
+
+        // 사용 여부가 생기기 전에 저장한 목록은 모두 켜진 것으로 읽는다.
+        init(from decoder: any Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            id = try container.decode(UUID.self, forKey: .id)
+            path = try container.decode(String.self, forKey: .path)
+            isEnabled = try container.decodeIfPresent(Bool.self, forKey: .isEnabled) ?? true
+        }
     }
 
     private static let key = "CUSTOM_METRICS_SOURCES"
@@ -19,6 +35,8 @@ final class CustomMetricsStore {
     private(set) var sources: [Source] = []
     private(set) var snapshots: [UUID: CustomMetricsDocument] = [:]
     private(set) var failedIDs: Set<UUID> = []
+
+    var enabledSources: [Source] { sources.filter(\.isEnabled) }
 
     @ObservationIgnored private let defaults: UserDefaults
     @ObservationIgnored private var watchers: [UUID: FileWatcher] = [:]
@@ -29,7 +47,10 @@ final class CustomMetricsStore {
            let saved = try? JSONDecoder().decode([Source].self, from: data) {
             sources = saved
         }
-        sources.forEach(startWatching)
+        for source in sources {
+            // 꺼 둔 항목도 설정 목록에 제목을 보여 주도록 한 번은 읽는다.
+            if source.isEnabled { startWatching(source) } else { reload(source.id) }
+        }
     }
 
     /// 등록 전에 한 번 읽어 스키마를 검사한다.
@@ -51,6 +72,17 @@ final class CustomMetricsStore {
         snapshots[id] = nil
         failedIDs.remove(id)
         save()
+    }
+
+    func setEnabled(_ id: UUID, _ isEnabled: Bool) {
+        guard let index = sources.firstIndex(where: { $0.id == id }), sources[index].isEnabled != isEnabled else { return }
+        sources[index].isEnabled = isEnabled
+        save()
+        if isEnabled {
+            startWatching(sources[index])
+        } else {
+            watchers.removeValue(forKey: id)?.stop()
+        }
     }
 
     func reload(_ id: UUID) {
