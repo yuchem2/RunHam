@@ -150,7 +150,7 @@ Swift 6가 들어 있는 Xcode(또는 Command Line Tools)가 필요합니다.
 
 [커스텀 메트릭 형식](Formats/custom-metrics.ko.md)과 [JSON 스키마](Formats/custom-metrics.schema.json)를 보세요.
 [`scripts/custom-metrics-example.sh`](scripts/custom-metrics-example.sh)가 5초마다 시스템 부하를 기록하는 예제이고,
-[`scripts/claude-usage-metrics.sh`](scripts/claude-usage-metrics.sh)는 [Claude Code 토큰 사용량](Formats/custom-metrics.ko.md#claude-code-사용량)을 보여 줍니다.
+Claude Code, Codex, GitHub, Docker, Homebrew, Kubernetes는 [바로 쓰는 카드](Formats/custom-metrics.ko.md#바로-쓰는-카드)가 있습니다.
 
 ## 리소스 사용량
 

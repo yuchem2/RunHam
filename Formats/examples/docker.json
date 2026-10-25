@@ -1,0 +1,29 @@
+{
+  "title": "Docker",
+  "symbol": "shippingbox.fill",
+  "metricsBarValue": "3",
+  "metrics": [
+    {
+      "title": "Engine",
+      "formattedValue": "docker-desktop · 28.4.0"
+    },
+    {
+      "title": "Containers",
+      "formattedValue": "3 running / 5",
+      "normalizedValue": 0.6
+    },
+    {
+      "title": "Images",
+      "formattedValue": "12 · 4.312GB (1.2GB reclaimable)"
+    },
+    {
+      "title": "Volumes",
+      "formattedValue": "4 · 780MB (310MB reclaimable)"
+    },
+    {
+      "title": "Build cache",
+      "formattedValue": "38 · 2.1GB (2.1GB reclaimable)"
+    }
+  ],
+  "lastUpdatedDate": "2026-10-26T08:40:00+09:00"
+}

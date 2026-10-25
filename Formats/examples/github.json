@@ -1,0 +1,33 @@
+{
+  "title": "GitHub",
+  "symbol": "arrow.triangle.pull",
+  "metricsBarValue": "0",
+  "metrics": [
+    {
+      "title": "Account",
+      "formattedValue": "@octocat"
+    },
+    {
+      "title": "Review requests",
+      "formattedValue": "0"
+    },
+    {
+      "title": "My open PRs",
+      "formattedValue": "1 · 0 draft"
+    },
+    {
+      "title": "CI on my PRs",
+      "formattedValue": "All passing",
+      "normalizedValue": 1
+    },
+    {
+      "title": "Assigned issues",
+      "formattedValue": "52"
+    },
+    {
+      "title": "Unread notifications",
+      "formattedValue": "0"
+    }
+  ],
+  "lastUpdatedDate": "2026-10-26T08:40:00+09:00"
+}

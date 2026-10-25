@@ -1,0 +1,25 @@
+{
+  "title": "Homebrew",
+  "symbol": "mug.fill",
+  "metricsBarValue": "20",
+  "metrics": [
+    {
+      "title": "Outdated",
+      "formattedValue": "16 formulae · 4 casks"
+    },
+    {
+      "title": "Next up",
+      "formattedValue": "ada-url, c-ares, ca-certificates +17"
+    },
+    {
+      "title": "Installed",
+      "formattedValue": "86 · 77% up to date",
+      "normalizedValue": 0.767
+    },
+    {
+      "title": "Last brew update",
+      "formattedValue": "Oct 22 16:58"
+    }
+  ],
+  "lastUpdatedDate": "2026-10-26T08:40:00+09:00"
+}
