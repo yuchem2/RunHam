@@ -350,43 +350,26 @@ private struct MetricsBarSection: View {
 private struct CustomMetricsSection: View {
     static let schemaURL = URL(string: "https://github.com/yuchem2/RunHam/blob/main/Formats/custom-metrics.md")!
 
+    /// 항목이 늘어도 설정 창이 끝없이 길어지지 않도록 이만큼만 보이고 나머지는 스크롤한다.
+    private static let visibleRows = 3
+    private static let rowHeight: CGFloat = 44
+
     var store: CustomMetricsStore
 
     var body: some View {
         Section {
-            ForEach(store.sources) { source in
-                HStack(spacing: 8) {
-                    Toggle(L("custom.enabled"), isOn: Binding(
-                        get: { source.isEnabled },
-                        set: { store.setEnabled(source.id, $0) }
-                    ))
-                    .toggleStyle(.checkbox)
-                    .labelsHidden()
-                    .help(L("custom.enabled"))
-                    Group {
-                        Image(systemName: store.failedIDs.contains(source.id) ? "exclamationmark.triangle.fill" : "doc.text")
-                            .foregroundStyle(store.failedIDs.contains(source.id) ? AnyShapeStyle(.red) : AnyShapeStyle(.tint))
-                            .frame(width: 20)
-                        VStack(alignment: .leading, spacing: 1) {
-                            Text(store.snapshots[source.id]?.title ?? source.fileName)
-                            Text(source.path)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .lineLimit(1)
-                                .truncationMode(.middle)
+            if !store.sources.isEmpty {
+                ScrollView {
+                    VStack(spacing: 0) {
+                        ForEach(Array(store.sources.enumerated()), id: \.element.id) { index, source in
+                            if index > 0 { Divider() }
+                            row(source)
+                                .frame(height: Self.rowHeight)
                         }
                     }
-                    .opacity(source.isEnabled ? 1 : 0.5)
-                    Spacer()
-                    Button {
-                        confirmRemoval(of: source)
-                    } label: {
-                        Image(systemName: "minus.circle.fill")
-                            .foregroundStyle(.secondary)
-                    }
-                    .buttonStyle(.plain)
-                    .help(L("common.remove"))
                 }
+                .scrollIndicators(store.sources.count > Self.visibleRows ? .visible : .hidden)
+                .frame(height: listHeight)
             }
             HStack {
                 Button(L("custom.add"), action: addSource)
@@ -400,6 +383,46 @@ private struct CustomMetricsSection: View {
             Text(L("custom.footer"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
+        }
+    }
+
+    private var listHeight: CGFloat {
+        let rows = min(store.sources.count, Self.visibleRows)
+        return Self.rowHeight * CGFloat(rows) + CGFloat(rows - 1)
+    }
+
+    private func row(_ source: CustomMetricsStore.Source) -> some View {
+        HStack(spacing: 8) {
+            Toggle(L("custom.enabled"), isOn: Binding(
+                get: { source.isEnabled },
+                set: { store.setEnabled(source.id, $0) }
+            ))
+            .toggleStyle(.checkbox)
+            .labelsHidden()
+            .help(L("custom.enabled"))
+            Group {
+                Image(systemName: store.failedIDs.contains(source.id) ? "exclamationmark.triangle.fill" : "doc.text")
+                    .foregroundStyle(store.failedIDs.contains(source.id) ? AnyShapeStyle(.red) : AnyShapeStyle(.tint))
+                    .frame(width: 20)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(store.snapshots[source.id]?.title ?? source.fileName)
+                    Text(source.path)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                }
+            }
+            .opacity(source.isEnabled ? 1 : 0.5)
+            Spacer()
+            Button {
+                confirmRemoval(of: source)
+            } label: {
+                Image(systemName: "minus.circle.fill")
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .help(L("common.remove"))
         }
     }
 

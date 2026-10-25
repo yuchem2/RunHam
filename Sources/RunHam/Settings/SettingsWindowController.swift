@@ -60,6 +60,8 @@ final class SettingsWindowController {
                view: RunnerSettingsView(settings: settings, metrics: metrics, customRunners: customRunners))
         addTab(to: tabs, key: "settings.tab.metrics", image: symbol("gauge.with.dots.needle.33percent"),
                view: MetricsSettingsView(settings: settings, customMetrics: customMetrics))
+        // 설정을 열면 가장 자주 바꾸는 러너 탭부터 보여 준다.
+        tabs.selectedTabViewItemIndex = tabs.tabView.indexOfTabViewItem(withIdentifier: "settings.tab.runner")
 
         let window = NSWindow(contentViewController: tabs)
         window.styleMask = [.titled, .closable]
