@@ -327,16 +327,24 @@ private struct MetricsBarSection: View {
                         SettingLabel(metric.title, symbol: metric.symbol)
                     }
                 }
-                ForEach(customMetrics.enabledSources) { source in
-                    Toggle(isOn: Binding(
-                        get: { settings.metricsBar.visibleCustomMetricsSourceIDs.contains(source.id) },
-                        set: { _ in settings.metricsBar.toggleCustomMetrics(source.id) }
-                    )) {
-                        SettingLabel(
-                            customMetrics.snapshots[source.id]?.title ?? source.fileName,
-                            symbol: customMetrics.snapshots[source.id]?.resolvedSymbol ?? CustomMetricsDocument.defaultSymbol,
-                            detail: L("settings.metricsBar.customDetail")
-                        )
+                if !customMetrics.enabledSources.isEmpty {
+                    ScrollingRows(items: customMetrics.enabledSources) { source in
+                        HStack {
+                            SettingLabel(
+                                customMetrics.snapshots[source.id]?.title ?? source.fileName,
+                                symbol: customMetrics.snapshots[source.id]?.resolvedSymbol ?? CustomMetricsDocument.defaultSymbol,
+                                detail: L("settings.metricsBar.customDetail")
+                            )
+                            Spacer()
+                            // 목록이 Form 밖(스크롤 안)이라 Form 의 다른 줄과 같은 작은 스위치를 직접 그린다.
+                            Toggle(isOn: Binding(
+                                get: { settings.metricsBar.visibleCustomMetricsSourceIDs.contains(source.id) },
+                                set: { _ in settings.metricsBar.toggleCustomMetrics(source.id) }
+                            )) { EmptyView() }
+                            .toggleStyle(.switch)
+                            .controlSize(.mini)
+                            .labelsHidden()
+                        }
                     }
                 }
             }
@@ -350,26 +358,12 @@ private struct MetricsBarSection: View {
 private struct CustomMetricsSection: View {
     static let schemaURL = URL(string: "https://github.com/yuchem2/RunHam/blob/main/Formats/custom-metrics.md")!
 
-    /// 항목이 늘어도 설정 창이 끝없이 길어지지 않도록 이만큼만 보이고 나머지는 스크롤한다.
-    private static let visibleRows = 3
-    private static let rowHeight: CGFloat = 44
-
     var store: CustomMetricsStore
 
     var body: some View {
         Section {
             if !store.sources.isEmpty {
-                ScrollView {
-                    VStack(spacing: 0) {
-                        ForEach(Array(store.sources.enumerated()), id: \.element.id) { index, source in
-                            if index > 0 { Divider() }
-                            row(source)
-                                .frame(height: Self.rowHeight)
-                        }
-                    }
-                }
-                .scrollIndicators(store.sources.count > Self.visibleRows ? .visible : .hidden)
-                .frame(height: listHeight)
+                ScrollingRows(items: store.sources, row: row)
             }
             HStack {
                 Button(L("custom.add"), action: addSource)
@@ -384,11 +378,6 @@ private struct CustomMetricsSection: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
-    }
-
-    private var listHeight: CGFloat {
-        let rows = min(store.sources.count, Self.visibleRows)
-        return Self.rowHeight * CGFloat(rows) + CGFloat(rows - 1)
     }
 
     private func row(_ source: CustomMetricsStore.Source) -> some View {
@@ -458,6 +447,29 @@ private struct CustomMetricsSection: View {
 // MARK: - 공통
 
 /// 아이콘 + 제목 + (선택) 한 줄 설명.
+/// 항목이 늘어도 설정 창이 끝없이 길어지지 않도록 몇 줄만 보이고 나머지는 안에서 스크롤하는 목록
+private struct ScrollingRows<Item: Identifiable, Row: View>: View {
+    var items: [Item]
+    var visibleRows = 3
+    var rowHeight: CGFloat = 44
+    @ViewBuilder var row: (Item) -> Row
+
+    var body: some View {
+        let rows = min(items.count, visibleRows)
+        ScrollView {
+            VStack(spacing: 0) {
+                ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                    if index > 0 { Divider() }
+                    row(item)
+                        .frame(height: rowHeight)
+                }
+            }
+        }
+        .scrollIndicators(items.count > visibleRows ? .visible : .hidden)
+        .frame(height: rowHeight * CGFloat(rows) + CGFloat(max(rows - 1, 0)))
+    }
+}
+
 private struct SettingLabel: View {
     var title: String
     var icon: Image
