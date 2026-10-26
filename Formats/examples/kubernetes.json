@@ -1,0 +1,30 @@
+{
+  "title": "Kubernetes",
+  "symbol": "circle.hexagongrid.fill",
+  "lastUpdatedDate": "2026-10-26T08:40:00+09:00",
+  "metricsBarValue": "2/4",
+  "metrics": [
+    {
+      "title": "Context",
+      "formattedValue": "dev-cluster · shop"
+    },
+    {
+      "title": "Nodes",
+      "formattedValue": "2/3 ready",
+      "normalizedValue": 0.667
+    },
+    {
+      "title": "Pods",
+      "formattedValue": "2/4 ready",
+      "normalizedValue": 0.5
+    },
+    {
+      "title": "Not ready",
+      "formattedValue": "worker-1b3e (CrashLoopBackOff) +1"
+    },
+    {
+      "title": "Restarts",
+      "formattedValue": "8"
+    }
+  ]
+}

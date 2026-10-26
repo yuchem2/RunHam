@@ -1,0 +1,39 @@
+{
+  "title": "Codex",
+  "symbol": "chevron.left.forwardslash.chevron.right",
+  "metricsBarValue": "24%",
+  "metrics": [
+    {
+      "title": "5h limit",
+      "formattedValue": "24% used · resets in 2h 10m",
+      "normalizedValue": 0.235
+    },
+    {
+      "title": "Weekly limit",
+      "formattedValue": "34% used · resets in 3d 12h",
+      "normalizedValue": 0.34
+    },
+    {
+      "title": "Today",
+      "formattedValue": "42.5K tokens · 2 replies"
+    },
+    {
+      "title": "Input / Output",
+      "formattedValue": "10K / 2.5K"
+    },
+    {
+      "title": "Cache hit",
+      "formattedValue": "75%",
+      "normalizedValue": 0.75
+    },
+    {
+      "title": "Last 7 days",
+      "formattedValue": "562.5K tokens"
+    },
+    {
+      "title": "Top model",
+      "formattedValue": "gpt-5.5-codex"
+    }
+  ],
+  "lastUpdatedDate": "2026-10-26T08:40:00+09:00"
+}

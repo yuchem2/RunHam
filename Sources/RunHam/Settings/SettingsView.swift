@@ -179,33 +179,8 @@ private struct CustomRunnersSection: View {
 
     var body: some View {
         Section {
-            ForEach(store.runners, id: \.id) { runner in
-                HStack(spacing: 10) {
-                    RunnerThumbnail(runner: runner)
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(runner.name)
-                        Text(L("customRunner.frames", runner.frames.count, runner.frames[0].width, runner.frames[0].height))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer()
-                    Button {
-                        draft = CustomRunnerDraft(editingID: runner.id, name: runner.name, isTemplate: runner.isTemplate, images: store.frames(of: runner.id))
-                    } label: {
-                        Image(systemName: "pencil.circle.fill")
-                            .foregroundStyle(.secondary)
-                    }
-                    .buttonStyle(.plain)
-                    .help(L("common.edit"))
-                    Button {
-                        confirmRemoval(of: runner)
-                    } label: {
-                        Image(systemName: "minus.circle.fill")
-                            .foregroundStyle(.secondary)
-                    }
-                    .buttonStyle(.plain)
-                    .help(L("common.remove"))
-                }
+            if !store.runners.isEmpty {
+                ScrollingRows(items: store.runners, row: row)
             }
             HStack {
                 Button(L("customRunner.add")) { draft = CustomRunnerDraft() }
@@ -218,6 +193,35 @@ private struct CustomRunnersSection: View {
         }
         .sheet(item: $draft) { draft in
             CustomRunnerEditorView(draft: draft, onCancel: { self.draft = nil }, onSave: { save(draft) })
+        }
+    }
+
+    private func row(_ runner: Runner) -> some View {
+        HStack(spacing: 10) {
+            RunnerThumbnail(runner: runner)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(runner.name)
+                Text(L("customRunner.frames", runner.frames.count, runner.frames[0].width, runner.frames[0].height))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
+            Button {
+                draft = CustomRunnerDraft(editingID: runner.id, name: runner.name, isTemplate: runner.isTemplate, images: store.frames(of: runner.id))
+            } label: {
+                Image(systemName: "pencil.circle.fill")
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .help(L("common.edit"))
+            Button {
+                confirmRemoval(of: runner)
+            } label: {
+                Image(systemName: "minus.circle.fill")
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .help(L("common.remove"))
         }
     }
 
@@ -327,16 +331,24 @@ private struct MetricsBarSection: View {
                         SettingLabel(metric.title, symbol: metric.symbol)
                     }
                 }
-                ForEach(customMetrics.sources) { source in
-                    Toggle(isOn: Binding(
-                        get: { settings.metricsBar.visibleCustomMetricsSourceIDs.contains(source.id) },
-                        set: { _ in settings.metricsBar.toggleCustomMetrics(source.id) }
-                    )) {
-                        SettingLabel(
-                            customMetrics.snapshots[source.id]?.title ?? source.fileName,
-                            symbol: customMetrics.snapshots[source.id]?.resolvedSymbol ?? CustomMetricsDocument.defaultSymbol,
-                            detail: L("settings.metricsBar.customDetail")
-                        )
+                if !customMetrics.enabledSources.isEmpty {
+                    ScrollingRows(items: customMetrics.enabledSources) { source in
+                        HStack {
+                            SettingLabel(
+                                customMetrics.snapshots[source.id]?.title ?? source.fileName,
+                                symbol: customMetrics.snapshots[source.id]?.resolvedSymbol ?? CustomMetricsDocument.defaultSymbol,
+                                detail: L("settings.metricsBar.customDetail")
+                            )
+                            Spacer()
+                            // 목록이 Form 밖(스크롤 안)이라 Form 의 다른 줄과 같은 작은 스위치를 직접 그린다.
+                            Toggle(isOn: Binding(
+                                get: { settings.metricsBar.visibleCustomMetricsSourceIDs.contains(source.id) },
+                                set: { _ in settings.metricsBar.toggleCustomMetrics(source.id) }
+                            )) { EmptyView() }
+                            .toggleStyle(.switch)
+                            .controlSize(.mini)
+                            .labelsHidden()
+                        }
                     }
                 }
             }
@@ -346,7 +358,7 @@ private struct MetricsBarSection: View {
     }
 }
 
-/// 등록한 JSON 파일 목록. 추가할 때 스키마를 검사하고, 지울 때는 카드만 지운다고 확인받는다.
+/// 등록한 JSON 파일 목록. 체크박스로 카드를 잠시 숨길 수 있고, 추가할 때 스키마를 검사하고, 지울 때는 카드만 지운다고 확인받는다.
 private struct CustomMetricsSection: View {
     static let schemaURL = URL(string: "https://github.com/yuchem2/RunHam/blob/main/Formats/custom-metrics.md")!
 
@@ -354,29 +366,8 @@ private struct CustomMetricsSection: View {
 
     var body: some View {
         Section {
-            ForEach(store.sources) { source in
-                HStack(spacing: 8) {
-                    Image(systemName: store.failedIDs.contains(source.id) ? "exclamationmark.triangle.fill" : "doc.text")
-                        .foregroundStyle(store.failedIDs.contains(source.id) ? AnyShapeStyle(.red) : AnyShapeStyle(.tint))
-                        .frame(width: 20)
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(store.snapshots[source.id]?.title ?? source.fileName)
-                        Text(source.path)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
-                    }
-                    Spacer()
-                    Button {
-                        confirmRemoval(of: source)
-                    } label: {
-                        Image(systemName: "minus.circle.fill")
-                            .foregroundStyle(.secondary)
-                    }
-                    .buttonStyle(.plain)
-                    .help(L("common.remove"))
-                }
+            if !store.sources.isEmpty {
+                ScrollingRows(items: store.sources, row: row)
             }
             HStack {
                 Button(L("custom.add"), action: addSource)
@@ -390,6 +381,41 @@ private struct CustomMetricsSection: View {
             Text(L("custom.footer"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
+        }
+    }
+
+    private func row(_ source: CustomMetricsStore.Source) -> some View {
+        HStack(spacing: 8) {
+            Toggle(L("custom.enabled"), isOn: Binding(
+                get: { source.isEnabled },
+                set: { store.setEnabled(source.id, $0) }
+            ))
+            .toggleStyle(.checkbox)
+            .labelsHidden()
+            .help(L("custom.enabled"))
+            Group {
+                Image(systemName: store.failedIDs.contains(source.id) ? "exclamationmark.triangle.fill" : "doc.text")
+                    .foregroundStyle(store.failedIDs.contains(source.id) ? AnyShapeStyle(.red) : AnyShapeStyle(.tint))
+                    .frame(width: 20)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(store.snapshots[source.id]?.title ?? source.fileName)
+                    Text(source.path)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                }
+            }
+            .opacity(source.isEnabled ? 1 : 0.5)
+            Spacer()
+            Button {
+                confirmRemoval(of: source)
+            } label: {
+                Image(systemName: "minus.circle.fill")
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .help(L("common.remove"))
         }
     }
 
@@ -425,6 +451,36 @@ private struct CustomMetricsSection: View {
 // MARK: - 공통
 
 /// 아이콘 + 제목 + (선택) 한 줄 설명.
+/// 항목이 늘어도 설정 창이 끝없이 길어지지 않도록 몇 줄만 보이고 나머지는 안에서 스크롤하는 목록
+private struct ScrollingRows<Item: Identifiable, Row: View>: View {
+    var items: [Item]
+    var visibleRows = 3
+    var rowHeight: CGFloat = 44
+    @ViewBuilder var row: (Item) -> Row
+
+    /// Form 줄의 기본 좌우 여백
+    private let rowInset: CGFloat = 10
+
+    var body: some View {
+        let rows = min(items.count, visibleRows)
+        ScrollView {
+            VStack(spacing: 0) {
+                ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                    if index > 0 { Divider() }
+                    row(item)
+                        .frame(height: rowHeight)
+                }
+            }
+            .padding(.trailing, rowInset)
+        }
+        .scrollIndicators(items.count > visibleRows ? .visible : .hidden)
+        .frame(height: rowHeight * CGFloat(rows) + CGFloat(max(rows - 1, 0)))
+        // 스크롤 영역만 줄의 오른쪽 여백까지 넓히고 내용은 그만큼 안으로 들여, 버튼 위치는 다른 줄과 같게 두면서
+        // 스크롤 막대가 버튼 위가 아니라 그 여백에 놓이게 한다(grouped Form 은 listRowInsets 를 따르지 않는다).
+        .padding(.trailing, -rowInset)
+    }
+}
+
 private struct SettingLabel: View {
     var title: String
     var icon: Image

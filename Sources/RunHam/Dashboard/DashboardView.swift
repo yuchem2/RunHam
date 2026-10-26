@@ -29,7 +29,7 @@ struct DashboardView: View {
             if settings.showsNetwork {
                 networkCard
             }
-            ForEach(customMetrics.sources) { source in
+            ForEach(customMetrics.enabledSources) { source in
                 CustomMetricsCard(
                     source: source,
                     document: customMetrics.snapshots[source.id],
