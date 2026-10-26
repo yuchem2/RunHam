@@ -2,7 +2,7 @@ import CoreGraphics
 
 /// 메뉴바에서 반복 재생할 프레임 묶음. 프레임은 높이 36px(@2x) 이미지다.
 /// 템플릿 러너는 알파만 마스크로 써서 메뉴바 글자색으로 칠하고, 색상 러너는 이미지를 그대로 보여 준다.
-struct Runner: @unchecked Sendable {
+struct Runner: Identifiable, @unchecked Sendable {
     static let pixelHeight = 36
     static let scale: CGFloat = 2
 

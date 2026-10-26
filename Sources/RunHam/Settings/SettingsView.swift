@@ -179,33 +179,8 @@ private struct CustomRunnersSection: View {
 
     var body: some View {
         Section {
-            ForEach(store.runners, id: \.id) { runner in
-                HStack(spacing: 10) {
-                    RunnerThumbnail(runner: runner)
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(runner.name)
-                        Text(L("customRunner.frames", runner.frames.count, runner.frames[0].width, runner.frames[0].height))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer()
-                    Button {
-                        draft = CustomRunnerDraft(editingID: runner.id, name: runner.name, isTemplate: runner.isTemplate, images: store.frames(of: runner.id))
-                    } label: {
-                        Image(systemName: "pencil.circle.fill")
-                            .foregroundStyle(.secondary)
-                    }
-                    .buttonStyle(.plain)
-                    .help(L("common.edit"))
-                    Button {
-                        confirmRemoval(of: runner)
-                    } label: {
-                        Image(systemName: "minus.circle.fill")
-                            .foregroundStyle(.secondary)
-                    }
-                    .buttonStyle(.plain)
-                    .help(L("common.remove"))
-                }
+            if !store.runners.isEmpty {
+                ScrollingRows(items: store.runners, row: row)
             }
             HStack {
                 Button(L("customRunner.add")) { draft = CustomRunnerDraft() }
@@ -218,6 +193,35 @@ private struct CustomRunnersSection: View {
         }
         .sheet(item: $draft) { draft in
             CustomRunnerEditorView(draft: draft, onCancel: { self.draft = nil }, onSave: { save(draft) })
+        }
+    }
+
+    private func row(_ runner: Runner) -> some View {
+        HStack(spacing: 10) {
+            RunnerThumbnail(runner: runner)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(runner.name)
+                Text(L("customRunner.frames", runner.frames.count, runner.frames[0].width, runner.frames[0].height))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
+            Button {
+                draft = CustomRunnerDraft(editingID: runner.id, name: runner.name, isTemplate: runner.isTemplate, images: store.frames(of: runner.id))
+            } label: {
+                Image(systemName: "pencil.circle.fill")
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .help(L("common.edit"))
+            Button {
+                confirmRemoval(of: runner)
+            } label: {
+                Image(systemName: "minus.circle.fill")
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .help(L("common.remove"))
         }
     }
 
@@ -454,6 +458,9 @@ private struct ScrollingRows<Item: Identifiable, Row: View>: View {
     var rowHeight: CGFloat = 44
     @ViewBuilder var row: (Item) -> Row
 
+    /// Form 줄의 기본 좌우 여백
+    private let rowInset: CGFloat = 10
+
     var body: some View {
         let rows = min(items.count, visibleRows)
         ScrollView {
@@ -464,9 +471,13 @@ private struct ScrollingRows<Item: Identifiable, Row: View>: View {
                         .frame(height: rowHeight)
                 }
             }
+            .padding(.trailing, rowInset)
         }
         .scrollIndicators(items.count > visibleRows ? .visible : .hidden)
         .frame(height: rowHeight * CGFloat(rows) + CGFloat(max(rows - 1, 0)))
+        // 스크롤 영역만 줄의 오른쪽 여백까지 넓히고 내용은 그만큼 안으로 들여, 버튼 위치는 다른 줄과 같게 두면서
+        // 스크롤 막대가 버튼 위가 아니라 그 여백에 놓이게 한다(grouped Form 은 listRowInsets 를 따르지 않는다).
+        .padding(.trailing, -rowInset)
     }
 }
 
