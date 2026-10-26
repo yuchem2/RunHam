@@ -85,14 +85,14 @@ enum PenguinSprite {
 }
 
 /// 고래(인형): 통통한 몸에서 꼬리까지 한 덩어리로 이어진 뜨개 인형 같은 고래. 위로 휘어 올라간 꼬리 끝에 Y 자 지느러미,
-/// 배 아래 앞지느러미, 하얀 눈. 몸은 모양이 변하지 않은 채 코사인 물결을 타고, 꼬리만 한 박자 늦게 휜다. 26×18pt, 8프레임.
+/// 배 아래 앞지느러미, 하얀 눈. 몸은 모양이 변하지 않은 채 코사인 물결을 타고, 꼬리만 한 박자 늦게 휜다. 21×18pt, 8프레임.
 enum WhaleSprite {
     static let frameCount = 8
 
     static func makeRunner() -> Runner {
         // 한 번 헤엄치는 데 속도 1 에서 2.5초
         DrawnRunner.make(
-            id: "whale", nameKey: "runner.whale", width: 26, frameCount: frameCount, baseFrameRate: 8 / 2.5,
+            id: "whale", nameKey: "runner.whale", width: 21, frameCount: frameCount, baseFrameRate: 8 / 2.5,
             smoothing: 0.85,
             details: details,
             draw: draw
@@ -103,12 +103,13 @@ enum WhaleSprite {
         DrawnRunner.phase(frame, of: frameCount) * 2 * .pi
     }
 
-    /// 몸 전체를 하나로: 코사인 물결을 따라 오르내리고, 오를 때 머리를 들고 내려갈 때 숙인다
+    /// 몸 전체를 하나로: 코사인 물결을 따라 오르내리고, 오를 때 머리를 들고 내려갈 때 숙인다.
+    /// 8프레임을 모두 겹친 영역이 위아래 0.5pt 만 남기고 높이 18pt 를 채우는 크기다.
     private static func place(_ frame: Int, in context: CGContext) {
         let p = phase(frame)
-        context.translateBy(x: 14.4, y: 8.6 + cos(p) * 1.0)
-        context.rotate(by: -sin(p) * 9 * .pi / 180)
-        context.scaleBy(x: 0.8, y: 0.8)
+        context.translateBy(x: 12.5, y: 8.15 + cos(p) * 0.5)
+        context.rotate(by: -sin(p) * 6 * .pi / 180)
+        context.scaleBy(x: 0.825, y: 0.825)
     }
 
     /// 꼬리 위치 t(0 몸 쪽 … 1 끝)의 중심. 꼬리는 몸보다 한 박자 늦게, 끝으로 갈수록 크게 휜다
@@ -205,21 +206,21 @@ enum SwimmerBody {
 }
 
 /// 상어(백상아리): 머리를 살짝 든 굵은 몸, 뾰족한 코, 하얀 눈, 덥석덥석 벌렸다 닫는 입,
-/// 큰 삼각 등지느러미와 길게 뻗은 가슴지느러미, 위아래로 펼친 초승달 꼬리. 몸 전체가 코사인 물결을 타듯 헤엄친다. 34×18pt, 8프레임.
+/// 큰 삼각 등지느러미와 길게 뻗은 가슴지느러미, 위아래로 펼친 초승달 꼬리. 몸 전체가 코사인 물결을 타듯 헤엄친다. 28×18pt, 8프레임.
 enum SharkSprite {
     static let frameCount = 8
 
     static func makeRunner() -> Runner {
-        DrawnRunner.make(id: "shark", nameKey: "runner.shark", width: 34, frameCount: frameCount, baseFrameRate: 3, draw: draw)
+        DrawnRunner.make(id: "shark", nameKey: "runner.shark", width: 28, frameCount: frameCount, baseFrameRate: 3, draw: draw)
     }
 
     static func draw(frame: Int, in context: CGContext) {
         let phase = DrawnRunner.phase(frame, of: frameCount) * 2 * .pi
+        // 8프레임을 모두 겹친 영역이 위아래 0.5pt 만 남기고 높이 18pt 를 채우도록 옮기고 키운다
+        context.translateBy(x: -3.1, y: 0.28)
+        context.scaleBy(x: 0.934, y: 0.934)
         // 몸 전체가 코사인 물결을 타고 넘는다: 머리가 먼저 오르내리고 꼬리가 그 길을 뒤따른다
-        context.translateBy(x: 17, y: 9)
-        context.scaleBy(x: 0.86, y: 0.86)
-        context.translateBy(x: -17, y: -9)
-        let spine = SwimmerBody.Spine(tailX: 6.4, noseX: 32.8, baseY: 8.9, wave: 1.1, phase: phase, curl: -1.0, travel: 2.6)
+        let spine = SwimmerBody.Spine(tailX: 6.4, noseX: 32.8, baseY: 8.9, wave: 0.55, phase: phase, curl: -1.0, travel: 2.6)
         SwimmerBody.fill(spine, thickness: { t in
             t < 0.6 ? 1.5 + 8.1 * pow(sin(.pi / 2 * t / 0.6), 1.2) : 9.6 * (1 - pow((t - 0.6) / 0.4, 1.8))
         }, in: context)

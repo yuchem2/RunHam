@@ -17,11 +17,11 @@ enum CatSprite {
 
     /// 회전 갤럽: 공중에서 쭉 뻗음 → 앞발 착지 → 네 발을 몸 아래로 모음 → 뒷발로 박참 → 다시 뻗으며 날아오름
     static let keyPoses: [Pose] = [
-        Pose(pitch: 0, stretch: 1.2, lift: 1.8, front: 54, hind: -58, tail: 0.1),
-        Pose(pitch: -7, stretch: 1.1, lift: 0.8, front: 28, hind: -58, tail: 0.3),
+        Pose(pitch: 0, stretch: 1.2, lift: 1.0, front: 54, hind: -58, tail: 0.1),
+        Pose(pitch: -7, stretch: 1.1, lift: 0.5, front: 28, hind: -58, tail: 0.3),
         Pose(pitch: -4, stretch: 0.9, lift: 0.3, front: -18, hind: 30, tail: 0.9),
         Pose(pitch: 8, stretch: 0.94, lift: 0.4, front: -8, hind: 12, tail: 0.6),
-        Pose(pitch: 6, stretch: 1.1, lift: 1.3, front: 38, hind: -30, tail: 0.2),
+        Pose(pitch: 6, stretch: 1.1, lift: 0.8, front: 38, hind: -30, tail: 0.2),
     ]
 
     static let frameCount = 10
@@ -53,10 +53,11 @@ enum CatSprite {
         )
     }
 
-    /// 뛰어오를 때 귀·꼬리가 잘리지 않게 조금 줄여 가운데 둔다
+    /// 10프레임을 모두 겹친 영역이 위아래 0.5pt 만 남기고 높이 18pt 를 채우도록 옮기고 키운다.
+    /// 자세를 바꾸면 다시 재서 고친다.
     private static func place(in context: CGContext) {
-        context.translateBy(x: 15.6, y: 6.8)
-        context.scaleBy(x: 0.86, y: 0.86)
+        context.translateBy(x: 15.55, y: 7.1)
+        context.scaleBy(x: 0.94, y: 0.94)
     }
 
     private static func bodyTransform(_ pose: Pose) -> CGAffineTransform {

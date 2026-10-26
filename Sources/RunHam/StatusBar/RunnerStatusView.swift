@@ -7,8 +7,11 @@ import AppKit
 /// 그래서 서브뷰 없이 CALayer 만으로 그린다.
 @MainActor
 final class RunnerStatusView: NSView {
-    private static let padding: CGFloat = 4
+    private static let padding: CGFloat = 2
     private static let textGap: CGFloat = 3
+    /// 기본 러너는 18pt 캔버스로 그려 두지만 메뉴바에선 작아 보여서 이 높이로 키운다.
+    /// 커스텀 러너는 사용자가 넣은 PNG 높이(18pt) 그대로 둔다.
+    private static let builtInHeight: CGFloat = 22
     private static let font = NSFont.monospacedDigitSystemFont(ofSize: NSFont.smallSystemFontSize, weight: .regular)
 
     private let runnerLayer = RunnerLayer()
@@ -63,8 +66,10 @@ final class RunnerStatusView: NSView {
 
     func setRunner(_ runner: Runner, flipped: Bool) {
         let speed = runnerLayer.runnerSpeed
-        runnerSize = runner.pointSize
-        runnerLayer.setRunner(runner, flipped: flipped)
+        let zoom = runner.isCustom ? 1 : Self.builtInHeight / max(runner.pointSize.height, 1)
+        runnerSize = CGSize(width: runner.pointSize.width * zoom, height: runner.pointSize.height * zoom)
+        // zoom 이 1보다 크면 고해상도 미리보기 프레임을 줄여 그려서 키워도 흐려지지 않는다.
+        runnerLayer.setRunner(runner, flipped: flipped, zoom: zoom)
         runnerLayer.setRunnerSpeed(speed)
         needsLayout = true
     }

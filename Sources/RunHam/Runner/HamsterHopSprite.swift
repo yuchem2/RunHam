@@ -23,19 +23,19 @@ enum HamsterHopSprite {
 
     static let poses: [HamsterSilhouette.Pose] = [
         .init(pitch: 0, stretch: 0.92, lift: 0, front: 10, hind: 0, hindReach: 0.6),
-        .init(pitch: 22, stretch: 1.08, lift: 1.6, front: 50, hind: -45, hindReach: 1.3),
-        .init(pitch: 14, stretch: 1.12, lift: 2.2, front: 70, hind: -60, hindReach: 1.2),
-        .init(pitch: 0, stretch: 1.1, lift: 2.8, front: 40, hind: -30, hindReach: 1.0),
-        .init(pitch: -14, stretch: 1.08, lift: 2.0, front: 15, hind: -50, hindReach: 1.1),
-        .init(pitch: -18, stretch: 1.15, lift: 0.6, front: -5, hind: -70, hindReach: 1.3),
-        .init(pitch: -4, stretch: 0.98, lift: 0.3, front: -25, hind: 35, hindReach: 0.8),
-        .init(pitch: 4, stretch: 0.94, lift: 0.1, front: 0, hind: 15, hindReach: 0.7),
+        .init(pitch: 22, stretch: 1.08, lift: 0.8, front: 50, hind: -45, hindReach: 1.3),
+        .init(pitch: 14, stretch: 1.12, lift: 1.1, front: 70, hind: -60, hindReach: 1.2),
+        .init(pitch: 0, stretch: 1.1, lift: 1.4, front: 40, hind: -30, hindReach: 1.0),
+        .init(pitch: -14, stretch: 1.08, lift: 1.0, front: 15, hind: -50, hindReach: 1.1),
+        .init(pitch: -18, stretch: 1.15, lift: 0.3, front: -5, hind: -70, hindReach: 1.3),
+        .init(pitch: -4, stretch: 0.98, lift: 0.15, front: -25, hind: 35, hindReach: 0.8),
+        .init(pitch: 4, stretch: 0.94, lift: 0.05, front: 0, hind: 15, hindReach: 0.7),
     ]
 
-    /// 8자세를 모두 겹친 영역(몸통 중심 기준, x -9.1…11.4, y -6.3…10.8)이 위아래 0.4pt 만 남기고
+    /// 8자세를 모두 겹친 영역(몸통 중심 기준, x -9.1…11.5, y -7.0…9.9)이 위아래 0.4pt 만 남기고
     /// 높이 18pt 를 채우도록 옮기고 키운다. 자세를 바꾸면 다시 재서 고친다.
-    static let fitScale: CGFloat = 1.0118
-    static let fitOrigin = CGPoint(x: 0.4 + 9.125 * fitScale, y: 0.4 + 6.25 * fitScale)
+    static let fitScale: CGFloat = 1.02
+    static let fitOrigin = CGPoint(x: 0.48 + 9.12 * fitScale, y: 0.4 + 7.0 * fitScale)
 
     static func render(frame: Int, scale: CGFloat) -> CGImage {
         SpriteRenderer.render(width: Int(canvas.width * scale), height: Int(canvas.height * scale)) { context in
